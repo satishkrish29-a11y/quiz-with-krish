@@ -1,1 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#4f46e5">
+<title>Quiz with Krish</title>
 
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+--bg:#f5f7fb;
+--card:#fff;
+--text:#172033;
+--muted:#667085;
+--primary:#4f46e5;
+--primary2:#7c3aed;
+--border:#e5e7eb;
+--success:#16a34a;
+--danger:#dc2626;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+}
+
+.topbar{
+height:68px;
+background:var(--card);
+border-bottom:1px solid var(--border);
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px 22px;
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.logo-area{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:20px;
+font-weight:700;
+}
+
+.logo{
+width:42px;
+height:42px;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+background:linear-gradient(135deg,var(--primary),var(--primary2));
+font-size:20px;
+}
+
+.theme-btn{
+border:1px solid var(--border);
+background:var(--card);
+color:var(--text);
+border-radius:10px;
+padding:9px 12px;
+cursor:pointer;
+font-size:17px;
+}
+
+.sidebar{
+width:225px;
+background:#111827;
+position:fixed;
+top:68px;
+bottom:0;
+left:0;
+padding:15px 10px;
+overflow:auto;
+}
+
+.nav-btn{
+width:100%;
+border:0;
+background:transparent;
+color:white;
+text-align:left;
+padding:12px;
+margin:3px 0;
+border-radius:10px;
+cursor:pointer;
+font-size:14px;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+background:#26344c;
+}
+
+main{
+margin-left:225px;
+padding:25px;
+}
+
+.page{display:none}
+.page.active{display:block}
+
+.hero{
+padding:35px;
+border-radius:22px;
+color:white;
+background:linear-gradient(135deg,#111827,#3730a3,#7c3aed);
+margin-bottom:22px;
+}
+
+.hero h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.hero p{
+max-width:750px;
+line-height:1.6;
+color:#e0e7ff;
+}
+
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:18px;
+}
+
+.btn{
+padding:11px 17px;
+border:0;
+border-radius:10px;
+background:var(--primary);
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+.btn:hover{
+background:#3730a3;
+}
+
+.btn.secondary{
+background:#eef2ff;
+color:#3730a3;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+}
+
+.grid3{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+}
+
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:16px;
+padding:20px;
+}
+
+.card h3{
+margin-bottom:9px;
+}
+
+.muted{
+color:var(--muted);
+}
+
+.stat{
+font-size:30px;
+font-weight:700;
+margin-top:8px;
+}
+
+.section-title{
+margin:25px 0 15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
+
+.pill{
+display:inline-block;
+padding:5px 9px;
+background:#eef2ff;
+color:#3730a3;
+border-radius:30px;
+font-size:12px;
+font-weight:700;
+}
+
+.class-card{
+min-height:150px;
+background:linear-gradient(135deg,#1e293b,#334155);
+color:white;
+}
+
+.class-card .btn{
+background:white;
+color:#1e293b;
+}
+
+.subject-card{
+cursor:pointer;
+transition:.18s;
+}
+
+.subject-card:hover{
+transform:translateY(-3px);
+border-color:#818cf8;
+}
+
+.subject-icon{
+font-size:30px;
+margin-bottom:10px;
+}
+
+.form-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-bottom:15px;
+}
+
+label{
+font-weight:700;
+font-size:14px;
+}
+
+input,
+select{
+width:100%;
+padding:11px;
+margin-top:7px;
+border:1px solid var(--border);
+border-radius:9px;
+background:var(--card);
+color:var(--text);
+}
+
+.quiz-container{
+max-width:900px;
+margin:auto;
+}
+
+.quiz-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
+
+.timer{
+background:#fef2f2;
+color:var(--danger);
+padding:8px 11px;
+border-radius:9px;
+font-weight:700;
+}
+
+.progress{
+height:8px;
+background:#e5e7eb;
+border-radius:20px;
+margin:17px 0;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+width:0;
+background:linear-gradient(90deg,var(--primary),var(--primary2));
+}
+
+.question{
+font-size:22px;
+font-weight:700;
+line-height:1.5;
+margin-top:12px;
+}
+
+.options{
+display:grid;
+gap:10px;
+margin-top:20px;
+}
+
+.option{
+padding:14px;
+text-align:left;
+border:2px solid var(--border);
+background:var(--card);
+color:var(--text);
+border-radius:11px;
+cursor:pointer;
+font-size:15px;
+}
+
+.option:hover{
+border-color:#818cf8;
+}
+
+.option.selected{
+border-color:var(--primary);
+background:#eef2ff;
+}
+
+.option.correct{
+border-color:var(--success);
+background:#f0fdf4;
+}
+
+.option.wrong{
+border-color:var(--danger);
+background:#fef2f2;
+}
+
+.feedback{
+display:none;
+margin-top:14px;
+padding:12px;
+border-radius:10px;
+background:#f8fafc;
+}
+
+.feedback.show{
+display:block;
+}
+
+.question-numbers{
+display:flex;
+flex-wrap:wrap;
+gap:6px;
+margin-top:17px;
+}
+
+.question-number{
+width:36px;
+height:36px;
+border-radius:8px;
+border:1px solid var(--border);
+background:var(--card);
+color:var(--text);
+cursor:pointer;
+}
+
+.question-number.done{
+background:#dcfce7;
+}
+
+.question-number.current{
+border-color:var(--primary);
+background:#eef2ff;
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:500;
+}
+
+.modal.show{
+display:flex;
+}
+
+.modal-box{
+background:var(--card);
+color:var(--text);
+padding:25px;
+border-radius:18px;
+width:100%;
+max-width:480px;
+}
+
+.score{
+font-size:52px;
+font-weight:700;
+color:var(--primary);
+margin:10px 0;
+}
+
+table{
+color:var(--text);
+}
+
+body.dark{
+--bg:#0b1220;
+--card:#111827;
+--text:#f8fafc;
+--muted:#aab4c4;
+--border:#263244;
+}
+
+.dark .topbar{
+background:#111827;
+}
+
+.dark .theme-btn,
+.dark input,
+.dark select{
+background:#111827;
+color:white;
+}
+
+.dark .btn.secondary{
+background:#312e81;
+color:white;
+}
+
+.dark .feedback{
+background:#172033;
+}
+
+@media(max-width:900px){
+.grid{grid-template-columns:repeat(2,1fr)}
+.grid3{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:700px){
+
+.sidebar{
+position:fixed;
+top:auto;
+bottom:0;
+width:100%;
+height:65px;
+display:flex;
+overflow-x:auto;
+padding:5px;
+z-index:200;
+}
+
+.nav-btn{
+min-width:105px;
+text-align:center;
+font-size:12px;
+}
+
+main{
+margin-left:0;
+padding:15px 12px 85px;
+}
+
+.hero{
+padding:25px 18px;
+}
+
+.hero h1{
+font-size:32px;
+}
+
+.grid,
+.grid3,
+.form-row{
+grid-template-columns:1fr;
+}
+
+.topbar{
+height:60px;
+}
+
+.question{
+font-size:19px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+<div class="logo-area">
+<div class="logo">K</div>
+<span>Quiz with Krish</span>
+</div>
+
+<button class="theme-btn" onclick="toggleTheme()" id="themeButton">🌙</button>
+
+</header>
+
+
+<aside class="sidebar">
+
+<button class="nav-btn active" onclick="showPage('home',this)">🏠 Home</button>
+
+<button class="nav-btn" onclick="showPage('classes',this)">📚 Classes</button>
+
+<button class="nav-btn" onclick="showPage('quiz',this)">🧠 Quiz</button>
+
+<button class="nav-btn" onclick="showPage('mock',this)">📝 Mock Test</button>
+
+<button class="nav-btn" onclick="showPage('practice',this)">📖 Practice</button>
+
+<button class="nav-btn" onclick="showPage('results',this)">📊 Results</button>
+
+<button class="nav-btn" onclick="showPage('profile',this)">👤 Profile</button>
+
+<button class="nav-btn" onclick="showPage('settings',this)">⚙️ Settings</button>
+
+</aside>
+
+
+<main>
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+<div class="hero">
+
+<h1>Learn. Practice. Conquer.</h1>
+
+<p>
+Welcome to Quiz with Krish — class-wise questions,
+different difficulty levels and randomized options.
+Classes 9–12 contain advanced questions.
+</p>
+
+<div class="actions">
+
+<button class="btn" onclick="showPage('classes')">
+Choose Class
+</button>
+
+<button class="btn secondary" onclick="showPage('mock')">
+Take Mock Test
+</button>
+
+</div>
+
+</div>
+
+
+<div class="grid">
+
+<div class="card">
+<div class="muted">Attempts</div>
+<div class="stat" id="attempts">0</div>
+</div>
+
+<div class="card">
+<div class="muted">Questions</div>
+<div class="stat" id="questionsAnswered">0</div>
+</div>
+
+<div class="card">
+<div class="muted">Best Score</div>
+<div class="stat" id="bestScore">0%</div>
+</div>
+
+<div class="card">
+<div class="muted">Mock Tests</div>
+<div class="stat" id="mockTests">0</div>
+</div>
+
+</div>
+
+
+<div class="section-title">
+<h2>Quick Start</h2>
+</div>
+
+
+<div class="grid3">
+
+<div class="card">
+<h3>📚 Classes 1–12</h3>
+<p class="muted">
+Select your class and subject.
+</p>
+<br>
+<button class="btn" onclick="showPage('classes')">
+Open Classes
+</button>
+</div>
+
+
+<div class="card">
+<h3>📖 Practice</h3>
+<p class="muted">
+30 different questions with shuffled options.
+</p>
+<br>
+<button class="btn" onclick="showPage('practice')">
+Practice
+</button>
+</div>
+
+
+<div class="card">
+<h3>📝 Mock Test</h3>
+<p class="muted">
+Timed tests with different questions.
+</p>
+<br>
+<button class="btn" onclick="showPage('mock')">
+Open
+</button>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CLASSES -->
+
+<section id="classes" class="page">
+
+<div class="section-title">
+
+<h2>Choose Your Class</h2>
+
+<span class="pill">Classes 1–12</span>
+
+</div>
+
+<div class="grid" id="classGrid"></div>
+
+</section>
+
+
+<!-- SUBJECTS -->
+
+<section id="subjects" class="page">
+
+<button class="btn secondary" onclick="showPage('classes')">
+← Back to Classes
+</button>
+
+<div class="section-title">
+
+<h2 id="subjectTitle">
+Choose Subject
+</h2>
+
+<span class="pill">
+Easy • Medium • Hard
+</span>
+
+</div>
+
+<div class="grid3" id="subjectGrid"></div>
+
+</section>
+
+
+<!-- QUIZ -->
+
+<section id="quiz" class="page">
+
+<div class="quiz-container">
+
+<div class="card">
+
+<div class="quiz-top">
+
+<div>
+
+<span class="pill" id="quizMode">
+Practice
+</span>
+
+<div class="muted" id="quizSubject">
+Choose a subject
+</div>
+
+</div>
+
+<div class="timer" id="timer">
+30:00
+</div>
+
+</div>
+
+
+<div class="progress">
+
+<div class="progress-bar" id="progressBar"></div>
+
+</div>
+
+
+<div class="muted" id="questionCounter"></div>
+
+<div class="question" id="questionText">
+Choose a class and subject to begin.
+</div>
+
+<div class="options" id="options"></div>
+
+<div class="feedback" id="feedback"></div>
+
+
+<div class="actions">
+
+<button class="btn secondary"
+onclick="previousQuestion()"
+id="previousButton">
+Previous
+</button>
+
+<button class="btn"
+onclick="nextQuestion()"
+id="nextButton">
+Next
+</button>
+
+</div>
+
+
+<div class="question-numbers"
+id="questionNumbers"></div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- MOCK -->
+
+<section id="mock" class="page">
+
+<div class="section-title">
+
+<h2>Mock Test</h2>
+
+<span class="pill">Timed</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="form-row">
+
+<div>
+
+<label>Class</label>
+
+<select id="mockClass"
+onchange="updateMockSubjects()">
+</select>
+
+</div>
+
+
+<div>
+
+<label>Subject</label>
+
+<select id="mockSubject"></select>
+
+</div>
+
+</div>
+
+
+<div class="form-row">
+
+<div>
+
+<label>Questions</label>
+
+<select id="mockQuestionCount">
+
+<option value="10">10 Questions</option>
+
+<option value="20">20 Questions</option>
+
+<option value="30" selected>
+30 Questions
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Time</label>
+
+<select id="mockTime">
+
+<option value="10">10 Minutes</option>
+
+<option value="20">20 Minutes</option>
+
+<option value="30" selected>
+30 Minutes
+</option>
+
+<option value="45">45 Minutes</option>
+
+<option value="60">60 Minutes</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<button class="btn" onclick="startMockTest()">
+Start Mock Test
+</button>
+
+</div>
+
+</section>
+
+
+<!-- PRACTICE -->
+
+<section id="practice" class="page">
+
+<div class="section-title">
+
+<h2>Practice Mode</h2>
+
+<span class="pill">
+30 Questions
+</span>
+
+</div>
+
+
+<div class="card">
+
+<div class="form-row">
+
+<div>
+
+<label>Choose Class</label>
+
+<select id="practiceClass"
+onchange="renderPracticeSubjects()">
+</select>
+
+</div>
+
+
+<div>
+
+<label>Choose Subject</label>
+
+<select id="practiceSubject"></select>
+
+</div>
+
+</div>
+
+
+<div class="form-row">
+
+<div>
+
+<label>Difficulty</label>
+
+<select id="practiceDifficulty">
+
+<option value="mixed">
+Mixed — Easy + Medium + Hard
+</option>
+
+<option value="easy">
+Easy
+</option>
+
+<option value="medium">
+Medium
+</option>
+
+<option value="hard">
+Hard
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<button class="btn" onclick="startSelectedPractice()">
+Start Practice
+</button>
+
+</div>
+
+</section>
+
+
+<!-- RESULTS -->
+
+<section id="results" class="page">
+
+<div class="section-title">
+
+<h2>Results</h2>
+
+<button class="btn secondary"
+onclick="clearResults()">
+Clear Results
+</button>
+
+</div>
+
+
+<div class="card" id="resultSummary"></div>
+
+
+<div class="card"
+style="margin-top:15px;overflow:auto">
+
+<table style="width:100%;border-collapse:collapse">
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;padding:10px">
+Date
+</th>
+
+<th style="text-align:left;padding:10px">
+Class
+</th>
+
+<th style="text-align:left;padding:10px">
+Subject
+</th>
+
+<th style="text-align:left;padding:10px">
+Mode
+</th>
+
+<th style="text-align:left;padding:10px">
+Score
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="history"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="page">
+
+<div class="section-title">
+
+<h2>Profile</h2>
+
+</div>
+
+
+<div class="card">
+
+<div class="form-row">
+
+<div>
+
+<label>Name</label>
+
+<input id="profileName"
+placeholder="Enter your name">
+
+</div>
+
+
+<div>
+
+<label>Class</label>
+
+<select id="profileClass"></select>
+
+</div>
+
+</div>
+
+
+<button class="btn"
+onclick="saveProfile()">
+Save Profile
+</button>
+
+</div>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="page">
+
+<div class="section-title">
+<h2>Settings</h2>
+</div>
+
+
+<div class="card">
+
+<h3>Appearance</h3>
+
+<p class="muted">
+Switch between light and dark mode.
+</p>
+
+<br>
+
+<button class="btn"
+onclick="toggleTheme()">
+Toggle Theme
+</button>
+
+</div>
+
+
+<div class="card" style="margin-top:15px">
+
+<h3>Local Data</h3>
+
+<p class="muted">
+Progress and results are saved in this browser.
+</p>
+
+<br>
+
+<button class="btn secondary"
+onclick="resetData()">
+Reset Local Data
+</button>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- RESULT MODAL -->
+
+<div class="modal" id="resultModal">
+
+<div class="modal-box">
+
+<h2>Test Complete!</h2>
+
+<div class="score" id="modalScore">
+0%
+</div>
+
+<p id="modalMessage"></p>
+
+<div class="actions">
+
+<button class="btn"
+onclick="closeModal();showPage('results')">
+View Results
+</button>
+
+<button class="btn secondary"
+onclick="closeModal()">
+Close
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   SUBJECTS
+========================================================= */
+
+const SUBJECTS = {
+
+1:["MSC","COMP","ENG LANG","MATH"],
+
+2:["MSC","COMP","ENG LANG","MATH"],
+
+3:["MSC","COMP","ENG LANG","MATH"],
+
+4:["MSC","COMP","ENG LANG","MATH"],
+
+5:["MSC","COMP","ENG LANG","MATH"],
+
+6:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+
+7:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+
+8:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+
+9:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+
+10:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+
+11:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+
+12:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"]
+
+};
+
+
+const ICONS={
+MSC:"🔬",
+COMP:"💻",
+PHY:"⚛️",
+BIO:"🧬",
+CHEM:"🧪",
+"ENG LANG":"📖",
+MATH:"➗",
+HISTORY:"🏛️",
+GEOGRAPHY:"🌍"
+};
+
+
+/* =========================================================
+   APP STATE
+========================================================= */
+
+const app={
+
+questions:[],
+answers:[],
+current:0,
+
+class:"7",
+subject:"MSC",
+
+mode:"practice",
+
+seconds:1800,
+timer:null,
+
+results:JSON.parse(
+localStorage.getItem("qwk_results")||"[]"
+),
+
+profile:JSON.parse(
+localStorage.getItem("qwk_profile")||
+'{"name":"Student","class":"7"}'
+)
+
+};
+
+
+/* =========================================================
+   QUESTION DATABASE
+   Questions are generated differently according to:
+   CLASS + SUBJECT + DIFFICULTY
+========================================================= */
+
+const BANK={};
+
+
+/* ---------- helper ---------- */
+
+function Q(text,options,correct){
+
+return{
+text:text,
+options:options,
+correct:correct
+};
+
+}
+
+
+/* =========================================================
+   CLASS 1–5
+========================================================= */
+
+function juniorQuestions(cls,subject,difficulty){
+
+let arr=[];
+
+if(subject==="MATH"){
+
+if(difficulty==="easy"){
+
+arr=[
+Q(`What is ${cls+1} + ${cls+2}?`,
+[`${cls+3}`,`${cls+2}`,`${cls+4}`,`${cls+5}`],0),
+
+Q(`Which number comes after ${cls+9}?`,
+[`${cls+10}`,`${cls+8}`,`${cls+11}`,`${cls+7}`],0),
+
+Q(`How many sides does a triangle have?`,
+["2","3","4","5"],1),
+
+Q(`Which is the smaller number?`,
+["12","8","15","20"],1),
+
+Q(`What is 5 × 2?`,
+["7","10","12","15"],1)
+];
+
+}
+
+else if(difficulty==="medium"){
+
+arr=[
+Q("What is 24 + 18?",["40","42","44","46"],1),
+Q("What is 50 − 27?",["21","22","23","24"],2),
+Q("What is 6 × 7?",["36","42","48","49"],1),
+Q("What is 48 ÷ 6?",["6","7","8","9"],2),
+Q("Which number is even?",["17","23","36","41"],2)
+];
+
+}
+
+else{
+
+arr=[
+Q("If 5 boxes contain 4 pencils each, how many pencils are there?",["9","15","20","25"],2),
+Q("A number is greater than 40 but less than 50. Which could it be?",["35","42","51","60"],1),
+Q("What is 3 × 8 + 4?",["24","26","28","30"],2),
+Q("Which fraction represents half?",["1/3","1/4","1/2","2/3"],2),
+Q("A rectangle has 4 sides. How many sides do 3 rectangles have altogether?",["8","10","12","16"],2)
+];
+
+}
+
+}
+
+else if(subject==="ENG LANG"){
+
+arr=[
+Q("Choose the noun: The boy runs fast.",["runs","fast","boy","the"],2),
+Q("Choose the correct plural of child.",["childs","children","childes","child"],1),
+Q("Which word is an adjective?",["beautiful","run","quickly","sing"],0),
+Q("Choose the correct sentence.",["She are happy.","She is happy.","She am happy.","She be happy."],1),
+Q("Opposite of 'hot' is...",["warm","cold","heat","fire"],1),
+Q("Which word is a verb?",["jump","blue","school","happy"],0),
+Q("Choose the correct article: ___ apple.",["A","An","The only","No article"],1)
+];
+
+}
+
+else if(subject==="MSC"){
+
+arr=[
+Q("Which organ helps us see?",["Ear","Eye","Nose","Hand"],1),
+Q("The Sun is a...",["Planet","Star","Satellite","Comet"],1),
+Q("Which animal gives us milk?",["Cow","Lion","Tiger","Eagle"],0),
+Q("Plants need sunlight to...",["Make food","Sleep","Walk","Hear"],0),
+Q("Which is a source of water?",["River","Chair","Book","Road"],0),
+Q("Which sense organ helps us hear?",["Eye","Ear","Skin","Tongue"],1),
+Q("Which season is usually the coldest?",["Summer","Winter","Spring","Autumn"],1)
+];
+
+}
+
+else if(subject==="COMP"){
+
+arr=[
+Q("Which device is used to type letters?",["Mouse","Keyboard","Monitor","Speaker"],1),
+Q("Which device shows pictures on a computer?",["Keyboard","Monitor","Mouse","Printer"],1),
+Q("Which is an input device?",["Monitor","Keyboard","Speaker","Printer"],1),
+Q("What is used to move the pointer?",["Mouse","CPU","Printer","Speaker"],0),
+Q("Which device prints on paper?",["Monitor","Printer","Mouse","Keyboard"],1)
+];
+
+}
+
+else{
+
+arr=[
+Q("Which one is a living thing?",["Stone","Tree","Chair","Book"],1),
+Q("Which animal can fly?",["Dog","Cat","Eagle","Cow"],2),
+Q("Which is a natural source of light?",["Bulb","Candle","Sun","Torch"],2),
+Q("Where do fish live?",["Water","Trees","Desert","Sky"],0),
+Q("Which is a means of transport?",["Bus","Table","Book","Fan"],0)
+];
+
+}
+
+return arr;
+
+}
+
+
+/* =========================================================
+   CLASS 6–8
+========================================================= */
+
+function middleQuestions(cls,subject,difficulty){
+
+let arr=[];
+
+if(subject==="PHY"){
+
+if(difficulty==="easy"){
+
+arr=[
+Q("What is motion?",["Change in position with time","Change in colour","Change in shape only","Change in temperature"],0),
+Q("Which is a unit of length?",["Metre","Kilogram","Second","Newton"],0),
+Q("Which force pulls objects toward Earth?",["Friction","Gravity","Magnetism","Muscular force"],1),
+Q("Which instrument measures temperature?",["Barometer","Thermometer","Speedometer","Ammeter"],1),
+Q("Which form of energy is associated with motion?",["Heat","Kinetic","Chemical","Light"],1)
+];
+
+}
+
+else if(difficulty==="medium"){
+
+arr=[
+Q("Which two factors determine kinetic energy?",["Mass and speed","Height and colour","Volume and density","T
