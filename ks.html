@@ -1,0 +1,2942 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#4f46e5">
+<title>Quiz with Krish</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;
+--primary:#4f46e5;--primary2:#7c3aed;--border:#e5e7eb;
+--success:#16a34a;--danger:#dc2626
+}
+body{
+font-family:Arial,Helvetica,sans-serif;background:var(--bg);
+color:var(--text);min-height:100vh
+}
+.topbar{
+height:68px;background:#fff;border-bottom:1px solid var(--border);
+display:flex;justify-content:space-between;align-items:center;
+padding:10px 22px;position:sticky;top:0;z-index:100
+}
+.logo-area{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700}
+.logo{
+width:42px;height:42px;border-radius:12px;display:flex;
+align-items:center;justify-content:center;color:#fff;
+background:linear-gradient(135deg,var(--primary),var(--primary2));
+font-size:20px
+}
+.theme-btn{
+border:1px solid var(--border);background:#fff;
+border-radius:10px;padding:9px 12px;cursor:pointer
+}
+.sidebar{
+width:225px;background:#111827;position:fixed;top:68px;
+bottom:0;left:0;padding:15px 10px;overflow:auto
+}
+.nav-btn{
+width:100%;border:0;background:transparent;color:#fff;
+text-align:left;padding:12px;margin:3px 0;border-radius:10px;
+cursor:pointer;font-size:14px
+}
+.nav-btn:hover,.nav-btn.active{background:#26344c}
+main{margin-left:225px;padding:25px}
+.page{display:none}
+.page.active{display:block}
+.hero{
+padding:35px;border-radius:22px;color:#fff;
+background:linear-gradient(135deg,#111827,#3730a3,#7c3aed);
+margin-bottom:22px
+}
+.hero h1{font-size:42px;margin-bottom:10px}
+.hero p{max-width:750px;line-height:1.6;color:#e0e7ff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{
+padding:11px 17px;border:0;border-radius:10px;
+background:var(--primary);color:#fff;font-weight:700;cursor:pointer
+}
+.btn:hover{background:#3730a3}
+.btn.secondary{background:#eef2ff;color:#3730a3}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{
+background:var(--card);border:1px solid var(--border);
+border-radius:16px;padding:20px
+}
+.card h3{margin-bottom:9px}
+.muted{color:var(--muted)}
+.stat{font-size:30px;font-weight:700;margin-top:8px}
+.section-title{
+margin:25px 0 15px;display:flex;
+justify-content:space-between;align-items:center
+}
+.pill{
+display:inline-block;padding:5px 9px;background:#eef2ff;
+color:#3730a3;border-radius:30px;font-size:12px;font-weight:700
+}
+.class-card{
+min-height:150px;background:linear-gradient(135deg,#1e293b,#334155);
+color:#fff
+}
+.class-card .btn{background:#fff;color:#1e293b}
+.subject-card{cursor:pointer;transition:.18s}
+.subject-card:hover{transform:translateY(-3px);border-color:#818cf8}
+.subject-icon{font-size:30px;margin-bottom:10px}
+.form-row{
+display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px
+}
+label{font-weight:700;font-size:14px}
+input,select,textarea{
+width:100%;padding:11px;margin-top:7px;
+border:1px solid var(--border);border-radius:9px;
+background:#fff;color:#172033
+}
+.quiz-container{max-width:900px;margin:auto}
+.quiz-top{
+display:flex;justify-content:space-between;align-items:center
+}
+.timer{
+background:#fef2f2;color:var(--danger);
+padding:8px 11px;border-radius:9px;font-weight:700
+}
+.progress{
+height:8px;background:#e5e7eb;border-radius:20px;
+margin:17px 0;overflow:hidden
+}
+.progress-bar{
+height:100%;width:0;
+background:linear-gradient(90deg,var(--primary),var(--primary2))
+}
+.question{
+font-size:22px;font-weight:700;line-height:1.5;margin-top:12px
+}
+.options{display:grid;gap:10px;margin-top:20px}
+.option{
+padding:14px;text-align:left;border:2px solid var(--border);
+background:#fff;color:var(--text);border-radius:11px;cursor:pointer
+}
+.option:hover{border-color:#818cf8}
+.option.selected{border-color:var(--primary);background:#eef2ff}
+.option.correct{border-color:var(--success);background:#f0fdf4}
+.option.wrong{border-color:var(--danger);background:#fef2f2}
+.feedback{
+display:none;margin-top:14px;padding:12px;border-radius:10px;
+background:#f8fafc
+}
+.feedback.show{display:block}
+.question-numbers{
+display:flex;flex-wrap:wrap;gap:6px;margin-top:17px
+}
+.question-number{
+width:36px;height:36px;border-radius:8px;
+border:1px solid var(--border);background:#fff;cursor:pointer
+}
+.question-number.done{background:#dcfce7}
+.question-number.current{
+border-color:var(--primary);background:#eef2ff
+}
+.modal{
+position:fixed;inset:0;background:rgba(0,0,0,.6);
+display:none;align-items:center;justify-content:center;
+padding:20px;z-index:500
+}
+.modal.show{display:flex}
+.modal-box{
+background:#fff;padding:25px;border-radius:18px;
+width:100%;max-width:480px
+}
+.score{
+font-size:52px;font-weight:700;color:var(--primary);margin:10px 0
+}
+body.dark{
+--bg:#0b1220;--card:#111827;--text:#f8fafc;
+--muted:#aab4c4;--border:#263244
+}
+.dark .topbar{background:#111827}
+.dark .theme-btn,.dark input,.dark select,.dark textarea,
+.dark .option,.dark .question-number{
+background:#111827;color:#fff
+}
+.dark .btn.secondary{background:#312e81;color:#fff}
+.dark .feedback{background:#172033}
+.dark .modal-box{background:#111827;color:#fff}
+@media(max-width:900px){
+.grid{grid-template-columns:repeat(2,1fr)}
+.grid3{grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+.sidebar{
+position:fixed;top:auto;bottom:0;width:100%;height:65px;
+display:flex;overflow-x:auto;padding:5px;z-index:200
+}
+.nav-btn{min-width:105px;text-align:center;font-size:12px}
+main{margin-left:0;padding:15px 12px 85px}
+.hero{padding:25px 18px}
+.hero h1{font-size:32px}
+.grid,.grid3,.form-row{grid-template-columns:1fr}
+.topbar{height:60px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+<div class="logo-area">
+<div class="logo">K</div>
+<span>Quiz with Krish</span>
+</div>
+<button class="theme-btn" onclick="toggleTheme()" id="themeButton">🌙</button>
+</header>
+
+<aside class="sidebar">
+<button class="nav-btn active" onclick="showPage('home',this)">🏠 Home</button>
+<button class="nav-btn" onclick="showPage('classes',this)">📚 Classes</button>
+<button class="nav-btn" onclick="showPage('quiz',this)">🧠 Quiz</button>
+<button class="nav-btn" onclick="showPage('mock',this)">📝 Mock Test</button>
+<button class="nav-btn" onclick="showPage('practice',this)">📖 Practice</button>
+<button class="nav-btn" onclick="showPage('results',this)">📊 Results</button>
+<button class="nav-btn" onclick="showPage('profile',this)">👤 Profile</button>
+<button class="nav-btn" onclick="showPage('settings',this)">⚙️ Settings</button>
+<button class="nav-btn" onclick="showPage('owner',this)">🔐 Owner</button>
+</aside>
+
+<main>
+
+<!-- HOME -->
+<section id="home" class="page active">
+
+<div class="hero">
+<h1>Learn. Practice. Conquer.</h1>
+<p>
+Welcome to Quiz with Krish — choose your class and subject,
+practice questions or take a timed mock test.
+</p>
+
+<div class="actions">
+<button class="btn" onclick="showPage('classes')">Choose Class</button>
+<button class="btn secondary" onclick="showPage('mock')">Take Mock Test</button>
+</div>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="muted">Attempts</div>
+<div class="stat" id="attempts">0</div>
+</div>
+
+<div class="card">
+<div class="muted">Questions</div>
+<div class="stat" id="questionsAnswered">0</div>
+</div>
+
+<div class="card">
+<div class="muted">Best Score</div>
+<div class="stat" id="bestScore">0%</div>
+</div>
+
+<div class="card">
+<div class="muted">Mock Tests</div>
+<div class="stat" id="mockTests">0</div>
+</div>
+
+</div>
+
+<div class="section-title"><h2>Quick Start</h2></div>
+
+<div class="grid3">
+
+<div class="card">
+<h3>📚 Classes 1–12</h3>
+<p class="muted">Choose your class and subject.</p>
+<button class="btn" onclick="showPage('classes')">Open Classes</button>
+</div>
+
+<div class="card">
+<h3>📖 Practice</h3>
+<p class="muted">Practice a fresh set of questions.</p>
+<button class="btn" onclick="showPage('practice')">Practice</button>
+</div>
+
+<div class="card">
+<h3>📝 Mock Test</h3>
+<p class="muted">Take a timed examination.</p>
+<button class="btn" onclick="showPage('mock')">Open</button>
+</div>
+
+</div>
+</section>
+
+
+<!-- CLASSES -->
+<section id="classes" class="page">
+<div class="section-title">
+<h2>Choose Your Class</h2>
+<span class="pill">Classes 1–12</span>
+</div>
+<div class="grid" id="classGrid"></div>
+</section>
+
+
+<!-- SUBJECTS -->
+<section id="subjects" class="page">
+
+<button class="btn secondary back-btn" onclick="showPage('classes')">
+← Back to Classes
+</button>
+
+<div class="section-title">
+<h2 id="subjectTitle">Choose Subject</h2>
+<span class="pill">Question Bank</span>
+</div>
+
+<div class="grid3" id="subjectGrid"></div>
+
+</section>
+
+
+<!-- QUIZ -->
+<section id="quiz" class="page">
+
+<div class="quiz-container">
+<div class="card">
+
+<div class="quiz-top">
+
+<div>
+<span class="pill" id="quizMode">Practice</span>
+<div class="muted" id="quizSubject">
+Choose a subject to start
+</div>
+</div>
+
+<div class="timer" id="timer">30:00</div>
+
+</div>
+
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="muted" id="questionCounter"></div>
+
+<div class="question" id="questionText">
+Choose a class and subject to begin.
+</div>
+
+<div class="options" id="options"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="actions">
+<button class="btn secondary" onclick="previousQuestion()" id="previousButton">
+Previous
+</button>
+
+<button class="btn" onclick="nextQuestion()" id="nextButton">
+Next
+</button>
+</div>
+
+<div class="question-numbers" id="questionNumbers"></div>
+
+</div>
+</div>
+
+</section>
+
+
+<!-- MOCK -->
+<section id="mock" class="page">
+
+<div class="section-title">
+<h2>Mock Test</h2>
+<span class="pill">Timed Test</span>
+</div>
+
+<div class="card">
+
+<div class="form-row">
+
+<div>
+<label>Class</label>
+<select id="mockClass" onchange="updateMockSubjects()"></select>
+</div>
+
+<div>
+<label>Subject</label>
+<select id="mockSubject"></select>
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div>
+<label>Questions</label>
+
+<select id="mockQuestionCount">
+<option value="10">10 Questions</option>
+<option value="20">20 Questions</option>
+<option value="30" selected>30 Questions</option>
+</select>
+
+</div>
+
+<div>
+<label>Time</label>
+
+<select id="mockTime">
+<option value="10">10 Minutes</option>
+<option value="20">20 Minutes</option>
+<option value="30" selected>30 Minutes</option>
+<option value="45">45 Minutes</option>
+</select>
+
+</div>
+
+</div>
+
+<button class="btn" onclick="startMockTest()">
+Start Mock Test
+</button>
+
+</div>
+</section>
+
+
+<!-- PRACTICE -->
+<section id="practice" class="page">
+
+<div class="section-title">
+<h2>Practice Mode</h2>
+<span class="pill">30 Questions</span>
+</div>
+
+<div class="card">
+
+<div class="form-row">
+
+<div>
+<label>Choose Class</label>
+<select id="practiceClass" onchange="renderPracticeSubjects()"></select>
+</div>
+
+<div>
+<label>Choose Subject</label>
+<select id="practiceSubject"></select>
+</div>
+
+</div>
+
+<button class="btn" onclick="startSelectedPractice()">
+Start 30-Question Practice
+</button>
+
+</div>
+
+</section>
+
+
+<!-- RESULTS -->
+<section id="results" class="page">
+
+<div class="section-title">
+<h2>Results</h2>
+<button class="btn secondary" onclick="clearResults()">Clear Results</button>
+</div>
+
+<div class="card" id="resultSummary"></div>
+
+<div class="card" style="margin-top:15px;overflow:auto">
+
+<table style="width:100%;border-collapse:collapse">
+
+<thead>
+<tr>
+<th style="text-align:left;padding:10px">Date</th>
+<th style="text-align:left;padding:10px">Mode</th>
+<th style="text-align:left;padding:10px">Score</th>
+<th style="text-align:left;padding:10px">Accuracy</th>
+</tr>
+</thead>
+
+<tbody id="history"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- PROFILE -->
+<section id="profile" class="page">
+
+<div class="section-title">
+<h2>Profile</h2>
+</div>
+
+<div class="card">
+
+<div class="form-row">
+
+<div>
+<label>Name</label>
+<input id="profileName" placeholder="Enter your name">
+</div>
+
+<div>
+<label>Class</label>
+<select id="profileClass"></select>
+</div>
+
+</div>
+
+<button class="btn" onclick="saveProfile()">Save Profile</button>
+
+</div>
+
+</section>
+
+
+<!-- OWNER -->
+<section id="owner" class="page">
+
+<div id="ownerLocked">
+
+<div class="section-title">
+<h2>🔐 Owner Dashboard</h2>
+<span class="pill">Private</span>
+</div>
+
+<div class="card" style="max-width:520px">
+
+<h3>Owner Login</h3>
+
+<p class="muted" style="margin:8px 0 18px">
+Enter the owner password to manage questions.
+</p>
+
+<label>Password</label>
+<input id="ownerPassword" type="password" placeholder="Owner password">
+
+<button class="btn" style="margin-top:15px" onclick="ownerLogin()">
+Login
+</button>
+
+<p id="ownerLoginMessage" style="margin-top:12px;color:#dc2626"></p>
+
+</div>
+</div>
+
+
+<div id="ownerUnlocked" style="display:none">
+
+<div class="section-title">
+
+<div>
+<h2>🔐 Owner Dashboard</h2>
+<p class="muted">Manage Quiz with Krish questions.</p>
+</div>
+
+<button class="btn secondary" onclick="ownerLogout()">Logout</button>
+
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="muted">Total Questions</div>
+<div class="stat" id="ownerTotalQuestions">0</div>
+</div>
+
+<div class="card">
+<div class="muted">Classes</div>
+<div class="stat">12</div>
+</div>
+
+<div class="card">
+<div class="muted">Subjects</div>
+<div class="stat">9</div>
+</div>
+
+<div class="card">
+<div class="muted">Custom Questions</div>
+<div class="stat" id="ownerCustomQuestions">0</div>
+</div>
+
+</div>
+
+
+<div class="card" style="margin-top:18px">
+
+<h3>➕ Add Question</h3>
+
+<div class="form-row">
+
+<div>
+<label>Class</label>
+<select id="ownerClass"></select>
+</div>
+
+<div>
+<label>Subject</label>
+<select id="ownerSubject"></select>
+</div>
+
+</div>
+
+<label>Question</label>
+<textarea id="ownerQuestion" rows="4"
+placeholder="Type your question..."></textarea>
+
+<div class="form-row" style="margin-top:15px">
+
+<div>
+<label>Option A</label>
+<input id="ownerA">
+</div>
+
+<div>
+<label>Option B</label>
+<input id="ownerB">
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div>
+<label>Option C</label>
+<input id="ownerC">
+</div>
+
+<div>
+<label>Option D</label>
+<input id="ownerD">
+</div>
+
+</div>
+
+<label>Correct Answer</label>
+
+<select id="ownerCorrect">
+<option value="0">A</option>
+<option value="1">B</option>
+<option value="2">C</option>
+<option value="3">D</option>
+</select>
+
+<div class="actions">
+
+<button class="btn" onclick="saveOwnerQuestion()">
+💾 Save Question
+</button>
+
+<button class="btn secondary" onclick="clearOwnerForm()">
+Clear
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card" style="margin-top:18px">
+
+<div class="section-title" style="margin-top:0">
+
+<h3>🔎 Question Bank</h3>
+
+<button class="btn secondary" onclick="exportQuestionBank()">
+📥 Export
+</button>
+
+</div>
+
+<div class="form-row">
+
+<div>
+<label>Filter Class</label>
+<select id="ownerFilterClass" onchange="renderOwnerQuestions()"></select>
+</div>
+
+<div>
+<label>Filter Subject</label>
+<select id="ownerFilterSubject" onchange="renderOwnerQuestions()"></select>
+</div>
+
+</div>
+
+<div id="ownerQuestionList"></div>
+
+</div>
+
+
+<div class="card" style="margin-top:18px">
+
+<h3>📤 Import Question Bank</h3>
+
+<p class="muted" style="margin:8px 0 12px">
+Import an exported JSON question bank.
+</p>
+
+<input type="file" id="questionImportFile" accept=".json">
+
+<button class="btn" style="margin-top:12px"
+onclick="importQuestionBank()">
+Import JSON
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- SETTINGS -->
+<section id="settings" class="page">
+
+<div class="section-title">
+<h2>Settings</h2>
+</div>
+
+<div class="card">
+
+<h3>Appearance</h3>
+
+<p class="muted">
+Switch between light and dark mode.
+</p>
+
+<button class="btn" onclick="toggleTheme()">
+Toggle Theme
+</button>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+
+<h3>Local Data</h3>
+
+<p class="muted">
+Progress and results are saved in this browser.
+</p>
+
+<button class="btn secondary" onclick="resetData()">
+Reset Local Data
+</button>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- RESULT MODAL -->
+<div class="modal" id="resultModal">
+
+<div class="modal-box">
+
+<h2 id="modalTitle">Test Complete!</h2>
+
+<div class="score" id="modalScore">0%</div>
+
+<p id="modalMessage"></p>
+
+<div class="actions">
+
+<button class="btn"
+onclick="closeModal();showPage('results')">
+View Results
+</button>
+
+<button class="btn secondary"
+onclick="closeModal()">
+Close
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   QUIZ WITH KRISH
+   RANDOM QUESTIONS + RANDOM OPTIONS
+   DIFFERENT POOLS FOR PRACTICE / MOCK / QUIZ
+========================================================= */
+
+const SUBJECTS={
+1:["MSC","COMP","ENG LANG","MATH"],
+2:["MSC","COMP","ENG LANG","MATH"],
+3:["MSC","COMP","ENG LANG","MATH"],
+4:["MSC","COMP","ENG LANG","MATH"],
+5:["MSC","COMP","ENG LANG","MATH"],
+6:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+7:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+8:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+9:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+10:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+11:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],
+12:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"]
+};
+
+const ICONS={
+MSC:"🔬",
+COMP:"💻",
+PHY:"⚛️",
+BIO:"🧬",
+CHEM:"🧪",
+"ENG LANG":"📖",
+MATH:"➗",
+HISTORY:"🏛️",
+GEOGRAPHY:"🌍"
+};
+
+const app={
+class:localStorage.getItem("qwk_class")||"7",
+questions:[],
+answers:[],
+current:0,
+mode:"practice",
+seconds:0,
+timer:null,
+results:JSON.parse(localStorage.getItem("qwk_results")||"[]"),
+profile:JSON.parse(localStorage.getItem("qwk_profile")||'{"name":"Student","class":"7"}')
+};
+
+
+/* =========================================================
+   UTILITY FUNCTIONS
+========================================================= */
+
+function shuffle(array){
+
+let a=[...array];
+
+for(let i=a.length-1;i>0;i--){
+
+let j=Math.floor(Math.random()*(i+1));
+
+[a[i],a[j]]=[a[j],a[i]];
+
+}
+
+return a;
+}
+
+
+/* =========================================================
+   QUESTION CREATOR
+========================================================= */
+
+function Q(text,options,correct){
+
+return {
+text:text,
+options:options.map(String),
+correct:correct
+};
+
+}
+
+
+/* =========================================================
+   QUESTION BANK
+   The questions are generated differently depending on
+   CLASS + SUBJECT + MODE.
+========================================================= */
+
+function makeQuestions(cls,subject,mode){
+
+cls=Number(cls);
+
+let bank=[];
+
+const add=(q,a,c)=>bank.push(Q(q,a,c));
+
+
+/* ================= MSC ================= */
+
+if(subject==="MSC"){
+
+add(
+"Which quality helps a student become successful?",
+["Honesty","Laziness","Carelessness","Disrespect"],
+0);
+
+add(
+"Which action shows responsibility?",
+["Completing work on time","Ignoring homework","Breaking rules","Blaming others"],
+0);
+
+add(
+"Why should we respect teachers?",
+["They guide us in learning","They are always right about everything","They give us gifts","They do our homework"],
+0);
+
+add(
+"What should you do when you make a mistake?",
+["Accept it and learn from it","Hide it","Blame a friend","Repeat it"],
+0);
+
+add(
+"Which is a good habit?",
+["Helping others","Littering","Wasting water","Being rude"],
+0);
+
+add(
+"Which value means telling the truth?",
+["Honesty","Jealousy","Anger","Pride"],
+0);
+
+add(
+"How can we keep our surroundings clean?",
+["Use dustbins","Throw waste anywhere","Burn all plastic","Ignore garbage"],
+0);
+
+add(
+"Which behaviour shows kindness?",
+["Helping someone in need","Laughing at someone","Ignoring everyone","Being rude"],
+0);
+
+add(
+"What should we do when someone is speaking?",
+["Listen carefully","Interrupt constantly","Shout","Walk away"],
+0);
+
+add(
+"Why is teamwork important?",
+["People can work together toward a goal","It prevents cooperation","Only one person works","It creates confusion"],
+0);
+
+add(
+"Which is an example of discipline?",
+["Following rules","Ignoring instructions","Coming late every day","Disturbing others"],
+0);
+
+add(
+"What does courage mean?",
+["Facing difficulties bravely","Never trying","Being afraid of everything","Avoiding responsibilities"],
+0);
+
+add(
+"Which action shows gratitude?",
+["Thanking someone","Insulting someone","Ignoring help","Complaining"],
+0);
+
+add(
+"Why should we conserve water?",
+["Fresh water is limited","Water has no use","Rain never falls","It makes rivers disappear"],
+0);
+
+add(
+"Which behaviour builds friendship?",
+["Trust and kindness","Dishonesty","Constant fighting","Selfishness"],
+0);
+
+add(
+"What should you do before making an important decision?",
+["Think about the consequences","Act without thinking","Ask nobody ever","Choose randomly"],
+0);
+
+add(
+"Which is a responsible use of electricity?",
+["Switching off unused lights","Leaving lights on","Wasting power","Breaking switches"],
+0);
+
+add(
+"Why should we help elderly people?",
+["They may need support","They cannot think","They must give us money","It is always compulsory"],
+0);
+
+add(
+"Which quality helps us understand others' feelings?",
+["Empathy","Anger","Jealousy","Pride"],
+0);
+
+add(
+"What is respect?",
+["Treating others politely","Insulting people","Ignoring everyone","Making fun of others"],
+0);
+
+}
+
+
+/* ================= COMPUTER ================= */
+
+if(subject==="COMP"){
+
+add(
+"Which device is mainly used to type text?",
+["Keyboard","Monitor","Speaker","Printer"],0);
+
+add(
+"Which device displays information?",
+["Monitor","Mouse","Keyboard","Microphone"],0);
+
+add(
+"Which is an input device?",
+["Mouse","Monitor","Printer","Speaker"],0);
+
+add(
+"Which part of a computer performs calculations?",
+["CPU","Keyboard","Mouse","Monitor"],0);
+
+add(
+"What does CPU stand for?",
+["Central Processing Unit","Computer Personal Unit","Central Program Utility","Control Processing User"],
+0);
+
+add(
+"Which device is used to print documents?",
+["Printer","Scanner","Monitor","Speaker"],0);
+
+add(
+"Which device can scan a paper document?",
+["Scanner","Speaker","Keyboard","Projector"],0);
+
+add(
+"Which is an example of an operating system?",
+["Windows","Keyboard","Printer","Mouse"],0);
+
+add(
+"Which key is commonly used to create a space?",
+["Spacebar","Shift","Ctrl","Esc"],0);
+
+add(
+"Which key is used to remove a character before the cursor?",
+["Backspace","Enter","Shift","Tab"],0);
+
+add(
+"What is the full form of RAM?",
+["Random Access Memory","Read Access Machine","Rapid Action Memory","Random Application Module"],
+0);
+
+add(
+"Which is used to move the pointer?",
+["Mouse","Printer","Speaker","Scanner"],0);
+
+add(
+"Which storage device uses flash memory?",
+["Pen drive","Keyboard","Monitor","Speaker"],0);
+
+add(
+"What is a computer virus?",
+["A harmful computer program","A printer","A monitor","A keyboard key"],
+0);
+
+add(
+"Which software is used to browse websites?",
+["Web browser","Calculator","Paint brush","File cabinet"],
+0);
+
+add(
+"What does WWW stand for?",
+["World Wide Web","World Web Window","Wide World Word","Web World Work"],
+0);
+
+add(
+"Which one is an output device?",
+["Printer","Keyboard","Mouse","Scanner"],0);
+
+add(
+"What is used to save a file?",
+["Storage device","Monitor","Speaker","Mouse pad"],0);
+
+add(
+"Which key usually starts a new line?",
+["Enter","Ctrl","Alt","Shift"],0);
+
+add(
+"What is a folder used for?",
+["Organising files","Playing sound","Displaying pictures only","Typing numbers only"],
+0);
+
+}
+
+
+/* ================= PHYSICS ================= */
+
+if(subject==="PHY"){
+
+add(
+"What is the SI unit of length?",
+["Metre","Kilogram","Second","Newton"],0);
+
+add(
+"Which quantity describes how fast an object moves?",
+["Speed","Mass","Volume","Density"],0);
+
+add(
+"What is the SI unit of time?",
+["Second","Metre","Kilogram","Joule"],0);
+
+add(
+"Which force pulls objects toward Earth?",
+["Gravity","Friction","Magnetism","Buoyancy"],0);
+
+add(
+"Energy possessed by a moving object is called...",
+["Kinetic energy","Potential energy","Chemical energy","Sound energy"],0);
+
+add(
+"Energy possessed due to position is called...",
+["Potential energy","Kinetic energy","Light energy","Heat energy"],0);
+
+add(
+"Which instrument measures temperature?",
+["Thermometer","Barometer","Speedometer","Ammeter"],0);
+
+add(
+"Which instrument measures time?",
+["Clock","Thermometer","Balance","Ruler"],0);
+
+add(
+"Which force opposes motion between surfaces?",
+["Friction","Gravity","Magnetism","Electric force"],0);
+
+add(
+"Light generally travels in...",
+["Straight lines","Circles","Zigzags only","Squares"],0);
+
+add(
+"Sound requires what to travel?",
+["A medium","Complete darkness","Sunlight","A magnet"],0);
+
+add(
+"Which form of energy is associated with a stretched rubber band?",
+["Potential energy","Kinetic energy","Sound only","Nuclear energy"],0);
+
+add(
+"What is the SI unit of force?",
+["Newton","Joule","Watt","Pascal"],0);
+
+add(
+"Which source gives us solar energy?",
+["Sun","Moon","Coal","Windmill"],0);
+
+add(
+"Which energy is produced by moving air?",
+["Wind energy","Chemical energy","Nuclear energy","Geothermal energy"],0);
+
+add(
+"A body at rest has...",
+["No change in position with time","Maximum speed","No mass","No force ever"],0);
+
+add(
+"Which material is a good conductor of electricity?",
+["Copper","Rubber","Plastic","Wood"],0);
+
+add(
+"Which material is generally an insulator?",
+["Rubber","Copper","Aluminium","Iron"],0);
+
+add(
+"Which simple machine has a wheel and rope?",
+["Pulley","Wedge","Screw","Lever"],0);
+
+add(
+"Heat flows naturally from...",
+["Hotter object to colder object","Colder object to hotter object","Small object to large object","Dark object to bright object"],
+0);
+
+}
+
+
+/* ================= BIOLOGY ================= */
+
+if(subject==="BIO"){
+
+add(
+"Which organ pumps blood around the body?",
+["Heart","Lungs","Brain","Stomach"],0);
+
+add(
+"Which gas is needed for respiration?",
+["Oxygen","Carbon dioxide","Nitrogen","Helium"],0);
+
+add(
+"Plants make food by...",
+["Photosynthesis","Respiration","Digestion","Excretion"],0);
+
+add(
+"Which pigment makes leaves green?",
+["Chlorophyll","Haemoglobin","Melanin","Keratin"],0);
+
+add(
+"Which organ helps us breathe?",
+["Lungs","Heart","Kidney","Liver"],0);
+
+add(
+"Which part of a plant absorbs water?",
+["Roots","Flowers","Fruits","Seeds"],0);
+
+add(
+"Which tissue transports water in plants?",
+["Xylem","Phloem","Muscle","Nerve"],0);
+
+add(
+"Which tissue transports prepared food in plants?",
+["Phloem","Xylem","Bone","Blood"],0);
+
+add(
+"Which is the basic unit of life?",
+["Cell","Tissue","Organ","Organ system"],0);
+
+add(
+"Which organ controls many activities of the body?",
+["Brain","Stomach","Lung","Kidney"],0);
+
+add(
+"Which blood cells help fight infections?",
+["White blood cells","Red blood cells","Platelets only","Plasma cells only"],0);
+
+add(
+"Which blood cells carry oxygen?",
+["Red blood cells","White blood cells","Platelets","Bone cells"],0);
+
+add(
+"Which organ filters waste from blood?",
+["Kidneys","Heart","Lungs","Brain"],0);
+
+add(
+"Animals that eat only plants are called...",
+["Herbivores","Carnivores","Omnivores","Decomposers"],0);
+
+add(
+"Animals that eat other animals are called...",
+["Carnivores","Herbivores","Producers","Plants"],0);
+
+add(
+"Animals that eat both plants and animals are...",
+["Omnivores","Herbivores","Carnivores only","Producers"],0);
+
+add(
+"Which organism is commonly used to make bread?",
+["Yeast","Moss","Algae","Fern"],0);
+
+add(
+"Which process removes waste from the body?",
+["Excretion","Nutrition","Photosynthesis","Pollination"],0);
+
+add(
+"What is the green part of a plant mainly responsible for photosynthesis?",
+["Leaf","Root","Flower","Fruit"],0);
+
+add(
+"Which system helps digest food?",
+["Digestive system","Skeletal system","Nervous system","Respiratory system"],0);
+
+}
+
+
+/* ================= CHEMISTRY ================= */
+
+if(subject==="CHEM"){
+
+add(
+"Water has the chemical formula...",
+["H₂O","CO₂","O₂","NaCl"],0);
+
+add(
+"Which gas is present in the largest amount in air?",
+["Nitrogen","Oxygen","Carbon dioxide","Hydrogen"],0);
+
+add(
+"Which gas supports burning?",
+["Oxygen","Nitrogen","Carbon dioxide","Helium"],0);
+
+add(
+"Common salt has the formula...",
+["NaCl","H₂O","CO₂","O₂"],0);
+
+add(
+"Carbon dioxide has the formula...",
+["CO₂","CO","CaO","H₂O"],0);
+
+add(
+"Which is a pure substance?",
+["Gold","Air","Soil","Milk"],0);
+
+add(
+"Which is a mixture?",
+["Air","Oxygen","Gold","Distilled water"],0);
+
+add(
+"The smallest particle of an element is an...",
+["Atom","Organ","Cell","Tissue"],0);
+
+add(
+"Two or more elements chemically combined form a...",
+["Compound","Mixture","Solution only","Metal"],0);
+
+add(
+"Which is a metal?",
+["Iron","Sulphur","Oxygen","Carbon dioxide"],0);
+
+add(
+"Which is a non-metal?",
+["Sulphur","Iron","Copper","Aluminium"],0);
+
+add(
+"Which substance is acidic?",
+["Lemon juice","Soap solution","Baking soda solution","Pure water"],0);
+
+add(
+"Which substance is commonly basic?",
+["Soap solution","Lemon juice","Vinegar","Orange juice"],0);
+
+add(
+"What is the chemical symbol of oxygen?",
+["O","Ox","Og","C"],0);
+
+add(
+"What is the chemical symbol of hydrogen?",
+["H","Hy","Hg","He"],0);
+
+add(
+"What is the chemical symbol of carbon?",
+["C","Ca","Co","Cr"],0);
+
+add(
+"What is the chemical symbol of sodium?",
+["Na","So","S","N"],0);
+
+add(
+"What is the chemical symbol of iron?",
+["Fe","Ir","I","In"],0);
+
+add(
+"Rusting is mainly associated with...",
+["Iron","Gold","Silver","Helium"],0);
+
+add(
+"Burning is generally a...",
+["Chemical change","Physical change only","Change of shape only","Change of position"],
+0);
+
+}
+
+
+/* ================= MATH ================= */
+
+if(subject==="MATH"){
+
+for(let i=1;i<=20;i++){
+
+let n=i+cls;
+
+add(
+"What is "+n+" + "+i+"?",
+[
+String(n+i),
+String(n+i+1),
+String(n+i-1),
+String(n+i+2)
+],0);
+
+}
+
+}
+
+
+/* ================= ENGLISH ================= */
+
+if(subject==="ENG LANG"){
+
+add(
+"Choose the noun in the sentence: 'The boy runs fast.'",
+["boy","runs","fast","the"],0);
+
+add(
+"Choose the verb: 'Riya sings beautifully.'",
+["sings","Riya","beautifully","the"],0);
+
+add(
+"Choose the adjective: 'It is a beautiful flower.'",
+["beautiful","flower","is","a"],0);
+
+add(
+"Choose the adverb: 'He ran quickly.'",
+["quickly","ran","He","the"],0);
+
+add(
+"Which word is a pronoun?",
+["She","School","Running","Beautiful"],0);
+
+add(
+"Which word is a conjunction?",
+["and","book","quickly","blue"],0);
+
+add(
+"Which word is a preposition?",
+["under","happy","run","school"],0);
+
+add(
+"What is the plural of 'child'?",
+["children","childs","childes","childrens"],0);
+
+add(
+"What is the opposite of 'ancient'?",
+["Modern","Old","Historic","Past"],0);
+
+add(
+"What is the synonym of 'happy'?",
+["Joyful","Angry","Sad","Tired"],0);
+
+add(
+"Which punctuation mark ends a question?",
+["?","!",".",","],0);
+
+add(
+"Which punctuation mark shows strong feeling?",
+["!","?",",",";"],0);
+
+add(
+"Choose the correct article: ___ apple.",
+["an","a","the","no"],0);
+
+add(
+"Choose the correct article: ___ book.",
+["a","an","those","many"],0);
+
+add(
+"Which sentence is in the past tense?",
+["She played cricket.","She plays cricket.","She will play cricket.","She is playing cricket."],
+0);
+
+add(
+"Which sentence is in the future tense?",
+["She will study tomorrow.","She studies daily.","She studied yesterday.","She is studying now."],
+0);
+
+add(
+"Choose the correct spelling.",
+["Beautiful","Beautifull","Beutiful","Beautifal"],0);
+
+add(
+"Choose the correct spelling.",
+["Necessary","Neccessary","Necesary","Nessesary"],0);
+
+add(
+"Which word is an interjection?",
+["Wow!","Book","Run","Slowly"],0);
+
+add(
+"Which is a complete sentence?",
+["The dog barked.","Because the dog.","Running quickly.","After school."],0);
+
+}
+
+
+/* ================= HISTORY ================= */
+
+if(subject==="HISTORY"){
+
+add(
+"Who is known as the Father of the Indian Constitution?",
+["B. R. Ambedkar","Mahatma Gandhi","Jawaharlal Nehru","Subhas Chandra Bose"],0);
+
+add(
+"Which ancient civilization developed near the Indus River?",
+["Indus Valley Civilization","Roman Civilization","Greek Civilization","Mayan Civilization"],0);
+
+add(
+"Which city was an important Indus Valley site?",
+["Mohenjo-daro","Athens","Rome","Sparta"],0);
+
+add(
+"Who founded the Mauryan Empire?",
+["Chandragupta Maurya","Ashoka","Harsha","Akbar"],0);
+
+add(
+"Which Mauryan ruler embraced Buddhism?",
+["Ashoka","Chandragupta Maurya","Bindusara","Samudragupta"],0);
+
+add(
+"Which emperor is associated with the Kalinga War?",
+["Ashoka","Akbar","Babur","Shah Jahan"],0);
+
+add(
+"Who founded the Mughal Empire in India?",
+["Babur","Akbar","Humayun","Aurangzeb"],0);
+
+add(
+"Who built the Taj Mahal?",
+["Shah Jahan","Akbar","Babur","Humayun"],0);
+
+add(
+"Who was known as the Iron Man of India?",
+["Sardar Vallabhbhai Patel","Jawaharlal Nehru","Rajendra Prasad","Bhagat Singh"],0);
+
+add(
+"India became independent in...",
+["1947","1945","1950","1942"],0);
+
+add(
+"India became a republic in...",
+["1950","1947","1942","1952"],0);
+
+add(
+"Who led the Dandi March?",
+["Mahatma Gandhi","Subhas Chandra Bose","Bhagat Singh","Bal Gangadhar Tilak"],0);
+
+add(
+"Which movement began in 1942?",
+["Quit India Movement","Non-Cooperation Movement","Civil Disobedience Movement","Swadeshi Movement"],0);
+
+add(
+"Who founded the Indian National Congress?",
+["A. O. Hume","Mahatma Gandhi","Lord Curzon","Jawaharlal Nehru"],0);
+
+add(
+"Which ancient civilization is famous for pyramids?",
+["Egyptian","Indus","Roman","Chinese"],0);
+
+add(
+"Which ancient people developed democracy in Athens?",
+["Greeks","Romans","Egyptians","Persians"],0);
+
+add(
+"Who was the first Mughal emperor?",
+["Babur","Akbar","Aurangzeb","Shah Jahan"],0);
+
+add(
+"Which monument is located in Delhi?",
+["Qutub Minar","Charminar","Gateway of India","Victoria Memorial"],0);
+
+add(
+"Who gave the slogan 'Do or Die' during the freedom struggle?",
+["Mahatma Gandhi","Bhagat Singh","Subhas Chandra Bose","Sardar Patel"],0);
+
+add(
+"Which event marked the beginning of the French Revolution?",
+["Storming of the Bastille","Battle of Plassey","Dandi March","Kalinga War"],0);
+
+}
+
+
+/* ================= GEOGRAPHY ================= */
+
+if(subject==="GEOGRAPHY"){
+
+add(
+"Which is the largest continent?",
+["Asia","Africa","Europe","Australia"],0);
+
+add(
+"Which is the largest ocean?",
+["Pacific Ocean","Atlantic Ocean","Indian Ocean","Arctic Ocean"],0);
+
+add(
+"Which imaginary line divides Earth into Northern and Southern Hemispheres?",
+["Equator","Prime Meridian","Tropic of Cancer","Arctic Circle"],0);
+
+add(
+"What is the 0° longitude called?",
+["Prime Meridian","Equator","Tropic of Capricorn","International Date Line"],0);
+
+add(
+"Which is the highest mountain above sea level?",
+["Mount Everest","K2","Kangchenjunga","Nanda Devi"],0);
+
+add(
+"Which is the largest hot desert?",
+["Sahara Desert","Gobi Desert","Thar Desert","Kalahari Desert"],0);
+
+add(
+"Which river is strongly associated with Egypt?",
+["Nile","Amazon","Ganga","Yangtze"],0);
+
+add(
+"Which river is one of the longest in South America?",
+["Amazon","Thames","Nile","Ganga"],0);
+
+add(
+"Which layer of the atmosphere contains most weather?",
+["Troposphere","Stratosphere","Mesosphere","Thermosphere"],0);
+
+add(
+"Where is most of Earth's freshwater stored?",
+["Glaciers and ice caps","Oceans","Rivers","Atmosphere"],0);
+
+add(
+"What is the process by which water falls from clouds?",
+["Precipitation","Evaporation","Condensation","Collection"],0);
+
+add(
+"What is the process of water changing into vapour?",
+["Evaporation","Condensation","Freezing","Precipitation"],0);
+
+add(
+"What is a map?",
+["A representation of an area","A type of cloud","A weather event","A mountain"],0);
+
+add(
+"Which instrument measures rainfall?",
+["Rain gauge","Thermometer","Barometer","Anemometer"],0);
+
+add(
+"Which instrument measures wind speed?",
+["Anemometer","Rain gauge","Thermometer","Compass"],0);
+
+add(
+"Which direction is opposite to east?",
+["West","North","South","Northeast"],0);
+
+add(
+"Which is India's largest state by area?",
+["Rajasthan","Maharashtra","Madhya Pradesh","Uttar Pradesh"],0);
+
+add(
+"Which ocean lies south of India?",
+["Indian Ocean","Atlantic Ocean","Pacific Ocean","Arctic Ocean"],0);
+
+add(
+"Which mountain range forms a major northern boundary of India?",
+["Himalayas","Aravallis","Western Ghats","Eastern Ghats"],0);
+
+add(
+"Which gas is a major component of Earth's atmosphere?",
+["Nitrogen","Helium","Hydrogen","Neon"],0);
+
+}
+
+
+/* =========================================================
+   ADD CLASS/MODE VARIATION
+========================================================= */
+
+let result=bank.map((q,index)=>{
+
+let copy={
+text:q.text,
+options:[...q.options],
+correct:q.correct,
+id:subject+"-"+cls+"-"+mode+"-"+index
+};
+
+/*
+Different mode gets a different question identity.
+This prevents Practice and Mock from simply sharing
+the same selected question set.
+*/
+
+if(mode==="mock"){
+copy.text+=" ";
+}
+
+if(mode==="quiz"){
+copy.text+=" ";
+}
+
+return copy;
+
+});
+
+
+/* Add generated variation for smaller banks */
+
+let original=[...result];
+
+while(result.length<40){
+
+let base=original[result.length%original.length];
+
+let copy={
+text:base.text+"",
+options:[...base.options],
+correct:base.correct,
+id:base.id+"-extra-"+result.length
+};
+
+result.push(copy);
+
+}
+
+return result;
+
+}
+
+
+/* =========================================================
+   RANDOMIZE OPTIONS
+========================================================= */
+
+function shuffleQuestionOptions(question){
+
+let pairs=question.options.map((option,index)=>({
+option:option,
+correct:index===question.correct
+}));
+
+pairs=shuffle(pairs);
+
+question.options=pairs.map(x=>x.option);
+question.correct=pairs.findIndex(x=>x.correct);
+
+return question;
+
+}
+
+
+/* =========================================================
+   GET TEST QUESTIONS
+========================================================= */
+
+function getTestQuestions(cls,subject,mode,count){
+
+let bank=makeQuestions(cls,subject,mode);
+
+/*
+Each mode has its own pool.
+The questions are shuffled first.
+*/
+
+bank=shuffle(bank);
+
+/*
+Remove duplicate text.
+*/
+
+let seen=new Set();
+
+bank=bank.filter(q=>{
+
+if(seen.has(q.text)) return false;
+
+seen.add(q.text);
+
+return true;
+
+});
+
+/*
+Select requested amount.
+*/
+
+let selected=bank.slice(0,Math.min(count,bank.length));
+
+/*
+Randomize A/B/C/D separately for every question.
+*/
+
+selected=selected.map(q=>shuffleQuestionOptions(q));
+
+return selected;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(id,button){
+
+document.querySelectorAll(".page").forEach(p=>{
+p.classList.remove("active");
+});
+
+let page=document.getElementById(id);
+
+if(page) page.classList.add("active");
+
+document.querySelectorAll(".nav-btn").forEach(b=>{
+b.classList.remove("active");
+});
+
+if(button) button.classList.add("active");
+
+if(id==="results") renderResults();
+
+if(id==="owner") updateOwnerDashboard();
+
+}
+
+
+/* =========================================================
+   CLASS UI
+========================================================= */
+
+function renderClasses(){
+
+let grid=document.getElementById("classGrid");
+
+grid.innerHTML="";
+
+for(let i=1;i<=12;i++){
+
+let div=document.createElement("div");
+
+div.className="card class-card";
+
+div.innerHTML=`
+<h2>Class ${i}</h2>
+<p style="margin:10px 0 15px">
+${SUBJECTS[i].length} Subjects Available
+</p>
+<button class="btn" onclick="selectClass(${i})">
+View Subjects
+</button>
+`;
+
+grid.appendChild(div);
+
+}
+
+}
+
+
+function selectClass(c){
+
+app.class=String(c);
+
+localStorage.setItem("qwk_class",app.class);
+
+document.getElementById("subjectTitle").textContent=
+"Class "+c+" — Choose Subject";
+
+let grid=document.getElementById("subjectGrid");
+
+grid.innerHTML="";
+
+SUBJECTS[c].forEach(subject=>{
+
+let div=document.createElement("div");
+
+div.className="card subject-card";
+
+div.innerHTML=`
+<div class="subject-icon">${ICONS[subject]||"📚"}</div>
+<h3>${subject}</h3>
+<p class="muted">Practice ${subject} questions</p>
+<br>
+<button class="btn"
+onclick="startClassQuiz('${subject}')">
+Start Quiz
+</button>
+`;
+
+grid.appendChild(div);
+
+});
+
+showPage("subjects");
+
+}
+
+
+/* =========================================================
+   PRACTICE
+========================================================= */
+
+function fillClassSelect(id){
+
+let select=document.getElementById(id);
+
+if(!select)return;
+
+select.innerHTML="";
+
+for(let i=1;i<=12;i++){
+
+let option=document.createElement("option");
+
+option.value=i;
+option.textContent="Class "+i;
+
+select.appendChild(option);
+
+}
+
+select.value=app.class;
+
+}
+
+
+function renderPracticeSubjects(){
+
+let c=Number(document.getElementById("practiceClass").value);
+
+let select=document.getElementById("practiceSubject");
+
+select.innerHTML="";
+
+SUBJECTS[c].forEach(s=>{
+
+let option=document.createElement("option");
+
+option.value=s;
+option.textContent=s;
+
+select.appendChild(option);
+
+});
+
+}
+
+
+function startSelectedPractice(){
+
+let c=document.getElementById("practiceClass").value;
+
+let s=document.getElementById("practiceSubject").value;
+
+startTest(c,s,30,"practice",30);
+
+}
+
+
+/* =========================================================
+   CLASS QUIZ
+========================================================= */
+
+function startClassQuiz(subject){
+
+startTest(app.class,subject,20,"quiz",20);
+
+}
+
+
+/* =========================================================
+   MOCK
+========================================================= */
+
+function updateMockSubjects(){
+
+let c=Number(document.getElementById("mockClass").value);
+
+let select=document.getElementById("mockSubject");
+
+select.innerHTML="";
+
+SUBJECTS[c].forEach(s=>{
+
+let option=document.createElement("option");
+
+option.value=s;
+option.textContent=s;
+
+select.appendChild(option);
+
+});
+
+}
+
+
+function startMockTest(){
+
+let c=document.getElementById("mockClass").value;
+
+let s=document.getElementById("mockSubject").value;
+
+let count=Number(document.getElementById("mockQuestionCount").value);
+
+let minutes=Number(document.getElementById("mockTime").value);
+
+startTest(c,s,count,"mock",minutes);
+
+}
+
+
+/* =========================================================
+   START TEST
+========================================================= */
+
+function startTest(c,subject,count,mode,minutes){
+
+clearInterval(app.timer);
+
+app.class=String(c);
+app.mode=mode;
+
+app.questions=getTestQuestions(c,subject,mode,count);
+
+app.answers=new Array(app.questions.length).fill(null);
+
+app.current=0;
+
+app.seconds=minutes*60;
+
+document.getElementById("quizMode").textContent=
+mode==="mock"?"Mock Test":mode==="quiz"?"Quiz":"Practice";
+
+document.getElementById("quizSubject").textContent=
+"Class "+c+" • "+subject;
+
+showPage("quiz");
+
+renderQuestion();
+
+startTimer();
+
+}
+
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+function startTimer(){
+
+clearInterval(app.timer);
+
+updateTimer();
+
+app.timer=setInterval(()=>{
+
+app.seconds--;
+
+updateTimer();
+
+if(app.seconds<=0){
+
+clearInterval(app.timer);
+
+finishTest();
+
+}
+
+},1000);
+
+}
+
+
+function updateTimer(){
+
+let mins=Math.floor(app.seconds/60);
+
+let secs=app.seconds%60;
+
+document.getElementById("timer").textContent=
+String(mins).padStart(2,"0")+":"+String(secs).padStart(2,"0");
+
+}
+
+
+/* =========================================================
+   RENDER QUESTION
+========================================================= */
+
+function renderQuestion(){
+
+let q=app.questions[app.current];
+
+if(!q)return;
+
+document.getElementById("questionCounter").textContent=
+"Question "+(app.current+1)+" of "+app.questions.length;
+
+document.getElementById("questionText").textContent=q.text;
+
+let options=document.getElementById("options");
+
+options.innerHTML="";
+
+q.options.forEach((option,index)=>{
+
+let button=document.createElement("button");
+
+button.className="option";
+
+button.textContent=
+String.fromCharCode(65+index)+". "+option;
+
+button.onclick=()=>selectAnswer(index);
+
+if(app.answers[app.current]===index){
+
+button.classList.add("selected");
+
+}
+
+options.appendChild(button);
+
+});
+
+let progress=
+((app.current+1)/app.questions.length)*100;
+
+document.getElementById("progressBar").style.width=
+progress+"%";
+
+document.getElementById("previousButton").disabled=
+app.current===0;
+
+document.getElementById("nextButton").textContent=
+app.current===app.questions.length-1?"Finish":"Next";
+
+renderQuestionNumbers();
+
+document.getElementById("feedback").className="feedback";
+
+}
+
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+function selectAnswer(index){
+
+if(app.answers[app.current]!==null)return;
+
+app.answers[app.current]=index;
+
+let q=app.questions[app.current];
+
+let buttons=document.querySelectorAll(".option");
+
+buttons.forEach((button,i)=>{
+
+if(i===q.correct){
+
+button.classList.add("correct");
+
+}
+
+if(i===index && index!==q.correct){
+
+button.classList.add("wrong");
+
+}
+
+});
+
+let feedback=document.getElementById("feedback");
+
+feedback.textContent=
+index===q.correct
+?"✅ Correct answer!"
+:"❌ Incorrect. The correct answer is "+
+String.fromCharCode(65+q.correct)+".";
+
+feedback.className="feedback show";
+
+renderQuestionNumbers();
+
+}
+
+
+/* =========================================================
+   NEXT / PREVIOUS
+========================================================= */
+
+function nextQuestion(){
+
+if(app.current===app.questions.length-1){
+
+finishTest();
+
+return;
+
+}
+
+app.current++;
+
+renderQuestion();
+
+}
+
+
+function previousQuestion(){
+
+if(app.current>0){
+
+app.current--;
+
+renderQuestion();
+
+}
+
+}
+
+
+/* =========================================================
+   QUESTION NUMBERS
+========================================================= */
+
+function renderQuestionNumbers(){
+
+let container=document.getElementById("questionNumbers");
+
+container.innerHTML="";
+
+app.questions.forEach((q,i)=>{
+
+let button=document.createElement("button");
+
+button.className="question-number";
+
+button.textContent=i+1;
+
+if(app.answers[i]!==null)
+button.classList.add("done");
+
+if(i===app.current)
+button.classList.add("current");
+
+button.onclick=()=>{
+
+app.current=i;
+
+renderQuestion();
+
+};
+
+container.appendChild(button);
+
+});
+
+}
+
+
+/* =========================================================
+   FINISH TEST
+========================================================= */
+
+function finishTest(){
+
+clearInterval(app.timer);
+
+let correct=0;
+
+app.answers.forEach((answer,index)=>{
+
+if(answer!==null &&
+answer===app.questions[index].correct){
+
+correct++;
+
+}
+
+});
+
+let total=app.questions.length;
+
+let percentage=Math.round((correct/total)*100);
+
+let result={
+date:new Date().toLocaleString(),
+mode:app.mode,
+score:correct+"/"+total,
+accuracy:percentage,
+questions:total
+};
+
+app.results.unshift(result);
+
+localStorage.setItem(
+"qwk_results",
+JSON.stringify(app.results)
+);
+
+document.getElementById("modalScore").textContent=
+percentage+"%";
+
+document.getElementById("modalMessage").textContent=
+"You scored "+correct+" out of "+total+" questions.";
+
+document.getElementById("resultModal").classList.add("show");
+
+updateStats();
+
+}
+
+
+function closeModal(){
+
+document.getElementById("resultModal").classList.remove("show");
+
+}
+
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+function renderResults(){
+
+let history=document.getElementById("history");
+
+history.innerHTML="";
+
+if(app.results.length===0){
+
+history.innerHTML=
+`<tr><td colspan="4" style="padding:15px">
+No tests completed yet.
+</td></tr>`;
+
+}else{
+
+app.results.forEach(r=>{
+
+let tr=document.createElement("tr");
+
+tr.innerHTML=`
+<td style="padding:10px">${r.date}</td>
+<td style="padding:10px">${r.mode}</td>
+<td style="padding:10px">${r.score}</td>
+<td style="padding:10px">${r.accuracy}%</td>
+`;
+
+history.appendChild(tr);
+
+});
+
+}
+
+let totalAttempts=app.results.length;
+
+let best=app.results.length
+?Math.max(...app.results.map(r=>Number(r.accuracy)))
+:0;
+
+document.getElementById("resultSummary").innerHTML=`
+<h3>Performance Summary</h3>
+<p style="margin-top:10px">
+<strong>${totalAttempts}</strong> total attempts
+</p>
+<p style="margin-top:6px">
+Best accuracy: <strong>${best}%</strong>
+</p>
+`;
+
+}
+
+
+function clearResults(){
+
+if(confirm("Clear all quiz results?")){
+
+app.results=[];
+
+localStorage.removeItem("qwk_results");
+
+updateStats();
+
+renderResults();
+
+}
+
+}
+
+
+/* =========================================================
+   HOME STATS
+========================================================= */
+
+function updateStats(){
+
+let attempts=app.results.length;
+
+let questions=app.results.reduce(
+(sum,r)=>sum+Number(r.questions||0),0);
+
+let best=app.results.length
+?Math.max(...app.results.map(r=>Number(r.accuracy)))
+:0;
+
+let mocks=app.results.filter(
+r=>r.mode==="mock").length;
+
+document.getElementById("attempts").textContent=attempts;
+
+document.getElementById("questionsAnswered").textContent=questions;
+
+document.getElementById("bestScore").textContent=best+"%";
+
+document.getElementById("mockTests").textContent=mocks;
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function saveProfile(){
+
+let name=document.getElementById("profileName").value.trim();
+
+let c=document.getElementById("profileClass").value;
+
+app.profile={
+name:name||"Student",
+class:c
+};
+
+localStorage.setItem(
+"qwk_profile",
+JSON.stringify(app.profile)
+);
+
+alert("Profile saved!");
+
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function toggleTheme(){
+
+document.body.classList.toggle("dark");
+
+let dark=document.body.classList.contains("dark");
+
+localStorage.setItem("qwk_dark",dark?"1":"0");
+
+document.getElementById("themeButton").textContent=
+dark?"☀️":"🌙";
+
+}
+
+
+function loadTheme(){
+
+if(localStorage.getItem("qwk_dark")==="1"){
+
+document.body.classList.add("dark");
+
+document.getElementById("themeButton").textContent="☀️";
+
+}
+
+}
+
+
+/* =========================================================
+   OWNER QUESTION BANK
+========================================================= */
+
+const CUSTOM_KEY="qwk_custom_questions";
+
+
+function getCustomQuestions(){
+
+return JSON.parse(
+localStorage.getItem(CUSTOM_KEY)||"[]"
+);
+
+}
+
+
+function saveOwnerQuestion(){
+
+let c=document.getElementById("ownerClass").value;
+
+let s=document.getElementById("ownerSubject").value;
+
+let question=document.getElementById("ownerQuestion").value.trim();
+
+let options=[
+document.getElementById("ownerA").value.trim(),
+document.getElementById("ownerB").value.trim(),
+document.getElementById("ownerC").value.trim(),
+document.getElementById("ownerD").value.trim()
+];
+
+let correct=Number(
+document.getElementById("ownerCorrect").value
+);
+
+if(!question || options.some(x=>!x)){
+
+alert("Please fill the question and all four options.");
+
+return;
+
+}
+
+let bank=getCustomQuestions();
+
+let id=document.getElementById("ownerEditId").value;
+
+let item={
+id:id||Date.now().toString(),
+class:String(c),
+subject:s,
+text:question,
+options:options,
+correct:correct
+};
+
+if(id){
+
+let index=bank.findIndex(q=>q.id===id);
+
+if(index>=0) bank[index]=item;
+
+}else{
+
+bank.push(item);
+
+}
+
+localStorage.setItem(
+CUSTOM_KEY,
+JSON.stringify(bank)
+);
+
+clearOwnerForm();
+
+renderOwnerQuestions();
+
+updateOwnerDashboard();
+
+alert("Question saved!");
+
+}
+
+
+function clearOwnerForm(){
+
+document.getElementById("ownerEditId").value="";
+
+document.getElementById("ownerQuestion").value="";
+
+document.getElementById("ownerA").value="";
+
+document.getElementById("ownerB").value="";
+
+document.getElementById("ownerC").value="";
+
+document.getElementById("ownerD").value="";
+
+document.getElementById("ownerCorrect").value="0";
+
+}
+
+
+/* =========================================================
+   OWNER LOGIN
+========================================================= */
+
+/*
+IMPORTANT:
+Change this password before publishing the site.
+*/
+
+const OWNER_PASSWORD="krish123";
+
+
+function ownerLogin(){
+
+let password=
+document.getElementById("ownerPassword").value;
+
+if(password===OWNER_PASSWORD){
+
+localStorage.setItem("qwk_owner","1");
+
+document.getElementById("ownerLocked").style.display="none";
+
+document.getElementById("ownerUnlocked").style.display="block";
+
+updateOwnerDashboard();
+
+}else{
+
+document.getElementById("ownerLoginMessage").textContent=
+"Incorrect password.";
+
+}
+
+}
+
+
+function ownerLogout(){
+
+localStorage.removeItem("qwk_owner");
+
+document.getElementById("ownerLocked").style.display="block";
+
+document.getElementById("ownerUnlocked").style.display="none";
+
+}
+
+
+function updateOwnerDashboard(){
+
+if(localStorage.getItem("qwk_owner")!=="1")return;
+
+let custom=getCustomQuestions();
+
+let total=0;
+
+for(let c=1;c<=12;c++){
+
+SUBJECTS[c].forEach(s=>{
+
+total+=makeQuestions(c,s,"owner").length;
+
+});
+
+}
+
+document.getElementById("ownerTotalQuestions").textContent=
+total+custom.length;
+
+document.getElementById("ownerCustomQuestions").textContent=
+custom.length;
+
+renderOwnerQuestions();
+
+}
+
+
+/* =========================================================
+   OWNER FILTERS
+========================================================= */
+
+function renderOwnerQuestions(){
+
+let container=document.getElementById("ownerQuestionList");
+
+if(!container)return;
+
+let classFilter=
+document.getElementById("ownerFilterClass").value;
+
+let subjectFilter=
+document.getElementById("ownerFilterSubject").value;
+
+let bank=getCustomQuestions();
+
+let filtered=bank.filter(q=>{
+
+let classOK=
+!classFilter||q.class===classFilter;
+
+let subjectOK=
+!subjectFilter||q.subject===subjectFilter;
+
+return classOK&&subjectOK;
+
+});
+
+if(filtered.length===0){
+
+container.innerHTML=
+`<p class="muted">No custom questions found.</p>`;
+
+return;
+
+}
+
+container.innerHTML="";
+
+filtered.forEach(q=>{
+
+let div=document.createElement("div");
+
+div.className="card";
+
+div.style.marginTop="10px";
+
+div.innerHTML=`
+
+<strong>${q.text}</strong>
+
+<p style="margin-top:8px">
+A. ${q.options[0]}<br>
+B. ${q.options[1]}<br>
+C. ${q.options[2]}<br>
+D. ${q.options[3]}
+</p>
+
+<p class="muted" style="margin-top:8px">
+Class ${q.class} • ${q.subject} •
+Correct: ${String.fromCharCode(65+q.correct)}
+</p>
+
+<div class="actions">
+
+<button class="btn secondary"
+onclick="editOwnerQuestion('${q.id}')">
+Edit
+</button>
+
+<button class="btn"
+onclick="deleteOwnerQuestion('${q.id}')">
+Delete
+</button>
+
+</div>
+`;
+
+container.appendChild(div);
+
+});
+
+}
+
+
+function editOwnerQuestion(id){
+
+let bank=getCustomQuestions();
+
+let q=bank.find(x=>x.id===id);
+
+if(!q)return;
+
+document.getElementById("ownerEditId").value=q.id;
+
+document.getElementById("ownerClass").value=q.class;
+
+document.getElementById("ownerSubject").value=q.subject;
+
+document.getElementById("ownerQuestion").value=q.text;
+
+document.getElementById("ownerA").value=q.options[0];
+
+document.getElementById("ownerB").value=q.options[1];
+
+document.getElementById("ownerC").value=q.options[2];
+
+document.getElementById("ownerD").value=q.options[3];
+
+document.getElementById("ownerCorrect").value=q.correct;
+
+window.scrollTo({top:0,behavior:"smooth"});
+
+}
+
+
+function deleteOwnerQuestion(id){
+
+if(!confirm("Delete this question?"))return;
+
+let bank=getCustomQuestions().filter(q=>q.id!==id);
+
+localStorage.setItem(
+CUSTOM_KEY,
+JSON.stringify(bank)
+);
+
+renderOwnerQuestions();
+
+updateOwnerDashboard();
+
+}
+
+
+/* =========================================================
+   EXPORT
+========================================================= */
+
+function exportQuestionBank(){
+
+let data=getCustomQuestions();
+
+let blob=new Blob(
+[JSON.stringify(data,null,2)],
+{type:"application/json"}
+);
+
+let url=URL.createObjectURL(blob);
+
+let a=document.createElement("a");
+
+a.href=url;
+
+a.download="quiz-with-krish-question-bank.json";
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================================================
+   IMPORT
+========================================================= */
+
+function importQuestionBank(){
+
+let file=
+document.getElementById("questionImportFile").files[0];
+
+if(!file){
+
+alert("Choose a JSON file first.");
+
+return;
+
+}
+
+let reader=new FileReader();
+
+reader.onload=function(e){
+
+try{
+
+let data=JSON.parse(e.target.result);
+
+if(!Array.isArray(data)){
+
+throw new Error("Invalid format");
+
+}
+
+let existing=getCustomQuestions();
+
+data.forEach(q=>{
+
+if(!q.id)q.id=Date.now()+"-"+Math.random();
+
+existing.push(q);
+
+});
+
+localStorage.setItem(
+CUSTOM_KEY,
+JSON.stringify(existing)
+);
+
+renderOwnerQuestions();
+
+updateOwnerDashboard();
+
+alert("Question bank imported successfully!");
+
+}catch(err){
+
+alert("Invalid JSON question bank.");
+
+}
+
+};
+
+reader.readAsText(file);
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetData(){
+
+if(!confirm(
+"Reset local results, profile and custom questions?"
+))return;
+
+localStorage.removeItem("qwk_results");
+
+localStorage.removeItem("qwk_profile");
+
+localStorage.removeItem("qwk_class");
+
+localStorage.removeItem(CUSTOM_KEY);
+
+location.reload();
+
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+function init(){
+
+renderClasses();
+
+fillClassSelect("practiceClass");
+
+fillClassSelect("mockClass");
+
+fillClassSelect("profileClass");
+
+fillClassSelect("ownerClass");
+
+fillClassSelect("ownerFilterClass");
+
+document.getElementById("ownerFilterClass").insertAdjacentHTML(
+"afterbegin",
+'<option value="">All Classes</option>'
+);
+
+let ownerSubject=
+document.getElementById("ownerSubject");
+
+let filterSubject=
+document.getElementById("ownerFilterSubject");
+
+ownerSubject.innerHTML="";
+filterSubject.innerHTML='<option value="">All Subjects</option>';
+
+let allSubjects=[
+"MSC","COMP","PHY","BIO","CHEM",
+"ENG LANG","MATH","HISTORY","GEOGRAPHY"
+];
+
+allSubjects.forEach(s=>{
+
+let o=document.createElement("option");
+
+o.value=s;
+o.textContent=s;
+
+ownerSubject.appendChild(o);
+
+let f=document.createElement("option");
+
+f.value=s;
+f.textContent=s;
+
+filterSubject.appendChild(f);
+
+});
+
+renderPracticeSubjects();
+
+updateMockSubjects();
+
+document.getElementById("profileName").value=
+app.profile.name||"Student";
+
+document.getElementById("profileClass").value=
+app.profile.class||"7";
+
+if(localStorage.getItem("qwk_owner")==="1"){
+
+document.getElementById("ownerLocked").style.display="none";
+
+document.getElementById("ownerUnlocked").style.display="block";
+
+}
+
+loadTheme();
+
+updateStats();
+
+renderResults();
+
+}
+
+init();
+
+</script>
+
+</body>
+</html>
