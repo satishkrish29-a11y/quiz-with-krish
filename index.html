@@ -1,56 +1,194 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#4f46e5">
 <title>Quiz with Krish</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--primary:#4f46e5;--primary2:#7c3aed;--border:#e5e7eb;--success:#16a34a;--danger:#dc2626}
-body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.topbar{height:68px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:10px 22px;position:sticky;top:0;z-index:100}
+:root{
+--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;
+--primary:#4f46e5;--primary2:#7c3aed;--border:#e5e7eb;
+--success:#16a34a;--danger:#dc2626
+}
+body{
+font-family:Arial,Helvetica,sans-serif;background:var(--bg);
+color:var(--text);min-height:100vh
+}
+.topbar{
+height:68px;background:#fff;border-bottom:1px solid var(--border);
+display:flex;justify-content:space-between;align-items:center;
+padding:10px 22px;position:sticky;top:0;z-index:100
+}
 .logo-area{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700}
-.logo{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary2));font-weight:700;font-size:20px}
-.theme-btn{border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px 12px;cursor:pointer}
-.sidebar{width:225px;background:#111827;position:fixed;top:68px;bottom:0;left:0;padding:15px 10px;overflow:auto}
-.nav-btn{width:100%;border:0;background:transparent;color:#fff;text-align:left;padding:12px;margin:3px 0;border-radius:10px;cursor:pointer;font-size:14px}
+.logo{
+width:42px;height:42px;border-radius:12px;display:flex;
+align-items:center;justify-content:center;color:#fff;
+background:linear-gradient(135deg,var(--primary),var(--primary2));
+font-size:20px
+}
+.theme-btn{
+border:1px solid var(--border);background:#fff;
+border-radius:10px;padding:9px 12px;cursor:pointer
+}
+.sidebar{
+width:225px;background:#111827;position:fixed;top:68px;
+bottom:0;left:0;padding:15px 10px;overflow:auto
+}
+.nav-btn{
+width:100%;border:0;background:transparent;color:#fff;
+text-align:left;padding:12px;margin:3px 0;border-radius:10px;
+cursor:pointer;font-size:14px
+}
 .nav-btn:hover,.nav-btn.active{background:#26344c}
-main{margin-left:225px;padding:25px}.page{display:none}.page.active{display:block}
-.hero{padding:35px;border-radius:22px;color:#fff;background:linear-gradient(135deg,#111827,#3730a3,#7c3aed);margin-bottom:22px}
-.hero h1{font-size:42px;margin-bottom:10px}.hero p{max-width:750px;line-height:1.6;color:#e0e7ff}
+main{margin-left:225px;padding:25px}
+.page{display:none}
+.page.active{display:block}
+.hero{
+padding:35px;border-radius:22px;color:#fff;
+background:linear-gradient(135deg,#111827,#3730a3,#7c3aed);
+margin-bottom:22px
+}
+.hero h1{font-size:42px;margin-bottom:10px}
+.hero p{max-width:750px;line-height:1.6;color:#e0e7ff}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.btn{padding:11px 17px;border:0;border-radius:10px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}
-.btn:hover{background:#3730a3}.btn.secondary{background:#eef2ff;color:#3730a3}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}.card h3{margin-bottom:9px}.muted{color:var(--muted)}
-.stat{font-size:30px;font-weight:700;margin-top:8px}.section-title{margin:25px 0 15px;display:flex;justify-content:space-between;align-items:center}
-.pill{display:inline-block;padding:5px 9px;background:#eef2ff;color:#3730a3;border-radius:30px;font-size:12px;font-weight:700}
-.class-card{min-height:150px;background:linear-gradient(135deg,#1e293b,#334155);color:#fff}.class-card .btn{background:#fff;color:#1e293b}
-.subject-card{cursor:pointer;transition:.18s}.subject-card:hover{transform:translateY(-3px);border-color:#818cf8}
-.subject-icon{font-size:30px;margin-bottom:10px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px}
-label{font-weight:700;font-size:14px}input,select{width:100%;padding:11px;margin-top:7px;border:1px solid var(--border);border-radius:9px;background:#fff;color:#172033}
-.quiz-container{max-width:900px;margin:auto}.quiz-top{display:flex;justify-content:space-between;align-items:center}
-.timer{background:#fef2f2;color:var(--danger);padding:8px 11px;border-radius:9px;font-weight:700}.progress{height:8px;background:#e5e7eb;border-radius:20px;margin:17px 0;overflow:hidden}
-.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--primary2))}
-.question{font-size:22px;font-weight:700;line-height:1.5;margin-top:12px}.options{display:grid;gap:10px;margin-top:20px}
-.option{padding:14px;text-align:left;border:2px solid var(--border);background:#fff;color:var(--text);border-radius:11px;cursor:pointer}
-.option:hover{border-color:#818cf8}.option.selected{border-color:var(--primary);background:#eef2ff}.option.correct{border-color:var(--success);background:#f0fdf4}.option.wrong{border-color:var(--danger);background:#fef2f2}
-.feedback{display:none;margin-top:14px;padding:12px;border-radius:10px;background:#f8fafc}.feedback.show{display:block}
-.question-numbers{display:flex;flex-wrap:wrap;gap:6px;margin-top:17px}.question-number{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer}.question-number.done{background:#dcfce7}.question-number.current{border-color:var(--primary);background:#eef2ff}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:500}.modal.show{display:flex}
-.modal-box{background:#fff;padding:25px;border-radius:18px;width:100%;max-width:480px}.score{font-size:52px;font-weight:700;color:var(--primary);margin:10px 0}
-.subject-select-box{margin-bottom:18px}.back-btn{margin-bottom:15px}
-body.dark{--bg:#0b1220;--card:#111827;--text:#f8fafc;--muted:#aab4c4;--border:#263244}
-.dark .topbar{background:#111827}.dark .theme-btn,.dark input,.dark select,.dark .option,.dark .question-number{background:#111827;color:#fff}
-.dark .btn.secondary{background:#312e81;color:#fff}.dark .feedback{background:#172033}.dark textarea{background:#111827;color:#fff}\n\n.dark .modal-box{background:#111827;color:#fff}
-@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:1fr 1fr}}
-@media(max-width:700px){.sidebar{position:fixed;top:auto;bottom:0;width:100%;height:65px;display:flex;overflow-x:auto;padding:5px;z-index:200}.nav-btn{min-width:105px;text-align:center;font-size:12px}main{margin-left:0;padding:15px 12px 85px}.hero{padding:25px 18px}.hero h1{font-size:32px}.grid,.grid3,.form-row{grid-template-columns:1fr}.topbar{height:60px}}
+.btn{
+padding:11px 17px;border:0;border-radius:10px;
+background:var(--primary);color:#fff;font-weight:700;cursor:pointer
+}
+.btn:hover{background:#3730a3}
+.btn.secondary{background:#eef2ff;color:#3730a3}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{
+background:var(--card);border:1px solid var(--border);
+border-radius:16px;padding:20px
+}
+.card h3{margin-bottom:9px}
+.muted{color:var(--muted)}
+.stat{font-size:30px;font-weight:700;margin-top:8px}
+.section-title{
+margin:25px 0 15px;display:flex;
+justify-content:space-between;align-items:center
+}
+.pill{
+display:inline-block;padding:5px 9px;background:#eef2ff;
+color:#3730a3;border-radius:30px;font-size:12px;font-weight:700
+}
+.class-card{
+min-height:150px;background:linear-gradient(135deg,#1e293b,#334155);
+color:#fff
+}
+.class-card .btn{background:#fff;color:#1e293b}
+.subject-card{cursor:pointer;transition:.18s}
+.subject-card:hover{transform:translateY(-3px);border-color:#818cf8}
+.subject-icon{font-size:30px;margin-bottom:10px}
+.form-row{
+display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px
+}
+label{font-weight:700;font-size:14px}
+input,select,textarea{
+width:100%;padding:11px;margin-top:7px;
+border:1px solid var(--border);border-radius:9px;
+background:#fff;color:#172033
+}
+.quiz-container{max-width:900px;margin:auto}
+.quiz-top{
+display:flex;justify-content:space-between;align-items:center
+}
+.timer{
+background:#fef2f2;color:var(--danger);
+padding:8px 11px;border-radius:9px;font-weight:700
+}
+.progress{
+height:8px;background:#e5e7eb;border-radius:20px;
+margin:17px 0;overflow:hidden
+}
+.progress-bar{
+height:100%;width:0;
+background:linear-gradient(90deg,var(--primary),var(--primary2))
+}
+.question{
+font-size:22px;font-weight:700;line-height:1.5;margin-top:12px
+}
+.options{display:grid;gap:10px;margin-top:20px}
+.option{
+padding:14px;text-align:left;border:2px solid var(--border);
+background:#fff;color:var(--text);border-radius:11px;cursor:pointer
+}
+.option:hover{border-color:#818cf8}
+.option.selected{border-color:var(--primary);background:#eef2ff}
+.option.correct{border-color:var(--success);background:#f0fdf4}
+.option.wrong{border-color:var(--danger);background:#fef2f2}
+.feedback{
+display:none;margin-top:14px;padding:12px;border-radius:10px;
+background:#f8fafc
+}
+.feedback.show{display:block}
+.question-numbers{
+display:flex;flex-wrap:wrap;gap:6px;margin-top:17px
+}
+.question-number{
+width:36px;height:36px;border-radius:8px;
+border:1px solid var(--border);background:#fff;cursor:pointer
+}
+.question-number.done{background:#dcfce7}
+.question-number.current{
+border-color:var(--primary);background:#eef2ff
+}
+.modal{
+position:fixed;inset:0;background:rgba(0,0,0,.6);
+display:none;align-items:center;justify-content:center;
+padding:20px;z-index:500
+}
+.modal.show{display:flex}
+.modal-box{
+background:#fff;padding:25px;border-radius:18px;
+width:100%;max-width:480px
+}
+.score{
+font-size:52px;font-weight:700;color:var(--primary);margin:10px 0
+}
+body.dark{
+--bg:#0b1220;--card:#111827;--text:#f8fafc;
+--muted:#aab4c4;--border:#263244
+}
+.dark .topbar{background:#111827}
+.dark .theme-btn,.dark input,.dark select,.dark textarea,
+.dark .option,.dark .question-number{
+background:#111827;color:#fff
+}
+.dark .btn.secondary{background:#312e81;color:#fff}
+.dark .feedback{background:#172033}
+.dark .modal-box{background:#111827;color:#fff}
+@media(max-width:900px){
+.grid{grid-template-columns:repeat(2,1fr)}
+.grid3{grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+.sidebar{
+position:fixed;top:auto;bottom:0;width:100%;height:65px;
+display:flex;overflow-x:auto;padding:5px;z-index:200
+}
+.nav-btn{min-width:105px;text-align:center;font-size:12px}
+main{margin-left:0;padding:15px 12px 85px}
+.hero{padding:25px 18px}
+.hero h1{font-size:32px}
+.grid,.grid3,.form-row{grid-template-columns:1fr}
+.topbar{height:60px}
+}
 </style>
 </head>
+
 <body>
+
 <header class="topbar">
-<div class="logo-area"><div class="logo">K</div><span>Quiz with Krish</span></div>
+<div class="logo-area">
+<div class="logo">K</div>
+<span>Quiz with Krish</span>
+</div>
 <button class="theme-btn" onclick="toggleTheme()" id="themeButton">🌙</button>
 </header>
 
@@ -63,97 +201,310 @@ body.dark{--bg:#0b1220;--card:#111827;--text:#f8fafc;--muted:#aab4c4;--border:#2
 <button class="nav-btn" onclick="showPage('results',this)">📊 Results</button>
 <button class="nav-btn" onclick="showPage('profile',this)">👤 Profile</button>
 <button class="nav-btn" onclick="showPage('settings',this)">⚙️ Settings</button>
+<button class="nav-btn" onclick="showPage('owner',this)">🔐 Owner</button>
 </aside>
 
 <main>
+
+<!-- HOME -->
 <section id="home" class="page active">
+
 <div class="hero">
 <h1>Learn. Practice. Conquer.</h1>
-<p>Welcome to Quiz with Krish — choose your class and subject, practise 30-question sets, or take a timed mock test.</p>
+<p>
+Welcome to Quiz with Krish — choose your class and subject,
+practice questions or take a timed mock test.
+</p>
+
 <div class="actions">
 <button class="btn" onclick="showPage('classes')">Choose Class</button>
 <button class="btn secondary" onclick="showPage('mock')">Take Mock Test</button>
 </div>
 </div>
+
 <div class="grid">
-<div class="card"><div class="muted">Attempts</div><div class="stat" id="attempts">0</div></div>
-<div class="card"><div class="muted">Questions</div><div class="stat" id="questionsAnswered">0</div></div>
-<div class="card"><div class="muted">Best Score</div><div class="stat" id="bestScore">0%</div></div>
-<div class="card"><div class="muted">Mock Tests</div><div class="stat" id="mockTests">0</div></div>
+
+<div class="card">
+<div class="muted">Attempts</div>
+<div class="stat" id="attempts">0</div>
 </div>
+
+<div class="card">
+<div class="muted">Questions</div>
+<div class="stat" id="questionsAnswered">0</div>
+</div>
+
+<div class="card">
+<div class="muted">Best Score</div>
+<div class="stat" id="bestScore">0%</div>
+</div>
+
+<div class="card">
+<div class="muted">Mock Tests</div>
+<div class="stat" id="mockTests">0</div>
+</div>
+
+</div>
+
 <div class="section-title"><h2>Quick Start</h2></div>
+
 <div class="grid3">
-<div class="card"><h3>📚 Classes 1–12</h3><p class="muted">Choose a class and then select the subjects available for that level.</p><button class="btn" onclick="showPage('classes')">Open Classes</button></div>
-<div class="card"><h3>📖 30-Question Practice</h3><p class="muted">Every available subject has a 30-question practice set.</p><button class="btn" onclick="showPage('practice')">Practice</button></div>
-<div class="card"><h3>📝 Mock Test</h3><p class="muted">Choose class, subject, questions and time.</p><button class="btn" onclick="showPage('mock')">Open</button></div>
+
+<div class="card">
+<h3>📚 Classes 1–12</h3>
+<p class="muted">Choose your class and subject.</p>
+<button class="btn" onclick="showPage('classes')">Open Classes</button>
+</div>
+
+<div class="card">
+<h3>📖 Practice</h3>
+<p class="muted">Practice a fresh set of questions.</p>
+<button class="btn" onclick="showPage('practice')">Practice</button>
+</div>
+
+<div class="card">
+<h3>📝 Mock Test</h3>
+<p class="muted">Take a timed examination.</p>
+<button class="btn" onclick="showPage('mock')">Open</button>
+</div>
+
 </div>
 </section>
 
+
+<!-- CLASSES -->
 <section id="classes" class="page">
-<div class="section-title"><h2>Choose Your Class</h2><span class="pill">Classes 1–12</span></div>
+<div class="section-title">
+<h2>Choose Your Class</h2>
+<span class="pill">Classes 1–12</span>
+</div>
 <div class="grid" id="classGrid"></div>
 </section>
 
+
+<!-- SUBJECTS -->
 <section id="subjects" class="page">
-<button class="btn secondary back-btn" onclick="showPage('classes')">← Back to Classes</button>
-<div class="section-title"><h2 id="subjectTitle">Choose Subject</h2><span class="pill">30 questions per subject</span></div>
+
+<button class="btn secondary back-btn" onclick="showPage('classes')">
+← Back to Classes
+</button>
+
+<div class="section-title">
+<h2 id="subjectTitle">Choose Subject</h2>
+<span class="pill">Question Bank</span>
+</div>
+
 <div class="grid3" id="subjectGrid"></div>
+
 </section>
 
+
+<!-- QUIZ -->
 <section id="quiz" class="page">
-<div class="quiz-container"><div class="card">
-<div class="quiz-top"><div><span class="pill" id="quizMode">Practice</span><div class="muted" id="quizSubject">Choose a subject to start</div></div><div class="timer" id="timer">30:00</div></div>
-<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-<div class="muted" id="questionCounter"></div>
-<div class="question" id="questionText">Choose a class and subject to begin.</div>
-<div class="options" id="options"></div>
-<div class="feedback" id="feedback"></div>
-<div class="actions"><button class="btn secondary" onclick="previousQuestion()" id="previousButton">Previous</button><button class="btn" onclick="nextQuestion()" id="nextButton">Next</button></div>
-<div class="question-numbers" id="questionNumbers"></div>
-</div></div>
-</section>
 
-<section id="mock" class="page">
-<div class="section-title"><h2>Mock Test</h2><span class="pill">Timed Test</span></div>
+<div class="quiz-container">
 <div class="card">
-<div class="form-row">
-<div><label>Class</label><select id="mockClass" onchange="updateMockSubjects()"></select></div>
-<div><label>Subject</label><select id="mockSubject"></select></div>
+
+<div class="quiz-top">
+
+<div>
+<span class="pill" id="quizMode">Practice</span>
+<div class="muted" id="quizSubject">
+Choose a subject to start
 </div>
-<div class="form-row">
-<div><label>Questions</label><select id="mockQuestionCount"><option value="10">10 Questions</option><option value="20">20 Questions</option><option value="30" selected>30 Questions</option></select></div>
-<div><label>Time</label><select id="mockTime"><option value="10">10 Minutes</option><option value="20">20 Minutes</option><option value="30" selected>30 Minutes</option><option value="45">45 Minutes</option></select></div>
 </div>
-<button class="btn" onclick="startMockTest()">Start Mock Test</button>
+
+<div class="timer" id="timer">30:00</div>
+
+</div>
+
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="muted" id="questionCounter"></div>
+
+<div class="question" id="questionText">
+Choose a class and subject to begin.
+</div>
+
+<div class="options" id="options"></div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="actions">
+<button class="btn secondary" onclick="previousQuestion()" id="previousButton">
+Previous
+</button>
+
+<button class="btn" onclick="nextQuestion()" id="nextButton">
+Next
+</button>
+</div>
+
+<div class="question-numbers" id="questionNumbers"></div>
+
+</div>
+</div>
+
+</section>
+
+
+<!-- MOCK -->
+<section id="mock" class="page">
+
+<div class="section-title">
+<h2>Mock Test</h2>
+<span class="pill">Timed Test</span>
+</div>
+
+<div class="card">
+
+<div class="form-row">
+
+<div>
+<label>Class</label>
+<select id="mockClass" onchange="updateMockSubjects()"></select>
+</div>
+
+<div>
+<label>Subject</label>
+<select id="mockSubject"></select>
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div>
+<label>Questions</label>
+
+<select id="mockQuestionCount">
+<option value="10">10 Questions</option>
+<option value="20">20 Questions</option>
+<option value="30" selected>30 Questions</option>
+</select>
+
+</div>
+
+<div>
+<label>Time</label>
+
+<select id="mockTime">
+<option value="10">10 Minutes</option>
+<option value="20">20 Minutes</option>
+<option value="30" selected>30 Minutes</option>
+<option value="45">45 Minutes</option>
+</select>
+
+</div>
+
+</div>
+
+<button class="btn" onclick="startMockTest()">
+Start Mock Test
+</button>
+
 </div>
 </section>
 
+
+<!-- PRACTICE -->
 <section id="practice" class="page">
-<div class="section-title"><h2>Practice Mode</h2><span class="pill">30 Questions</span></div>
-<div class="card subject-select-box">
+
+<div class="section-title">
+<h2>Practice Mode</h2>
+<span class="pill">30 Questions</span>
+</div>
+
+<div class="card">
+
 <div class="form-row">
-<div><label>Choose Class</label><select id="practiceClass" onchange="renderPracticeSubjects()"></select></div>
-<div><label>Choose Subject</label><select id="practiceSubject"></select></div>
+
+<div>
+<label>Choose Class</label>
+<select id="practiceClass" onchange="renderPracticeSubjects()"></select>
 </div>
-<button class="btn" onclick="startSelectedPractice()">Start 30-Question Practice</button>
+
+<div>
+<label>Choose Subject</label>
+<select id="practiceSubject"></select>
 </div>
-<div class="grid3" id="practiceGrid"></div>
+
+</div>
+
+<button class="btn" onclick="startSelectedPractice()">
+Start 30-Question Practice
+</button>
+
+</div>
+
 </section>
 
+
+<!-- RESULTS -->
 <section id="results" class="page">
-<div class="section-title"><h2>Results</h2><button class="btn secondary" onclick="clearResults()">Clear Results</button></div>
-<div class="card" id="resultSummary"></div>
-<div class="card" style="margin-top:15px;overflow:auto">
-<table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:10px">Date</th><th style="text-align:left;padding:10px">Mode</th><th style="text-align:left;padding:10px">Score</th><th style="text-align:left;padding:10px">Accuracy</th></tr></thead>
-<tbody id="history"></tbody></table>
+
+<div class="section-title">
+<h2>Results</h2>
+<button class="btn secondary" onclick="clearResults()">Clear Results</button>
 </div>
+
+<div class="card" id="resultSummary"></div>
+
+<div class="card" style="margin-top:15px;overflow:auto">
+
+<table style="width:100%;border-collapse:collapse">
+
+<thead>
+<tr>
+<th style="text-align:left;padding:10px">Date</th>
+<th style="text-align:left;padding:10px">Mode</th>
+<th style="text-align:left;padding:10px">Score</th>
+<th style="text-align:left;padding:10px">Accuracy</th>
+</tr>
+</thead>
+
+<tbody id="history"></tbody>
+
+</table>
+
+</div>
+
 </section>
 
+
+<!-- PROFILE -->
 <section id="profile" class="page">
-<div class="section-title"><h2>Profile</h2></div>
-<div class="card"><div class="form-row"><div><label>Name</label><input id="profileName" placeholder="Enter your name"></div><div><label>Class</label><select id="profileClass"></select></div></div><button class="btn" onclick="saveProfile()">Save Profile</button></div>
+
+<div class="section-title">
+<h2>Profile</h2>
+</div>
+
+<div class="card">
+
+<div class="form-row">
+
+<div>
+<label>Name</label>
+<input id="profileName" placeholder="Enter your name">
+</div>
+
+<div>
+<label>Class</label>
+<select id="profileClass"></select>
+</div>
+
+</div>
+
+<button class="btn" onclick="saveProfile()">Save Profile</button>
+
+</div>
+
 </section>
 
+
+<!-- OWNER -->
 <section id="owner" class="page">
 
 <div id="ownerLocked">
@@ -168,7 +519,7 @@ body.dark{--bg:#0b1220;--card:#111827;--text:#f8fafc;--muted:#aab4c4;--border:#2
 <h3>Owner Login</h3>
 
 <p class="muted" style="margin:8px 0 18px">
-Enter the owner password to manage the question bank.
+Enter the owner password to manage questions.
 </p>
 
 <label>Password</label>
@@ -181,7 +532,6 @@ Login
 <p id="ownerLoginMessage" style="margin-top:12px;color:#dc2626"></p>
 
 </div>
-
 </div>
 
 
@@ -191,15 +541,12 @@ Login
 
 <div>
 <h2>🔐 Owner Dashboard</h2>
-<p class="muted">Manage your Quiz with Krish questions.</p>
+<p class="muted">Manage Quiz with Krish questions.</p>
 </div>
 
-<button class="btn secondary" onclick="ownerLogout()">
-Logout
-</button>
+<button class="btn secondary" onclick="ownerLogout()">Logout</button>
 
 </div>
-
 
 <div class="grid">
 
@@ -228,7 +575,7 @@ Logout
 
 <div class="card" style="margin-top:18px">
 
-<h3>➕ Add / Edit Question</h3>
+<h3>➕ Add Question</h3>
 
 <div class="form-row">
 
@@ -244,13 +591,9 @@ Logout
 
 </div>
 
-
 <label>Question</label>
-<textarea id="ownerQuestion"
-rows="4"
-style="width:100%;margin-top:7px;padding:11px;border:1px solid var(--border);border-radius:9px;resize:vertical"
-placeholder="Type your question here..."></textarea>
-
+<textarea id="ownerQuestion" rows="4"
+placeholder="Type your question..."></textarea>
 
 <div class="form-row" style="margin-top:15px">
 
@@ -264,6 +607,10 @@ placeholder="Type your question here..."></textarea>
 <input id="ownerB">
 </div>
 
+</div>
+
+<div class="form-row">
+
 <div>
 <label>Option C</label>
 <input id="ownerC">
@@ -276,15 +623,14 @@ placeholder="Type your question here..."></textarea>
 
 </div>
 
-
 <label>Correct Answer</label>
+
 <select id="ownerCorrect">
 <option value="0">A</option>
 <option value="1">B</option>
 <option value="2">C</option>
 <option value="3">D</option>
 </select>
-
 
 <div class="actions">
 
@@ -297,8 +643,6 @@ Clear
 </button>
 
 </div>
-
-<input type="hidden" id="ownerEditId">
 
 </div>
 
@@ -315,7 +659,6 @@ Clear
 
 </div>
 
-
 <div class="form-row">
 
 <div>
@@ -330,7 +673,6 @@ Clear
 
 </div>
 
-
 <div id="ownerQuestionList"></div>
 
 </div>
@@ -341,35 +683,100 @@ Clear
 <h3>📤 Import Question Bank</h3>
 
 <p class="muted" style="margin:8px 0 12px">
-Import a previously exported JSON question-bank file.
+Import an exported JSON question bank.
 </p>
 
 <input type="file" id="questionImportFile" accept=".json">
 
-<button class="btn" style="margin-top:12px" onclick="importQuestionBank()">
+<button class="btn" style="margin-top:12px"
+onclick="importQuestionBank()">
 Import JSON
 </button>
 
 </div>
 
 </div>
-
 </section>
 
 
+<!-- SETTINGS -->
 <section id="settings" class="page">
-<div class="section-title"><h2>Settings</h2></div>
-<div class="card"><h3>Appearance</h3><p class="muted">Switch between light and dark mode.</p><button class="btn" onclick="toggleTheme()">Toggle Theme</button></div>
-<div class="card" style="margin-top:15px"><h3>Local Data</h3><p class="muted">No database is used. Progress and results are saved only in this browser.</p><button class="btn secondary" onclick="resetData()">Reset Local Data</button></div>
+
+<div class="section-title">
+<h2>Settings</h2>
+</div>
+
+<div class="card">
+
+<h3>Appearance</h3>
+
+<p class="muted">
+Switch between light and dark mode.
+</p>
+
+<button class="btn" onclick="toggleTheme()">
+Toggle Theme
+</button>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+
+<h3>Local Data</h3>
+
+<p class="muted">
+Progress and results are saved in this browser.
+</p>
+
+<button class="btn secondary" onclick="resetData()">
+Reset Local Data
+</button>
+
+</div>
+
 </section>
+
 </main>
 
-<div class="modal" id="resultModal"><div class="modal-box">
-<h2 id="modalTitle">Test Complete!</h2><div class="score" id="modalScore">0%</div><p id="modalMessage"></p>
-<div class="actions"><button class="btn" onclick="closeModal();showPage('results')">View Results</button><button class="btn secondary" onclick="closeModal()">Close</button></div>
-</div></div>
+
+<!-- RESULT MODAL -->
+<div class="modal" id="resultModal">
+
+<div class="modal-box">
+
+<h2 id="modalTitle">Test Complete!</h2>
+
+<div class="score" id="modalScore">0%</div>
+
+<p id="modalMessage"></p>
+
+<div class="actions">
+
+<button class="btn"
+onclick="closeModal();showPage('results')">
+View Results
+</button>
+
+<button class="btn secondary"
+onclick="closeModal()">
+Close
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 
 <script>
+
+/* =========================================================
+   QUIZ WITH KRISH
+   RANDOM QUESTIONS + RANDOM OPTIONS
+   DIFFERENT POOLS FOR PRACTICE / MOCK / QUIZ
+========================================================= */
+
 const SUBJECTS={
 1:["MSC","COMP","ENG LANG","MATH"],
 2:["MSC","COMP","ENG LANG","MATH"],
@@ -385,507 +792,2151 @@ const SUBJECTS={
 12:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"]
 };
 
-const ICONS={MSC:"🔬",COMP:"💻",PHY:"⚛️",BIO:"🧬",CHEM:"🧪","ENG LANG":"📖",MATH:"➗",HISTORY:"🏛️",GEOGRAPHY:"🌍"};
-
-const app={
- class:localStorage.getItem("qwk_class")||"7",
- questions:[],answers:[],current:0,mode:"practice",seconds:0,timer:null,
- results:JSON.parse(localStorage.getItem("qwk_results")||"[]"),
- profile:JSON.parse(localStorage.getItem("qwk_profile")||'{"name":"Student","class":"7"}')
+const ICONS={
+MSC:"🔬",
+COMP:"💻",
+PHY:"⚛️",
+BIO:"🧬",
+CHEM:"🧪",
+"ENG LANG":"📖",
+MATH:"➗",
+HISTORY:"🏛️",
+GEOGRAPHY:"🌍"
 };
 
-function makeQuestions(c,subject){
-  const cls=Number(c);
-  const add=(text,options,correct)=>({text,options:options.map(String),correct});
+const app={
+class:localStorage.getItem("qwk_class")||"7",
+questions:[],
+answers:[],
+current:0,
+mode:"practice",
+seconds:0,
+timer:null,
+results:JSON.parse(localStorage.getItem("qwk_results")||"[]"),
+profile:JSON.parse(localStorage.getItem("qwk_profile")||'{"name":"Student","class":"7"}')
+};
 
-  const banks={
-  MSC:{
-   easy:[
-    ["Which part of a plant absorbs water?",["Roots","Flower","Fruit","Seed"],0],
-    ["Which organ helps us breathe?",["Heart","Lungs","Stomach","Brain"],1],
-    ["The Sun is a...",["Star","Planet","Moon","Cloud"],0],
-    ["Water freezes at...",["0°C","50°C","100°C","-100°C"],0],
-    ["Which animal lays eggs?",["Hen","Cow","Dog","Cat"],0],
-    ["Which sense organ helps us see?",["Eye","Ear","Nose","Tongue"],0],
-    ["Which is a source of light?",["Sun","Book","Stone","Chair"],0],
-    ["Plants need sunlight mainly to...",["Make food","Sleep","Move","Hear"],0],
-    ["Which material is magnetic?",["Iron","Wood","Glass","Paper"],0],
-    ["Earth is a...",["Planet","Star","Comet","Satellite"],0]
-   ],
-   medium:[
-    ["Photosynthesis needs sunlight, water and...",["Carbon dioxide","Helium","Salt","Nitrogen only"],0],
-    ["A food chain usually begins with...",["Plants","Lions","Humans","Fungi"],0],
-    ["Evaporation changes liquid water into...",["Water vapour","Ice","Soil","Salt"],0],
-    ["Which organ pumps blood around the body?",["Heart","Lung","Kidney","Liver"],0],
-    ["A habitat is...",["A place where an organism lives","A type of food","A body part","A weather instrument"],0],
-    ["Which force pulls objects toward Earth?",["Gravity","Friction","Magnetism only","Buoyancy"],0],
-    ["Which gas do humans need for respiration?",["Oxygen","Carbon dioxide","Hydrogen","Neon"],0],
-    ["A balanced diet contains...",["Different needed nutrients","Only sugar","Only fat","Only water"],0],
-    ["Which is a renewable source of energy?",["Sunlight","Coal","Petrol","Natural gas"],0],
-    ["Condensation changes gas into...",["Liquid","Solid only","Plasma","Nothing"],0]
-   ],
-   hard:[
-    ["Which process returns water vapour to liquid water?",["Condensation","Evaporation","Sublimation","Combustion"],0],
-    ["Why are green plants called producers?",["They make their own food","They eat animals","They decompose rocks","They cannot respire"],0],
-    ["Which adaptation helps a cactus survive in dry areas?",["Water-storing tissues","Large thin leaves","Weak roots","No protective covering"],0],
-    ["Which change is reversible?",["Melting wax","Burning wood","Rusting iron","Cooking an egg"],0],
-    ["A food web differs from a food chain because it...",["Shows interconnected feeding relationships","Has only one organism","Contains no producers","Shows only decomposers"],0],
-    ["Which statement about respiration is correct?",["It releases usable energy from food","It occurs only in plants","It needs sunlight directly","It makes food from minerals"],0],
-    ["Why does a metal spoon feel colder than a wooden spoon in the same room?",["Metal conducts heat away faster","Metal has no particles","Wood creates heat","The spoon is frozen"],0],
-    ["Which factor can increase evaporation?",["Higher temperature","Lower exposed area","Still air only","Lower temperature"],0],
-    ["What is the main role of decomposers?",["Break down dead matter","Make sunlight","Produce oxygen only","Hunt herbivores"],0],
-    ["Which statement best describes an ecosystem?",["Living organisms interacting with their environment","Only animals in a forest","Only non-living things","A single species"],0]
-   ]
-  },
 
-  COMP:{
-   easy:[
-    ["CPU stands for...",["Central Processing Unit","Computer Power Unit","Central Program Utility","Control Processing User"],0],
-    ["Which is an input device?",["Keyboard","Monitor","Speaker","Projector"],0],
-    ["Which is an output device?",["Mouse","Keyboard","Monitor","Scanner"],2],
-    ["HTML is used to create...",["Web pages","Only music","Only photos","Only games"],0],
-    ["Which is a web browser?",["Chrome","Calculator","Paint","Notepad"],0],
-    ["Which key starts a new line in many editors?",["Enter","Shift","Ctrl","Alt"],0],
-    ["A folder helps you...",["Organize files","Increase screen size","Print automatically","Charge a laptop"],0],
-    ["Which device stores files?",["Storage drive","Keyboard","Monitor","Mouse"],0],
-    ["Which is software?",["Operating system","Keyboard","Monitor","Mouse"],0],
-    ["Which is used to type text?",["Keyboard","Speaker","Projector","Webcam"],0]
-   ],
-   medium:[
-    ["RAM is mainly used for...",["Temporary working data","Permanent paper storage","Printing","Sound output"],0],
-    ["Which HTML tag creates a paragraph?",["<p>","<img>","<table>","<brk>"],0],
-    ["Which HTML tag creates a main heading?",["<h1>","<headtext>","<title1>","<heading>"],0],
-    ["CSS is mainly used to control...",["Web page style","Computer electricity","File storage","CPU temperature"],0],
-    ["A strong password should generally be...",["Long and difficult to guess","Your name","123456","Your birthday"],0],
-    ["What does URL identify?",["A resource address on the web","A computer battery","A keyboard key","A file extension only"],0],
-    ["Which is an example of cloud storage?",["Online file storage","A keyboard","A monitor","A printer"],0],
-    ["An algorithm is...",["A step-by-step procedure","A computer screen","A cable","A virus"],0],
-    ["Which symbol commonly starts an HTML closing tag?",["</","//","##","%%"],0],
-    ["What is debugging?",["Finding and fixing program errors","Deleting the internet","Formatting a monitor","Charging a device"],0]
-   ],
-   hard:[
-    ["Which CSS property changes text size?",["font-size","text-weight","size-font","font-height"],0],
-    ["Which JavaScript keyword declares a block-scoped variable that can be reassigned?",["let","fixed","varname","define"],0],
-    ["Why is input validation important?",["It checks data before processing","It makes the screen brighter","It increases RAM","It replaces the CPU"],0],
-    ["What is an algorithm's time complexity used to describe?",["How resource use grows with input size","Screen resolution","Keyboard speed","File colour"],0],
-    ["Which HTML element is semantic for navigation links?",["<nav>","<navigate>","<links>","<menuitem>"],0],
-    ["What does responsive web design aim to do?",["Adapt layout to different screen sizes","Increase CPU speed","Remove all images","Disable mobile devices"],0],
-    ["What is localStorage commonly used for in a browser?",["Saving small client-side data","Sending physical files by mail","Cooling the CPU","Hosting a server"],0],
-    ["Which practice reduces XSS risk?",["Escape or safely handle untrusted output","Use shorter passwords","Disable all CSS","Rename images"],0],
-    ["What does JSON commonly represent?",["Structured data","A hardware port","A monitor setting","A keyboard layout"],0],
-    ["Why should sensitive secrets not be placed in client-side JavaScript?",["Users can inspect the code","JavaScript cannot use strings","Browsers cannot display text","HTML deletes variables"],0]
-   ]
-  },
+/* =========================================================
+   UTILITY FUNCTIONS
+========================================================= */
 
-  "ENG LANG":{
-   easy:[
-    ["Which word is a noun?",["Teacher","Quickly","Beautiful","Run"],0],
-    ["Which word is an adjective?",["Bright","Slowly","Jump","Teacher"],0],
-    ["Which is a pronoun?",["They","School","Happy","Run"],0],
-    ["Which is a verb?",["Run","Knowledge","Blue","Beautiful"],0],
-    ["Which punctuation mark ends a question?",[".","!", "?",","],2],
-    ["Choose the correct article: ___ apple.",["A","An","The","No article"],1],
-    ["Plural of child is...",["Children","Childs","Childes","Childrens"],0],
-    ["Which is an adverb?",["Quickly","Quick","Quickness","Quicker"],0],
-    ["Choose the correct sentence.",["She is happy.","She are happy.","She am happy.","She be happy."],0],
-    ["Opposite of ancient is...",["Modern","Historic","Old","Past"],0]
-   ],
-   medium:[
-    ["Choose the correct tense: She ___ to school every day.",["goes","go","going","gone"],0],
-    ["Which sentence is in the past tense?",["They played cricket.","They play cricket.","They are playing cricket.","They will play cricket."],0],
-    ["Choose the correct conjunction: I stayed home ___ it was raining.",["because","or","but","unless"],0],
-    ["Which word is a preposition?",["under","quickly","happy","sing"],0],
-    ["Identify the subject: 'The little boy opened the door.'",["The little boy","opened","the door","little"],0],
-    ["Which sentence uses a possessive correctly?",["Riya's book is new.","Riyas book is new.","Riya book's is new.","Riya is book new."],0],
-    ["Choose the correct comparative form of 'good'.",["better","gooder","best","more good"],0],
-    ["Which is an example of direct speech?",["Mia said, 'I am ready.'","Mia was ready.","Mia became ready.","Mia is readiness."],0],
-    ["A synonym of 'rapid' is...",["Fast","Weak","Late","Quiet"],0],
-    ["An antonym of 'expand' is...",["Contract","Increase","Stretch","Grow"],0]
-   ],
-   hard:[
-    ["Choose the correct form: Neither the teacher nor the students ___ late.",["were","was","is","be"],0],
-    ["Which sentence uses a semicolon appropriately?",["I finished my work; I went outside.","I finished; my work went outside.","I; finished my work outside.","I finished my; work outside."],0],
-    ["Which is a complex sentence?",["Although it rained, we continued the match.","We played and laughed.","The match ended.","Run quickly."],0],
-    ["Identify the subordinate clause: 'When the bell rang, the students left.'",["When the bell rang","the students left","the bell","students"],0],
-    ["Which word best replaces 'very tired' in formal writing?",["Exhausted","Sleepyish","Tireder","Tiredly"],0],
-    ["Choose the correct passive voice: 'The chef cooked the meal.'",["The meal was cooked by the chef.","The meal cooked the chef.","The chef was cooked by the meal.","The meal is cooking chef."],0],
-    ["Which sentence maintains parallel structure?",["She likes reading, writing, and painting.","She likes reading, to write, and painting.","She likes to read, writing, and paint.","She likes read, writing, and painting."],0],
-    ["What is the main purpose of a thesis statement?",["State the central argument or idea","List every detail","End every paragraph","Define punctuation"],0],
-    ["Which is an example of an oxymoron?",["Deafening silence","Bright sunlight","Fast runner","Cold water"],0],
-    ["Choose the correctly punctuated sentence.",["After dinner, we studied for the test.","After dinner we studied, for the test.","After, dinner we studied for the test.","After dinner we, studied for the test."],0]
-   ]
-  },
+function shuffle(array){
 
-  MATH:{
-   easy:[
-    ["What is 25 + 35?",["50","60","70","80"],1],
-    ["What is 7 × 8?",["48","54","56","64"],2],
-    ["What is 100 ÷ 4?",["20","25","30","40"],1],
-    ["Which number is even?",["17","21","28","35"],2],
-    ["What is 9 × 5?",["35","40","45","50"],2],
-    ["What is half of 20?",["5","10","15","20"],1],
-    ["What is 75 - 25?",["40","50","60","70"],1],
-    ["How many sides does a triangle have?",["2","3","4","5"],1],
-    ["What is 1 metre equal to in centimetres?",["10","50","100","1000"],2],
-    ["What is 3/4 as a decimal?",["0.25","0.5","0.75","1.25"],2]
-   ],
-   medium:[
-    ["What is 15% of 200?",["15","20","30","40"],2],
-    ["What is the HCF of 12 and 18?",["3","6","9","12"],1],
-    ["What is the LCM of 4 and 6?",["8","10","12","24"],2],
-    ["If x+7=15, x is...",["6","7","8","9"],2],
-    ["What is the perimeter of a square of side 6 cm?",["12 cm","18 cm","24 cm","36 cm"],2],
-    ["What is 2³?",["4","6","8","9"],2],
-    ["Which fraction is equivalent to 3/4?",["6/8","4/6","5/8","9/16"],0],
-    ["What is the mean of 4, 6 and 8?",["5","6","7","8"],1],
-    ["A triangle has angles 60°, 60° and...",["30°","45°","60°","90°"],2],
-    ["What is 0.5 × 0.2?",["0.01","0.1","1","10"],1]
-   ],
-   hard:[
-    ["Solve: 3x + 5 = 20.",["3","4","5","6"],2],
-    ["What is the value of 2³ × 2²?",["16","32","64","128"],1],
-    ["Factorise x² - 9.",["(x-3)(x+3)","(x-9)(x+1)","(x-3)²","(x+9)(x-1)"],0],
-    ["If 2x/3 = 8, x equals...",["8","10","12","16"],2],
-    ["What is the probability of getting an even number on a fair die?",["1/6","1/3","1/2","2/3"],2],
-    ["The gradient of y=3x+2 is...",["2","3","5","-3"],1],
-    ["If a:b=3:5 and a=18, b is...",["24","27","30","36"],2],
-    ["What is √144?",["10","11","12","14"],2],
-    ["The area of a triangle with base 10 cm and height 6 cm is...",["20 cm²","30 cm²","40 cm²","60 cm²"],1],
-    ["If x²=49 and x is positive, x is...",["5","6","7","8"],2]
-   ]
-  },
+let a=[...array];
 
-  PHY:{
-   easy:[
-    ["What is the SI unit of length?",["metre","gram","second","litre"],0],
-    ["Which instrument measures time?",["stopwatch","balance","thermometer","ruler"],0],
-    ["A push or pull is called...",["force","density","volume","temperature"],0],
-    ["The SI unit of mass is...",["kilogram","metre","second","newton"],0],
-    ["Temperature is measured with a...",["thermometer","barometer","ammeter","ruler"],0],
-    ["Speed involves distance and...",["time","mass","volume","density"],0],
-    ["Light generally travels in a...",["straight line","circle","triangle","spiral"],0],
-    ["Which unit measures time?",["second","metre","kilogram","newton"],0],
-    ["Which can change motion?",["force","colour","name","sound only"],0],
-    ["Density is...",["mass per unit volume","volume per unit mass","mass plus volume","distance per time"],0]
-   ],
-   medium:[
-    ["Density is calculated as...",["mass ÷ volume","volume ÷ mass","mass × volume","mass + volume"],0],
-    ["1 cm³ is equal to...",["1 mL","10 mL","100 mL","1 L"],0],
-    ["The SI unit of force is...",["newton","joule","watt","pascal"],0],
-    ["A body moving at constant speed covers equal distances in...",["equal time intervals","unequal time intervals","no time","zero distance"],0],
-    ["Friction usually acts...",["opposite relative motion","in the same direction always","only upward","only downward"],0],
-    ["A simple machine helps us...",["make work easier","create energy from nothing","remove gravity","stop time"],0],
-    ["Which is a scalar quantity?",["speed","velocity","force","displacement"],0],
-    ["Work is done when a force causes...",["displacement","colour change","temperature only","sound only"],0],
-    ["Sound needs a medium to...",["travel","become light","become mass","stop gravity"],0],
-    ["A convex lens can...",["converge parallel rays","always diverge rays","block all light","create matter"],0]
-   ],
-   hard:[
-    ["If a body travels 120 m in 10 s, its average speed is...",["12 m/s","10 m/s","1200 m/s","0.12 m/s"],0],
-    ["A 2 kg object accelerates at 3 m/s². The force is...",["6 N","5 N","1.5 N","9 N"],0],
-    ["If mass is constant and volume doubles, density becomes...",["half","double","four times","unchanged"],0],
-    ["The slope of a distance-time graph represents...",["speed","mass","force","density"],0],
-    ["Kinetic energy depends on mass and...",["square of speed","height only","temperature only","volume only"],0],
-    ["If net force on an object is zero, its acceleration is...",["zero","maximum","negative always","infinite"],0],
-    ["Pressure is force divided by...",["area","volume","mass","time"],0],
-    ["A 10 N force moves an object 5 m in its direction. Work done is...",["50 J","15 J","2 J","5 J"],0],
-    ["Which quantity has both magnitude and direction?",["velocity","speed","mass","time"],0],
-    ["If frequency increases, the pitch of a sound generally...",["increases","decreases","stays zero","becomes silent"],0]
-   ]
-  },
+for(let i=a.length-1;i>0;i--){
 
-  BIO:{
-   easy:[
-    ["The basic unit of life is the...",["cell","organ","tissue","system"],0],
-    ["Which organ pumps blood?",["heart","lung","brain","stomach"],0],
-    ["Plants absorb water mainly through...",["roots","flowers","fruits","seeds"],0],
-    ["Green plants contain...",["chlorophyll","haemoglobin","keratin","insulin"],0],
-    ["Which system helps us breathe?",["respiratory","digestive","skeletal","excretory"],0],
-    ["Which organ controls many body activities?",["brain","heart","lung","stomach"],0],
-    ["Which blood cells carry oxygen?",["red blood cells","bone cells","skin cells","fat cells"],0],
-    ["Which is a vertebrate?",["fish","earthworm","snail","jellyfish"],0],
-    ["Living things produce young by...",["reproduction","evaporation","filtration","melting"],0],
-    ["Which organ digests food?",["stomach","heart","lung","brain"],0]
-   ],
-   medium:[
-    ["The green pigment used in photosynthesis is...",["chlorophyll","haemoglobin","melanin","keratin"],0],
-    ["The movement of water through a plant is helped by...",["xylem","red blood cells","neurons","bones"],0],
-    ["Which organ filters wastes from blood?",["kidney","heart","stomach","lung"],0],
-    ["The nervous system uses...",["neurons","red blood cells","platelets","cartilage"],0],
-    ["Digestion of starch begins mainly in the...",["mouth","stomach","large intestine","kidney"],0],
-    ["Which structure controls what enters and leaves a cell?",["cell membrane","cell wall only","nucleus only","ribosome"],0],
-    ["A group of similar cells performing a function is a...",["tissue","species","habitat","population"],0],
-    ["Which gas is released during photosynthesis?",["oxygen","nitrogen","helium","methane"],0],
-    ["Vaccines help the body develop...",["immune protection","stronger bones only","more oxygen","more red blood cells only"],0],
-    ["The skeleton mainly provides...",["support and protection","digestion","oxygen production","hormone storage"],0]
-   ],
-   hard:[
-    ["Osmosis is the movement of...",["water across a selectively permeable membrane","proteins through bone","oxygen into soil","blood through arteries only"],0],
-    ["Which organelle is mainly responsible for aerobic respiration?",["mitochondrion","ribosome","vacuole","cell wall"],0],
-    ["Why are villi useful in the small intestine?",["They increase surface area for absorption","They pump blood","They produce bile","They store urine"],0],
-    ["Natural selection can cause populations to change because...",["heritable advantageous traits can become more common","all individuals change by choice","organisms stop reproducing","genes never vary"],0],
-    ["Which blood vessel carries blood away from the heart?",["artery","vein","capillary","alveolus"],0],
-    ["Insulin helps regulate...",["blood glucose","body temperature only","bone length","oxygen in the lungs"],0],
-    ["Gas exchange in human lungs occurs mainly at the...",["alveoli","trachea","oesophagus","diaphragm"],0],
-    ["DNA stores...",["genetic information","digestive enzymes only","oxygen","waste products"],0],
-    ["A mutation is best described as...",["a change in genetic material","a type of tissue","a blood vessel","a digestive organ"],0],
-    ["Which process produces genetically different offspring in sexual reproduction?",["fusion of gametes","simple cell splitting","evaporation","photosynthesis"],0]
-   ]
-  },
+let j=Math.floor(Math.random()*(i+1));
 
-  CHEM:{
-   easy:[
-    ["Which method separates sand from water?",["filtration","magnetism","sublimation","chromatography"],0],
-    ["Salt can be recovered from salt solution by...",["evaporation","filtration","sieving","magnetism"],0],
-    ["Melting ice is a...",["physical change","chemical change","nuclear change","biological change"],0],
-    ["A gas has...",["no fixed shape or volume","fixed shape only","fixed volume only","no particles"],0],
-    ["A mixture contains...",["two or more substances","only one atom","only one element always","no particles"],0],
-    ["Rusting is generally a...",["chemical change","physical change","change of position","change of colour only"],0],
-    ["Which is an element?",["oxygen","water","air","salt solution"],0],
-    ["Iron filings can be separated using a...",["magnet","filter paper","evaporating dish","thermometer"],0],
-    ["The smallest unit of an element is an...",["atom","organ","cell","tissue"],0],
-    ["Boiling water is mainly a...",["physical change","chemical change","permanent reaction","combustion"],0]
-   ],
-   medium:[
-    ["The atomic number tells us the number of...",["protons","neutrons only","shells","molecules"],0],
-    ["A substance with pH below 7 is generally...",["acidic","alkaline","neutral","metallic"],0],
-    ["Which method separates coloured dyes?",["chromatography","filtration","magnetism","decantation"],0],
-    ["An exothermic reaction generally...",["releases heat","absorbs heat only","creates no energy change","freezes every substance"],0],
-    ["A compound is formed when elements are...",["chemically combined","physically mixed only","sorted by size","filtered"],0],
-    ["Which particle has a negative charge?",["electron","proton","neutron","nucleus"],0],
-    ["A neutral atom has equal numbers of...",["protons and electrons","protons and neutrons","electrons and neutrons only","ions and molecules"],0],
-    ["Which gas is commonly produced when an acid reacts with a carbonate?",["carbon dioxide","oxygen","hydrogen","nitrogen"],0],
-    ["A catalyst changes reaction rate without being...",["used up overall","present","a substance","involved in contact"],0],
-    ["Which is a homogeneous mixture?",["salt solution","sand and water","oil and water","soil"],0]
-   ],
-   hard:[
-    ["Why does increasing temperature often increase reaction rate?",["Particles collide more frequently and energetically","Atoms disappear","Mass becomes zero","Pressure always becomes zero"],0],
-    ["Oxidation can involve...",["loss of electrons","gain of neutrons only","loss of protons from the nucleus","no change in particles"],0],
-    ["In an ionic compound, ions are held together mainly by...",["electrostatic attraction","gravity alone","magnetic attraction only","friction"],0],
-    ["If a solution has pH 2, it is...",["strongly acidic","neutral","alkaline","always a salt"],0],
-    ["Which equation is balanced?",["2H₂ + O₂ → 2H₂O","H₂ + O₂ → H₂O","H₂ + 2O₂ → H₂O","2H₂ + 2O₂ → H₂O"],0],
-    ["The periodic table is arranged primarily by...",["atomic number","mass of samples","melting point","density"],0],
-    ["Why do noble gases generally have low reactivity?",["Their outer electron shells are stable","They contain no protons","They are all liquids","They cannot form atoms"],0],
-    ["What happens to equilibrium when a product is removed from a reversible reaction?",["The system tends to form more product","It always stops","Reactants disappear instantly","Temperature becomes zero"],0],
-    ["A strong acid in water is characterised by...",["high concentration of hydrogen ions","absence of ions","only oxygen ions","no electrical conductivity"],0],
-    ["What does a chemical equation conserve?",["Atoms of each element","Colour only","Temperature only","Volume only"],0]
-   ]
-  },
+[a[i],a[j]]=[a[j],a[i]];
 
-  HISTORY:{
-   easy:[
-    ["History is mainly the study of...",["past events","future events","weather","mathematics"],0],
-    ["A timeline arranges events in...",["chronological order","random order","alphabetical order","size order"],0],
-    ["A person who studies the past is a...",["historian","astronomer","chemist","pilot"],0],
-    ["A museum often preserves...",["historical objects","only fresh food","only clouds","only equations"],0],
-    ["A biography tells about...",["a person's life","a map","a weather system","a formula"],0],
-    ["Archaeology studies...",["material remains of the past","future predictions","only stars","only languages"],0],
-    ["Ancient coins can be evidence about...",["the past","future weather","modern traffic","space travel"],0],
-    ["Historical buildings can provide...",["evidence","electricity","rainfall","medicine"],0],
-    ["An original historical letter is a...",["primary source","secondary source only","forecast","fictional map"],0],
-    ["Chronology means arranging events by...",["time","colour","size","alphabet"],0]
-   ],
-   medium:[
-    ["A primary source is usually...",["evidence from the period studied","a modern summary only","a fictional story","a weather report"],0],
-    ["A secondary source is generally...",["an interpretation based on other evidence","an original coin","an original diary","an ancient tool"],0],
-    ["Why do historians compare sources?",["To check reliability and different perspectives","To make dates disappear","To avoid evidence","To change geography"],0],
-    ["An inscription is writing...",["carved or engraved on a surface","stored only online","spoken on television","printed only in newspapers"],0],
-    ["A dynasty is usually...",["a succession of rulers from a family or line","a type of crop","a map scale","a scientific unit"],0],
-    ["Trade routes can help historians understand...",["movement of goods and ideas","only rainfall","only earthquakes","only animal anatomy"],0],
-    ["A treaty is generally...",["a formal agreement","a farming tool","a poem only","a map symbol"],0],
-    ["An empire is typically...",["a large territory ruled by one authority","a single village","a school subject","a weather zone"],0],
-    ["Historians should distinguish fact from...",["interpretation","calendar","evidence","date"],0],
-    ["Historical context means...",["the surrounding circumstances of an event","the colour of a document","the size of a coin","the font of a book"],0]
-   ],
-   hard:[
-    ["Why can two historians interpret the same event differently?",["They may weigh evidence and perspectives differently","Dates always change","Sources cannot exist","History has no evidence"],0],
-    ["Corroboration means...",["checking a claim against multiple sources","destroying sources","guessing a date","translating every document"],0],
-    ["Which source is most useful for studying an eyewitness's perspective?",["Contemporary diary","Modern textbook only","Future prediction","Unrelated map"],0],
-    ["Historical bias can arise when a source...",["presents events from a particular perspective","contains a date","is written on paper","has a title"],0],
-    ["Cause and consequence analysis asks...",["why an event happened and what resulted","where a map was printed","what colour a flag was","how old a building looks"],0],
-    ["A historian using archaeology should consider that artifacts...",["survive unevenly and may give incomplete evidence","always explain everything","cannot be dated","have no context"],0],
-    ["Periodisation is the practice of...",["dividing history into useful periods","removing dates","ranking people by height","mapping oceans"],0],
-    ["A contemporaneous source is one created...",["around the time of the event","centuries later only","before humans existed","only today"],0],
-    ["Historical significance can depend on...",["the impact and lasting importance of an event","the length of its name","the colour of its flag","the weather that day only"],0],
-    ["Good historical argument should be supported by...",["relevant evidence and reasoning","rumours only","unrelated statistics","guesses"],0]
-   ]
-  },
-
-  GEOGRAPHY:{
-   easy:[
-    ["Which is the largest continent?",["Asia","Africa","Europe","Australia"],0],
-    ["Which is the largest ocean?",["Pacific","Atlantic","Indian","Arctic"],0],
-    ["A map shows...",["places and features","only stories","only equations","only music"],0],
-    ["The imaginary line around Earth's middle is the...",["Equator","Prime Meridian","Arctic Circle","Tropic of Cancer"],0],
-    ["A compass helps find...",["directions","temperature","mass","time"],0],
-    ["A model of Earth is a...",["globe","compass","scale","map key"],0],
-    ["The Prime Meridian passes through...",["Greenwich","Delhi","Tokyo","Cairo"],0],
-    ["Mountains, plains and plateaus are...",["landforms","clouds","oceans","weather tools"],0],
-    ["Rain and wind are parts of...",["weather","population","longitude","landform"],0],
-    ["The four main directions include north, south, east and...",["west","up","down","centre"],0]
-   ],
-   medium:[
-    ["Latitude measures distance north or south of the...",["Equator","Prime Meridian","International Date Line","Tropic of Capricorn"],0],
-    ["Longitude measures distance east or west of the...",["Prime Meridian","Equator","Arctic Circle","Tropic of Cancer"],0],
-    ["A scale on a map shows...",["relationship between map distance and real distance","temperature","population only","rainfall only"],0],
-    ["A river's mouth is where it...",["enters a larger body of water","begins at a spring","crosses a mountain","turns into a road"],0],
-    ["A delta may form where a river...",["deposits sediment near its mouth","always freezes","flows uphill","has no water"],0],
-    ["Monsoon winds can strongly affect...",["seasonal rainfall","Earth's size","longitude","rock colour"],0],
-    ["Population density means population per unit...",["area","time","rainfall","temperature"],0],
-    ["A plateau is...",["an elevated area of relatively level land","a deep ocean trench","a narrow river","a cloud"],0],
-    ["Deforestation can increase...",["soil erosion","forest cover","biodiversity always","groundwater always"],0],
-    ["Urbanisation refers to growth of...",["towns and cities","mountains","oceans","deserts only"],0]
-   ],
-   hard:[
-    ["Why does latitude influence climate?",["It affects the angle and concentration of incoming solar energy","It changes Earth's mass","It controls longitude","It stops ocean currents"],0],
-    ["The rain-shadow effect is commonly associated with...",["mountains causing drier conditions on the leeward side","oceans becoming deserts","rivers flowing uphill","cities increasing latitude"],0],
-    ["Which factor can modify coastal climate?",["The nearby ocean","Only altitude","Only soil colour","Only longitude"],0],
-    ["A population pyramid can show...",["age and sex structure","only rainfall","rock types","river discharge"],0],
-    ["GIS is useful because it can...",["analyse and display geographic data in layers","replace all maps with photographs","measure only temperature","remove coordinates"],0],
-    ["Plate boundaries are strongly associated with...",["earthquakes and volcanic activity","daily weather only","population growth only","ocean salinity only"],0],
-    ["Why are contour lines useful on a topographic map?",["They represent elevation","They show language","They show rainfall directly","They mark political parties"],0],
-    ["Sustainable resource use aims to...",["meet needs while protecting future availability","use resources as quickly as possible","eliminate conservation","ignore environmental effects"],0],
-    ["Ocean currents can influence coastal...",["temperature and climate","longitude only","mountain height","population age"],0],
-    ["A choropleth map is commonly used to show...",["values by area using shades or patterns","only road directions","only mountain peaks","only individual buildings"],0]
-   ]
-  }
-  };
-
-  let level=cls<=5?"easy":cls<=8?"medium":"hard";
-
-  // For subjects not offered in the selected class, return an empty set.
-  if(!SUBJECTS[cls] || !SUBJECTS[cls].includes(subject)) return [];
-
-  const bank=(banks[subject]&&banks[subject][level])||banks.ENG_LANG[level];
-  const questions=bank.map(q=>add(q[0],q[1],q[2]));
-
-  // Ensure every practice set contains 30 questions without cloning identical entries.
-  // If the base bank is shorter, create class-labelled practice variants from the same
-  // curriculum concept; custom owner questions can still override/add separately.
-  const out=[];
-  for(let i=0;i<30;i++){
-    const q=questions[i%questions.length];
-    if(i<questions.length){
-      out.push({...q});
-    }else{
-      const cycle=Math.floor(i/questions.length)+1;
-      out.push({
-        text:`${q.text} — Practice ${cycle}, Question ${i+1}`,
-        options:[...q.options],
-        correct:q.correct
-      });
-    }
-  }
-
-  return out;
 }
+
+return a;
+}
+
+
+/* =========================================================
+   QUESTION CREATOR
+========================================================= */
+
+function Q(text,options,correct){
+
+return {
+text:text,
+options:options.map(String),
+correct:correct
+};
+
+}
+
+
+/* =========================================================
+   QUESTION BANK
+   The questions are generated differently depending on
+   CLASS + SUBJECT + MODE.
+========================================================= */
+
+function makeQuestions(cls,subject,mode){
+
+cls=Number(cls);
+
+let bank=[];
+
+const add=(q,a,c)=>bank.push(Q(q,a,c));
+
+
+/* ================= MSC ================= */
+
+if(subject==="MSC"){
+
+add(
+"Which quality helps a student become successful?",
+["Honesty","Laziness","Carelessness","Disrespect"],
+0);
+
+add(
+"Which action shows responsibility?",
+["Completing work on time","Ignoring homework","Breaking rules","Blaming others"],
+0);
+
+add(
+"Why should we respect teachers?",
+["They guide us in learning","They are always right about everything","They give us gifts","They do our homework"],
+0);
+
+add(
+"What should you do when you make a mistake?",
+["Accept it and learn from it","Hide it","Blame a friend","Repeat it"],
+0);
+
+add(
+"Which is a good habit?",
+["Helping others","Littering","Wasting water","Being rude"],
+0);
+
+add(
+"Which value means telling the truth?",
+["Honesty","Jealousy","Anger","Pride"],
+0);
+
+add(
+"How can we keep our surroundings clean?",
+["Use dustbins","Throw waste anywhere","Burn all plastic","Ignore garbage"],
+0);
+
+add(
+"Which behaviour shows kindness?",
+["Helping someone in need","Laughing at someone","Ignoring everyone","Being rude"],
+0);
+
+add(
+"What should we do when someone is speaking?",
+["Listen carefully","Interrupt constantly","Shout","Walk away"],
+0);
+
+add(
+"Why is teamwork important?",
+["People can work together toward a goal","It prevents cooperation","Only one person works","It creates confusion"],
+0);
+
+add(
+"Which is an example of discipline?",
+["Following rules","Ignoring instructions","Coming late every day","Disturbing others"],
+0);
+
+add(
+"What does courage mean?",
+["Facing difficulties bravely","Never trying","Being afraid of everything","Avoiding responsibilities"],
+0);
+
+add(
+"Which action shows gratitude?",
+["Thanking someone","Insulting someone","Ignoring help","Complaining"],
+0);
+
+add(
+"Why should we conserve water?",
+["Fresh water is limited","Water has no use","Rain never falls","It makes rivers disappear"],
+0);
+
+add(
+"Which behaviour builds friendship?",
+["Trust and kindness","Dishonesty","Constant fighting","Selfishness"],
+0);
+
+add(
+"What should you do before making an important decision?",
+["Think about the consequences","Act without thinking","Ask nobody ever","Choose randomly"],
+0);
+
+add(
+"Which is a responsible use of electricity?",
+["Switching off unused lights","Leaving lights on","Wasting power","Breaking switches"],
+0);
+
+add(
+"Why should we help elderly people?",
+["They may need support","They cannot think","They must give us money","It is always compulsory"],
+0);
+
+add(
+"Which quality helps us understand others' feelings?",
+["Empathy","Anger","Jealousy","Pride"],
+0);
+
+add(
+"What is respect?",
+["Treating others politely","Insulting people","Ignoring everyone","Making fun of others"],
+0);
+
+}
+
+
+/* ================= COMPUTER ================= */
+
+if(subject==="COMP"){
+
+add(
+"Which device is mainly used to type text?",
+["Keyboard","Monitor","Speaker","Printer"],0);
+
+add(
+"Which device displays information?",
+["Monitor","Mouse","Keyboard","Microphone"],0);
+
+add(
+"Which is an input device?",
+["Mouse","Monitor","Printer","Speaker"],0);
+
+add(
+"Which part of a computer performs calculations?",
+["CPU","Keyboard","Mouse","Monitor"],0);
+
+add(
+"What does CPU stand for?",
+["Central Processing Unit","Computer Personal Unit","Central Program Utility","Control Processing User"],
+0);
+
+add(
+"Which device is used to print documents?",
+["Printer","Scanner","Monitor","Speaker"],0);
+
+add(
+"Which device can scan a paper document?",
+["Scanner","Speaker","Keyboard","Projector"],0);
+
+add(
+"Which is an example of an operating system?",
+["Windows","Keyboard","Printer","Mouse"],0);
+
+add(
+"Which key is commonly used to create a space?",
+["Spacebar","Shift","Ctrl","Esc"],0);
+
+add(
+"Which key is used to remove a character before the cursor?",
+["Backspace","Enter","Shift","Tab"],0);
+
+add(
+"What is the full form of RAM?",
+["Random Access Memory","Read Access Machine","Rapid Action Memory","Random Application Module"],
+0);
+
+add(
+"Which is used to move the pointer?",
+["Mouse","Printer","Speaker","Scanner"],0);
+
+add(
+"Which storage device uses flash memory?",
+["Pen drive","Keyboard","Monitor","Speaker"],0);
+
+add(
+"What is a computer virus?",
+["A harmful computer program","A printer","A monitor","A keyboard key"],
+0);
+
+add(
+"Which software is used to browse websites?",
+["Web browser","Calculator","Paint brush","File cabinet"],
+0);
+
+add(
+"What does WWW stand for?",
+["World Wide Web","World Web Window","Wide World Word","Web World Work"],
+0);
+
+add(
+"Which one is an output device?",
+["Printer","Keyboard","Mouse","Scanner"],0);
+
+add(
+"What is used to save a file?",
+["Storage device","Monitor","Speaker","Mouse pad"],0);
+
+add(
+"Which key usually starts a new line?",
+["Enter","Ctrl","Alt","Shift"],0);
+
+add(
+"What is a folder used for?",
+["Organising files","Playing sound","Displaying pictures only","Typing numbers only"],
+0);
+
+}
+
+
+/* ================= PHYSICS ================= */
+
+if(subject==="PHY"){
+
+add(
+"What is the SI unit of length?",
+["Metre","Kilogram","Second","Newton"],0);
+
+add(
+"Which quantity describes how fast an object moves?",
+["Speed","Mass","Volume","Density"],0);
+
+add(
+"What is the SI unit of time?",
+["Second","Metre","Kilogram","Joule"],0);
+
+add(
+"Which force pulls objects toward Earth?",
+["Gravity","Friction","Magnetism","Buoyancy"],0);
+
+add(
+"Energy possessed by a moving object is called...",
+["Kinetic energy","Potential energy","Chemical energy","Sound energy"],0);
+
+add(
+"Energy possessed due to position is called...",
+["Potential energy","Kinetic energy","Light energy","Heat energy"],0);
+
+add(
+"Which instrument measures temperature?",
+["Thermometer","Barometer","Speedometer","Ammeter"],0);
+
+add(
+"Which instrument measures time?",
+["Clock","Thermometer","Balance","Ruler"],0);
+
+add(
+"Which force opposes motion between surfaces?",
+["Friction","Gravity","Magnetism","Electric force"],0);
+
+add(
+"Light generally travels in...",
+["Straight lines","Circles","Zigzags only","Squares"],0);
+
+add(
+"Sound requires what to travel?",
+["A medium","Complete darkness","Sunlight","A magnet"],0);
+
+add(
+"Which form of energy is associated with a stretched rubber band?",
+["Potential energy","Kinetic energy","Sound only","Nuclear energy"],0);
+
+add(
+"What is the SI unit of force?",
+["Newton","Joule","Watt","Pascal"],0);
+
+add(
+"Which source gives us solar energy?",
+["Sun","Moon","Coal","Windmill"],0);
+
+add(
+"Which energy is produced by moving air?",
+["Wind energy","Chemical energy","Nuclear energy","Geothermal energy"],0);
+
+add(
+"A body at rest has...",
+["No change in position with time","Maximum speed","No mass","No force ever"],0);
+
+add(
+"Which material is a good conductor of electricity?",
+["Copper","Rubber","Plastic","Wood"],0);
+
+add(
+"Which material is generally an insulator?",
+["Rubber","Copper","Aluminium","Iron"],0);
+
+add(
+"Which simple machine has a wheel and rope?",
+["Pulley","Wedge","Screw","Lever"],0);
+
+add(
+"Heat flows naturally from...",
+["Hotter object to colder object","Colder object to hotter object","Small object to large object","Dark object to bright object"],
+0);
+
+}
+
+
+/* ================= BIOLOGY ================= */
+
+if(subject==="BIO"){
+
+add(
+"Which organ pumps blood around the body?",
+["Heart","Lungs","Brain","Stomach"],0);
+
+add(
+"Which gas is needed for respiration?",
+["Oxygen","Carbon dioxide","Nitrogen","Helium"],0);
+
+add(
+"Plants make food by...",
+["Photosynthesis","Respiration","Digestion","Excretion"],0);
+
+add(
+"Which pigment makes leaves green?",
+["Chlorophyll","Haemoglobin","Melanin","Keratin"],0);
+
+add(
+"Which organ helps us breathe?",
+["Lungs","Heart","Kidney","Liver"],0);
+
+add(
+"Which part of a plant absorbs water?",
+["Roots","Flowers","Fruits","Seeds"],0);
+
+add(
+"Which tissue transports water in plants?",
+["Xylem","Phloem","Muscle","Nerve"],0);
+
+add(
+"Which tissue transports prepared food in plants?",
+["Phloem","Xylem","Bone","Blood"],0);
+
+add(
+"Which is the basic unit of life?",
+["Cell","Tissue","Organ","Organ system"],0);
+
+add(
+"Which organ controls many activities of the body?",
+["Brain","Stomach","Lung","Kidney"],0);
+
+add(
+"Which blood cells help fight infections?",
+["White blood cells","Red blood cells","Platelets only","Plasma cells only"],0);
+
+add(
+"Which blood cells carry oxygen?",
+["Red blood cells","White blood cells","Platelets","Bone cells"],0);
+
+add(
+"Which organ filters waste from blood?",
+["Kidneys","Heart","Lungs","Brain"],0);
+
+add(
+"Animals that eat only plants are called...",
+["Herbivores","Carnivores","Omnivores","Decomposers"],0);
+
+add(
+"Animals that eat other animals are called...",
+["Carnivores","Herbivores","Producers","Plants"],0);
+
+add(
+"Animals that eat both plants and animals are...",
+["Omnivores","Herbivores","Carnivores only","Producers"],0);
+
+add(
+"Which organism is commonly used to make bread?",
+["Yeast","Moss","Algae","Fern"],0);
+
+add(
+"Which process removes waste from the body?",
+["Excretion","Nutrition","Photosynthesis","Pollination"],0);
+
+add(
+"What is the green part of a plant mainly responsible for photosynthesis?",
+["Leaf","Root","Flower","Fruit"],0);
+
+add(
+"Which system helps digest food?",
+["Digestive system","Skeletal system","Nervous system","Respiratory system"],0);
+
+}
+
+
+/* ================= CHEMISTRY ================= */
+
+if(subject==="CHEM"){
+
+add(
+"Water has the chemical formula...",
+["H₂O","CO₂","O₂","NaCl"],0);
+
+add(
+"Which gas is present in the largest amount in air?",
+["Nitrogen","Oxygen","Carbon dioxide","Hydrogen"],0);
+
+add(
+"Which gas supports burning?",
+["Oxygen","Nitrogen","Carbon dioxide","Helium"],0);
+
+add(
+"Common salt has the formula...",
+["NaCl","H₂O","CO₂","O₂"],0);
+
+add(
+"Carbon dioxide has the formula...",
+["CO₂","CO","CaO","H₂O"],0);
+
+add(
+"Which is a pure substance?",
+["Gold","Air","Soil","Milk"],0);
+
+add(
+"Which is a mixture?",
+["Air","Oxygen","Gold","Distilled water"],0);
+
+add(
+"The smallest particle of an element is an...",
+["Atom","Organ","Cell","Tissue"],0);
+
+add(
+"Two or more elements chemically combined form a...",
+["Compound","Mixture","Solution only","Metal"],0);
+
+add(
+"Which is a metal?",
+["Iron","Sulphur","Oxygen","Carbon dioxide"],0);
+
+add(
+"Which is a non-metal?",
+["Sulphur","Iron","Copper","Aluminium"],0);
+
+add(
+"Which substance is acidic?",
+["Lemon juice","Soap solution","Baking soda solution","Pure water"],0);
+
+add(
+"Which substance is commonly basic?",
+["Soap solution","Lemon juice","Vinegar","Orange juice"],0);
+
+add(
+"What is the chemical symbol of oxygen?",
+["O","Ox","Og","C"],0);
+
+add(
+"What is the chemical symbol of hydrogen?",
+["H","Hy","Hg","He"],0);
+
+add(
+"What is the chemical symbol of carbon?",
+["C","Ca","Co","Cr"],0);
+
+add(
+"What is the chemical symbol of sodium?",
+["Na","So","S","N"],0);
+
+add(
+"What is the chemical symbol of iron?",
+["Fe","Ir","I","In"],0);
+
+add(
+"Rusting is mainly associated with...",
+["Iron","Gold","Silver","Helium"],0);
+
+add(
+"Burning is generally a...",
+["Chemical change","Physical change only","Change of shape only","Change of position"],
+0);
+
+}
+
+
+/* ================= MATH ================= */
+
+if(subject==="MATH"){
+
+for(let i=1;i<=20;i++){
+
+let n=i+cls;
+
+add(
+"What is "+n+" + "+i+"?",
+[
+String(n+i),
+String(n+i+1),
+String(n+i-1),
+String(n+i+2)
+],0);
+
+}
+
+}
+
+
+/* ================= ENGLISH ================= */
+
+if(subject==="ENG LANG"){
+
+add(
+"Choose the noun in the sentence: 'The boy runs fast.'",
+["boy","runs","fast","the"],0);
+
+add(
+"Choose the verb: 'Riya sings beautifully.'",
+["sings","Riya","beautifully","the"],0);
+
+add(
+"Choose the adjective: 'It is a beautiful flower.'",
+["beautiful","flower","is","a"],0);
+
+add(
+"Choose the adverb: 'He ran quickly.'",
+["quickly","ran","He","the"],0);
+
+add(
+"Which word is a pronoun?",
+["She","School","Running","Beautiful"],0);
+
+add(
+"Which word is a conjunction?",
+["and","book","quickly","blue"],0);
+
+add(
+"Which word is a preposition?",
+["under","happy","run","school"],0);
+
+add(
+"What is the plural of 'child'?",
+["children","childs","childes","childrens"],0);
+
+add(
+"What is the opposite of 'ancient'?",
+["Modern","Old","Historic","Past"],0);
+
+add(
+"What is the synonym of 'happy'?",
+["Joyful","Angry","Sad","Tired"],0);
+
+add(
+"Which punctuation mark ends a question?",
+["?","!",".",","],0);
+
+add(
+"Which punctuation mark shows strong feeling?",
+["!","?",",",";"],0);
+
+add(
+"Choose the correct article: ___ apple.",
+["an","a","the","no"],0);
+
+add(
+"Choose the correct article: ___ book.",
+["a","an","those","many"],0);
+
+add(
+"Which sentence is in the past tense?",
+["She played cricket.","She plays cricket.","She will play cricket.","She is playing cricket."],
+0);
+
+add(
+"Which sentence is in the future tense?",
+["She will study tomorrow.","She studies daily.","She studied yesterday.","She is studying now."],
+0);
+
+add(
+"Choose the correct spelling.",
+["Beautiful","Beautifull","Beutiful","Beautifal"],0);
+
+add(
+"Choose the correct spelling.",
+["Necessary","Neccessary","Necesary","Nessesary"],0);
+
+add(
+"Which word is an interjection?",
+["Wow!","Book","Run","Slowly"],0);
+
+add(
+"Which is a complete sentence?",
+["The dog barked.","Because the dog.","Running quickly.","After school."],0);
+
+}
+
+
+/* ================= HISTORY ================= */
+
+if(subject==="HISTORY"){
+
+add(
+"Who is known as the Father of the Indian Constitution?",
+["B. R. Ambedkar","Mahatma Gandhi","Jawaharlal Nehru","Subhas Chandra Bose"],0);
+
+add(
+"Which ancient civilization developed near the Indus River?",
+["Indus Valley Civilization","Roman Civilization","Greek Civilization","Mayan Civilization"],0);
+
+add(
+"Which city was an important Indus Valley site?",
+["Mohenjo-daro","Athens","Rome","Sparta"],0);
+
+add(
+"Who founded the Mauryan Empire?",
+["Chandragupta Maurya","Ashoka","Harsha","Akbar"],0);
+
+add(
+"Which Mauryan ruler embraced Buddhism?",
+["Ashoka","Chandragupta Maurya","Bindusara","Samudragupta"],0);
+
+add(
+"Which emperor is associated with the Kalinga War?",
+["Ashoka","Akbar","Babur","Shah Jahan"],0);
+
+add(
+"Who founded the Mughal Empire in India?",
+["Babur","Akbar","Humayun","Aurangzeb"],0);
+
+add(
+"Who built the Taj Mahal?",
+["Shah Jahan","Akbar","Babur","Humayun"],0);
+
+add(
+"Who was known as the Iron Man of India?",
+["Sardar Vallabhbhai Patel","Jawaharlal Nehru","Rajendra Prasad","Bhagat Singh"],0);
+
+add(
+"India became independent in...",
+["1947","1945","1950","1942"],0);
+
+add(
+"India became a republic in...",
+["1950","1947","1942","1952"],0);
+
+add(
+"Who led the Dandi March?",
+["Mahatma Gandhi","Subhas Chandra Bose","Bhagat Singh","Bal Gangadhar Tilak"],0);
+
+add(
+"Which movement began in 1942?",
+["Quit India Movement","Non-Cooperation Movement","Civil Disobedience Movement","Swadeshi Movement"],0);
+
+add(
+"Who founded the Indian National Congress?",
+["A. O. Hume","Mahatma Gandhi","Lord Curzon","Jawaharlal Nehru"],0);
+
+add(
+"Which ancient civilization is famous for pyramids?",
+["Egyptian","Indus","Roman","Chinese"],0);
+
+add(
+"Which ancient people developed democracy in Athens?",
+["Greeks","Romans","Egyptians","Persians"],0);
+
+add(
+"Who was the first Mughal emperor?",
+["Babur","Akbar","Aurangzeb","Shah Jahan"],0);
+
+add(
+"Which monument is located in Delhi?",
+["Qutub Minar","Charminar","Gateway of India","Victoria Memorial"],0);
+
+add(
+"Who gave the slogan 'Do or Die' during the freedom struggle?",
+["Mahatma Gandhi","Bhagat Singh","Subhas Chandra Bose","Sardar Patel"],0);
+
+add(
+"Which event marked the beginning of the French Revolution?",
+["Storming of the Bastille","Battle of Plassey","Dandi March","Kalinga War"],0);
+
+}
+
+
+/* ================= GEOGRAPHY ================= */
+
+if(subject==="GEOGRAPHY"){
+
+add(
+"Which is the largest continent?",
+["Asia","Africa","Europe","Australia"],0);
+
+add(
+"Which is the largest ocean?",
+["Pacific Ocean","Atlantic Ocean","Indian Ocean","Arctic Ocean"],0);
+
+add(
+"Which imaginary line divides Earth into Northern and Southern Hemispheres?",
+["Equator","Prime Meridian","Tropic of Cancer","Arctic Circle"],0);
+
+add(
+"What is the 0° longitude called?",
+["Prime Meridian","Equator","Tropic of Capricorn","International Date Line"],0);
+
+add(
+"Which is the highest mountain above sea level?",
+["Mount Everest","K2","Kangchenjunga","Nanda Devi"],0);
+
+add(
+"Which is the largest hot desert?",
+["Sahara Desert","Gobi Desert","Thar Desert","Kalahari Desert"],0);
+
+add(
+"Which river is strongly associated with Egypt?",
+["Nile","Amazon","Ganga","Yangtze"],0);
+
+add(
+"Which river is one of the longest in South America?",
+["Amazon","Thames","Nile","Ganga"],0);
+
+add(
+"Which layer of the atmosphere contains most weather?",
+["Troposphere","Stratosphere","Mesosphere","Thermosphere"],0);
+
+add(
+"Where is most of Earth's freshwater stored?",
+["Glaciers and ice caps","Oceans","Rivers","Atmosphere"],0);
+
+add(
+"What is the process by which water falls from clouds?",
+["Precipitation","Evaporation","Condensation","Collection"],0);
+
+add(
+"What is the process of water changing into vapour?",
+["Evaporation","Condensation","Freezing","Precipitation"],0);
+
+add(
+"What is a map?",
+["A representation of an area","A type of cloud","A weather event","A mountain"],0);
+
+add(
+"Which instrument measures rainfall?",
+["Rain gauge","Thermometer","Barometer","Anemometer"],0);
+
+add(
+"Which instrument measures wind speed?",
+["Anemometer","Rain gauge","Thermometer","Compass"],0);
+
+add(
+"Which direction is opposite to east?",
+["West","North","South","Northeast"],0);
+
+add(
+"Which is India's largest state by area?",
+["Rajasthan","Maharashtra","Madhya Pradesh","Uttar Pradesh"],0);
+
+add(
+"Which ocean lies south of India?",
+["Indian Ocean","Atlantic Ocean","Pacific Ocean","Arctic Ocean"],0);
+
+add(
+"Which mountain range forms a major northern boundary of India?",
+["Himalayas","Aravallis","Western Ghats","Eastern Ghats"],0);
+
+add(
+"Which gas is a major component of Earth's atmosphere?",
+["Nitrogen","Helium","Hydrogen","Neon"],0);
+
+}
+
+
+/* =========================================================
+   ADD CLASS/MODE VARIATION
+========================================================= */
+
+let result=bank.map((q,index)=>{
+
+let copy={
+text:q.text,
+options:[...q.options],
+correct:q.correct,
+id:subject+"-"+cls+"-"+mode+"-"+index
+};
+
+/*
+Different mode gets a different question identity.
+This prevents Practice and Mock from simply sharing
+the same selected question set.
+*/
+
+if(mode==="mock"){
+copy.text+=" ";
+}
+
+if(mode==="quiz"){
+copy.text+=" ";
+}
+
+return copy;
+
+});
+
+
+/* Add generated variation for smaller banks */
+
+let original=[...result];
+
+while(result.length<40){
+
+let base=original[result.length%original.length];
+
+let copy={
+text:base.text+"",
+options:[...base.options],
+correct:base.correct,
+id:base.id+"-extra-"+result.length
+};
+
+result.push(copy);
+
+}
+
+return result;
+
+}
+
+
+/* =========================================================
+   RANDOMIZE OPTIONS
+========================================================= */
+
+function shuffleQuestionOptions(question){
+
+let pairs=question.options.map((option,index)=>({
+option:option,
+correct:index===question.correct
+}));
+
+pairs=shuffle(pairs);
+
+question.options=pairs.map(x=>x.option);
+question.correct=pairs.findIndex(x=>x.correct);
+
+return question;
+
+}
+
+
+/* =========================================================
+   GET TEST QUESTIONS
+========================================================= */
+
+function getTestQuestions(cls,subject,mode,count){
+
+let bank=makeQuestions(cls,subject,mode);
+
+/*
+Each mode has its own pool.
+The questions are shuffled first.
+*/
+
+bank=shuffle(bank);
+
+/*
+Remove duplicate text.
+*/
+
+let seen=new Set();
+
+bank=bank.filter(q=>{
+
+if(seen.has(q.text)) return false;
+
+seen.add(q.text);
+
+return true;
+
+});
+
+/*
+Select requested amount.
+*/
+
+let selected=bank.slice(0,Math.min(count,bank.length));
+
+/*
+Randomize A/B/C/D separately for every question.
+*/
+
+selected=selected.map(q=>shuffleQuestionOptions(q));
+
+return selected;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 function showPage(id,button){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- document.getElementById(id).classList.add("active");
- if(button){document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));button.classList.add("active")}
- window.scrollTo(0,0);
+
+document.querySelectorAll(".page").forEach(p=>{
+p.classList.remove("active");
+});
+
+let page=document.getElementById(id);
+
+if(page) page.classList.add("active");
+
+document.querySelectorAll(".nav-btn").forEach(b=>{
+b.classList.remove("active");
+});
+
+if(button) button.classList.add("active");
+
+if(id==="results") renderResults();
+
+if(id==="owner") updateOwnerDashboard();
+
 }
 
-function init(){
- const classes=Object.keys(SUBJECTS);
- document.getElementById("classGrid").innerHTML=classes.map(c=>`
- <div class="card class-card"><h3>Class ${c}</h3><p style="margin:10px 0">${SUBJECTS[c].length} subjects available</p>
- <button class="btn" onclick="openClass('${c}')">Choose Subjects</button></div>`).join("");
- document.getElementById("mockClass").innerHTML=classes.map(c=>`<option value="${c}">Class ${c}</option>`).join("");
- document.getElementById("practiceClass").innerHTML=classes.map(c=>`<option value="${c}">Class ${c}</option>`).join("");
- document.getElementById("profileClass").innerHTML=classes.map(c=>`<option value="${c}">Class ${c}</option>`).join("");
- document.getElementById("mockClass").value=app.class;
- document.getElementById("practiceClass").value=app.class;
- document.getElementById("profileClass").value=app.profile.class||app.class;
- document.getElementById("profileName").value=app.profile.name||"Student";
- updateMockSubjects();renderPracticeSubjects();updateStats();
- if(localStorage.getItem("qwk_theme")==="dark"){document.body.classList.add("dark");document.getElementById("themeButton").textContent="☀️"}
+
+/* =========================================================
+   CLASS UI
+========================================================= */
+
+function renderClasses(){
+
+let grid=document.getElementById("classGrid");
+
+grid.innerHTML="";
+
+for(let i=1;i<=12;i++){
+
+let div=document.createElement("div");
+
+div.className="card class-card";
+
+div.innerHTML=`
+<h2>Class ${i}</h2>
+<p style="margin:10px 0 15px">
+${SUBJECTS[i].length} Subjects Available
+</p>
+<button class="btn" onclick="selectClass(${i})">
+View Subjects
+</button>
+`;
+
+grid.appendChild(div);
+
 }
-function openClass(c){
- app.class=c;localStorage.setItem("qwk_class",c);
- document.getElementById("subjectTitle").textContent=`Class ${c} — Choose a Subject`;
- document.getElementById("subjectGrid").innerHTML=SUBJECTS[c].map(s=>`
- <div class="card subject-card" onclick="startPractice('${c}','${s}')"><div class="subject-icon">${ICONS[s]||"📘"}</div><h3>${s}</h3>
- <p class="muted">30-question practice set</p><button class="btn" style="margin-top:12px">Start Practice</button></div>`).join("");
- showPage("subjects");
+
 }
-function startPractice(c,s){startTest("practice",c,s,30)}
+
+
+function selectClass(c){
+
+app.class=String(c);
+
+localStorage.setItem("qwk_class",app.class);
+
+document.getElementById("subjectTitle").textContent=
+"Class "+c+" — Choose Subject";
+
+let grid=document.getElementById("subjectGrid");
+
+grid.innerHTML="";
+
+SUBJECTS[c].forEach(subject=>{
+
+let div=document.createElement("div");
+
+div.className="card subject-card";
+
+div.innerHTML=`
+<div class="subject-icon">${ICONS[subject]||"📚"}</div>
+<h3>${subject}</h3>
+<p class="muted">Practice ${subject} questions</p>
+<br>
+<button class="btn"
+onclick="startClassQuiz('${subject}')">
+Start Quiz
+</button>
+`;
+
+grid.appendChild(div);
+
+});
+
+showPage("subjects");
+
+}
+
+
+/* =========================================================
+   PRACTICE
+========================================================= */
+
+function fillClassSelect(id){
+
+let select=document.getElementById(id);
+
+if(!select)return;
+
+select.innerHTML="";
+
+for(let i=1;i<=12;i++){
+
+let option=document.createElement("option");
+
+option.value=i;
+option.textContent="Class "+i;
+
+select.appendChild(option);
+
+}
+
+select.value=app.class;
+
+}
+
+
 function renderPracticeSubjects(){
- const c=document.getElementById("practiceClass").value;
- document.getElementById("practiceSubject").innerHTML=SUBJECTS[c].map(s=>`<option>${s}</option>`).join("");
- document.getElementById("practiceGrid").innerHTML=SUBJECTS[c].map(s=>`
- <div class="card subject-card" onclick="startPractice('${c}','${s}')"><div class="subject-icon">${ICONS[s]||"📘"}</div><h3>${s}</h3><p class="muted">30 questions</p></div>`).join("");
+
+let c=Number(document.getElementById("practiceClass").value);
+
+let select=document.getElementById("practiceSubject");
+
+select.innerHTML="";
+
+SUBJECTS[c].forEach(s=>{
+
+let option=document.createElement("option");
+
+option.value=s;
+option.textContent=s;
+
+select.appendChild(option);
+
+});
+
 }
-function startSelectedPractice(){startPractice(document.getElementById("practiceClass").value,document.getElementById("practiceSubject").value)}
+
+
+function startSelectedPractice(){
+
+let c=document.getElementById("practiceClass").value;
+
+let s=document.getElementById("practiceSubject").value;
+
+startTest(c,s,30,"practice",30);
+
+}
+
+
+/* =========================================================
+   CLASS QUIZ
+========================================================= */
+
+function startClassQuiz(subject){
+
+startTest(app.class,subject,20,"quiz",20);
+
+}
+
+
+/* =========================================================
+   MOCK
+========================================================= */
+
 function updateMockSubjects(){
- const c=document.getElementById("mockClass").value;
- document.getElementById("mockSubject").innerHTML=SUBJECTS[c].map(s=>`<option>${s}</option>`).join("");
+
+let c=Number(document.getElementById("mockClass").value);
+
+let select=document.getElementById("mockSubject");
+
+select.innerHTML="";
+
+SUBJECTS[c].forEach(s=>{
+
+let option=document.createElement("option");
+
+option.value=s;
+option.textContent=s;
+
+select.appendChild(option);
+
+});
+
 }
+
+
 function startMockTest(){
- const c=document.getElementById("mockClass").value,s=document.getElementById("mockSubject").value;
- startTest("mock",c,s,Number(document.getElementById("mockQuestionCount").value),Number(document.getElementById("mockTime").value)*60);
+
+let c=document.getElementById("mockClass").value;
+
+let s=document.getElementById("mockSubject").value;
+
+let count=Number(document.getElementById("mockQuestionCount").value);
+
+let minutes=Number(document.getElementById("mockTime").value);
+
+startTest(c,s,count,"mock",minutes);
+
 }
-function startTest(mode,c,subject,count,time=0){
- clearInterval(app.timer);app.mode=mode;app.class=c;app.questions=makeQuestions(c,subject).sort(()=>Math.random()-.5).slice(0,count);
- app.answers=new Array(app.questions.length).fill(null);app.current=0;app.seconds=time;
- document.getElementById("quizMode").textContent=mode==="mock"?"Mock Test":"Practice";
- document.getElementById("quizSubject").textContent=`Class ${c} • ${subject} • ${count} Questions`;
- showPage("quiz");renderQuestion();
- if(mode==="mock"){app.timer=setInterval(()=>{app.seconds--;renderTimer();if(app.seconds<=0){clearInterval(app.timer);finishTest(true)}},1000)}
+
+
+/* =========================================================
+   START TEST
+========================================================= */
+
+function startTest(c,subject,count,mode,minutes){
+
+clearInterval(app.timer);
+
+app.class=String(c);
+app.mode=mode;
+
+app.questions=getTestQuestions(c,subject,mode,count);
+
+app.answers=new Array(app.questions.length).fill(null);
+
+app.current=0;
+
+app.seconds=minutes*60;
+
+document.getElementById("quizMode").textContent=
+mode==="mock"?"Mock Test":mode==="quiz"?"Quiz":"Practice";
+
+document.getElementById("quizSubject").textContent=
+"Class "+c+" • "+subject;
+
+showPage("quiz");
+
+renderQuestion();
+
+startTimer();
+
 }
+
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+function startTimer(){
+
+clearInterval(app.timer);
+
+updateTimer();
+
+app.timer=setInterval(()=>{
+
+app.seconds--;
+
+updateTimer();
+
+if(app.seconds<=0){
+
+clearInterval(app.timer);
+
+finishTest();
+
+}
+
+},1000);
+
+}
+
+
+function updateTimer(){
+
+let mins=Math.floor(app.seconds/60);
+
+let secs=app.seconds%60;
+
+document.getElementById("timer").textContent=
+String(mins).padStart(2,"0")+":"+String(secs).padStart(2,"0");
+
+}
+
+
+/* =========================================================
+   RENDER QUESTION
+========================================================= */
+
 function renderQuestion(){
- const q=app.questions[app.current];if(!q)return;
- const selected=app.answers[app.current];
- document.getElementById("questionCounter").textContent=`Question ${app.current+1} of ${app.questions.length}`;
- document.getElementById("questionText").textContent=q.text;
- document.getElementById("progressBar").style.width=((app.current+1)/app.questions.length*100)+"%";
- document.getElementById("options").innerHTML=q.options.map((o,i)=>{
- let cls="option";if(selected===i)cls+=" selected";
- if(app.mode==="practice"&&selected!==null){if(i===q.correct)cls+=" correct";if(i===selected&&selected!==q.correct)cls+=" wrong"}
- return `<button class="${cls}" onclick="selectAnswer(${i})">${String.fromCharCode(65+i)}. ${o}</button>`}).join("");
- const fb=document.getElementById("feedback");
- if(selected!==null){fb.className="feedback show";fb.textContent=selected===q.correct?"Correct! 🎉":"Correct answer: "+q.options[q.correct]}else fb.className="feedback";
- document.getElementById("previousButton").disabled=app.current===0;
- document.getElementById("nextButton").textContent=app.current===app.questions.length-1?"Submit":"Next";
- document.getElementById("questionNumbers").innerHTML=app.questions.map((_,i)=>`<button class="question-number ${app.answers[i]!==null?"done":""} ${i===app.current?"current":""}" onclick="goToQuestion(${i})">${i+1}</button>`).join("");
- renderTimer();
+
+let q=app.questions[app.current];
+
+if(!q)return;
+
+document.getElementById("questionCounter").textContent=
+"Question "+(app.current+1)+" of "+app.questions.length;
+
+document.getElementById("questionText").textContent=q.text;
+
+let options=document.getElementById("options");
+
+options.innerHTML="";
+
+q.options.forEach((option,index)=>{
+
+let button=document.createElement("button");
+
+button.className="option";
+
+button.textContent=
+String.fromCharCode(65+index)+". "+option;
+
+button.onclick=()=>selectAnswer(index);
+
+if(app.answers[app.current]===index){
+
+button.classList.add("selected");
+
 }
-function selectAnswer(i){app.answers[app.current]=i;renderQuestion()}
-function goToQuestion(i){app.current=i;renderQuestion()}
-function previousQuestion(){if(app.current>0){app.current--;renderQuestion()}}
-function nextQuestion(){if(app.current<app.questions.length-1){app.current++;renderQuestion()}else finishTest(false)}
-function renderTimer(){
- const t=document.getElementById("timer");
- if(app.mode==="practice"){t.textContent="NO TIMER";return}
- t.textContent=`${String(Math.floor(app.seconds/60)).padStart(2,"0")}:${String(app.seconds%60).padStart(2,"0")}`;
+
+options.appendChild(button);
+
+});
+
+let progress=
+((app.current+1)/app.questions.length)*100;
+
+document.getElementById("progressBar").style.width=
+progress+"%";
+
+document.getElementById("previousButton").disabled=
+app.current===0;
+
+document.getElementById("nextButton").textContent=
+app.current===app.questions.length-1?"Finish":"Next";
+
+renderQuestionNumbers();
+
+document.getElementById("feedback").className="feedback";
+
 }
-function finishTest(timeUp){
- clearInterval(app.timer);const total=app.questions.length;
- const correct=app.questions.reduce((n,q,i)=>n+(app.answers[i]===q.correct?1:0),0);
- const answered=app.answers.filter(x=>x!==null).length,accuracy=Math.round(correct/total*100);
- app.results.unshift({date:new Date().toLocaleString(),mode:app.mode,score:correct,total,answered,accuracy});
- localStorage.setItem("qwk_results",JSON.stringify(app.results));updateStats();
- document.getElementById("modalTitle").textContent=timeUp?"Time's Up!":"Test Complete!";
- document.getElementById("modalScore").textContent=accuracy+"%";
- document.getElementById("modalMessage").textContent=`You got ${correct} out of ${total} correct.`;
- document.getElementById("resultModal").classList.add("show");
+
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+function selectAnswer(index){
+
+if(app.answers[app.current]!==null)return;
+
+app.answers[app.current]=index;
+
+let q=app.questions[app.current];
+
+let buttons=document.querySelectorAll(".option");
+
+buttons.forEach((button,i)=>{
+
+if(i===q.correct){
+
+button.classList.add("correct");
+
 }
+
+if(i===index && index!==q.correct){
+
+button.classList.add("wrong");
+
+}
+
+});
+
+let feedback=document.getElementById("feedback");
+
+feedback.textContent=
+index===q.correct
+?"✅ Correct answer!"
+:"❌ Incorrect. The correct answer is "+
+String.fromCharCode(65+q.correct)+".";
+
+feedback.className="feedback show";
+
+renderQuestionNumbers();
+
+}
+
+
+/* =========================================================
+   NEXT / PREVIOUS
+========================================================= */
+
+function nextQuestion(){
+
+if(app.current===app.questions.length-1){
+
+finishTest();
+
+return;
+
+}
+
+app.current++;
+
+renderQuestion();
+
+}
+
+
+function previousQuestion(){
+
+if(app.current>0){
+
+app.current--;
+
+renderQuestion();
+
+}
+
+}
+
+
+/* =========================================================
+   QUESTION NUMBERS
+========================================================= */
+
+function renderQuestionNumbers(){
+
+let container=document.getElementById("questionNumbers");
+
+container.innerHTML="";
+
+app.questions.forEach((q,i)=>{
+
+let button=document.createElement("button");
+
+button.className="question-number";
+
+button.textContent=i+1;
+
+if(app.answers[i]!==null)
+button.classList.add("done");
+
+if(i===app.current)
+button.classList.add("current");
+
+button.onclick=()=>{
+
+app.current=i;
+
+renderQuestion();
+
+};
+
+container.appendChild(button);
+
+});
+
+}
+
+
+/* =========================================================
+   FINISH TEST
+========================================================= */
+
+function finishTest(){
+
+clearInterval(app.timer);
+
+let correct=0;
+
+app.answers.forEach((answer,index)=>{
+
+if(answer!==null &&
+answer===app.questions[index].correct){
+
+correct++;
+
+}
+
+});
+
+let total=app.questions.length;
+
+let percentage=Math.round((correct/total)*100);
+
+let result={
+date:new Date().toLocaleString(),
+mode:app.mode,
+score:correct+"/"+total,
+accuracy:percentage,
+questions:total
+};
+
+app.results.unshift(result);
+
+localStorage.setItem(
+"qwk_results",
+JSON.stringify(app.results)
+);
+
+document.getElementById("modalScore").textContent=
+percentage+"%";
+
+document.getElementById("modalMessage").textContent=
+"You scored "+correct+" out of "+total+" questions.";
+
+document.getElementById("resultModal").classList.add("show");
+
+updateStats();
+
+}
+
+
+function closeModal(){
+
+document.getElementById("resultModal").classList.remove("show");
+
+}
+
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+function renderResults(){
+
+let history=document.getElementById("history");
+
+history.innerHTML="";
+
+if(app.results.length===0){
+
+history.innerHTML=
+`<tr><td colspan="4" style="padding:15px">
+No tests completed yet.
+</td></tr>`;
+
+}else{
+
+app.results.forEach(r=>{
+
+let tr=document.createElement("tr");
+
+tr.innerHTML=`
+<td style="padding:10px">${r.date}</td>
+<td style="padding:10px">${r.mode}</td>
+<td style="padding:10px">${r.score}</td>
+<td style="padding:10px">${r.accuracy}%</td>
+`;
+
+history.appendChild(tr);
+
+});
+
+}
+
+let totalAttempts=app.results.length;
+
+let best=app.results.length
+?Math.max(...app.results.map(r=>Number(r.accuracy)))
+:0;
+
+document.getElementById("resultSummary").innerHTML=`
+<h3>Performance Summary</h3>
+<p style="margin-top:10px">
+<strong>${totalAttempts}</strong> total attempts
+</p>
+<p style="margin-top:6px">
+Best accuracy: <strong>${best}%</strong>
+</p>
+`;
+
+}
+
+
+function clearResults(){
+
+if(confirm("Clear all quiz results?")){
+
+app.results=[];
+
+localStorage.removeItem("qwk_results");
+
+updateStats();
+
+renderResults();
+
+}
+
+}
+
+
+/* =========================================================
+   HOME STATS
+========================================================= */
+
 function updateStats(){
- const r=app.results,best=r.length?Math.max(...r.map(x=>x.accuracy)):0,total=r.reduce((n,x)=>n+x.total,0);
- document.getElementById("attempts").textContent=r.length;document.getElementById("questionsAnswered").textContent=total;document.getElementById("bestScore").textContent=best+"%";document.getElementById("mockTests").textContent=r.filter(x=>x.mode==="mock").length;
- document.getElementById("history").innerHTML=r.length?r.map(x=>`<tr><td style="padding:10px">${x.date}</td><td style="padding:10px">${x.mode}</td><td style="padding:10px">${x.score}/${x.total}</td><td style="padding:10px">${x.accuracy}%</td></tr>`).join(""):`<tr><td colspan="4" style="padding:20px;text-align:center">No results yet.</td></tr>`;
- document.getElementById("resultSummary").innerHTML=r.length?`<div class="grid"><div><div class="muted">Attempts</div><div class="stat">${r.length}</div></div><div><div class="muted">Best Score</div><div class="stat">${best}%</div></div><div><div class="muted">Latest</div><div class="stat">${r[0].accuracy}%</div></div><div><div class="muted">Questions</div><div class="stat">${total}</div></div></div>`:`<p class="muted">Complete a practice set or mock test to see results here.</p>`;
+
+let attempts=app.results.length;
+
+let questions=app.results.reduce(
+(sum,r)=>sum+Number(r.questions||0),0);
+
+let best=app.results.length
+?Math.max(...app.results.map(r=>Number(r.accuracy)))
+:0;
+
+let mocks=app.results.filter(
+r=>r.mode==="mock").length;
+
+document.getElementById("attempts").textContent=attempts;
+
+document.getElementById("questionsAnswered").textContent=questions;
+
+document.getElementById("bestScore").textContent=best+"%";
+
+document.getElementById("mockTests").textContent=mocks;
+
 }
-function clearResults(){if(confirm("Clear all saved results?")){app.results=[];localStorage.removeItem("qwk_results");updateStats()}}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
 function saveProfile(){
- app.profile={name:document.getElementById("profileName").value.trim()||"Student",class:document.getElementById("profileClass").value};
- app.class=app.profile.class;localStorage.setItem("qwk_profile",JSON.stringify(app.profile));localStorage.setItem("qwk_class",app.class);renderPracticeSubjects();alert("Profile saved!");
+
+let name=document.getElementById("profileName").value.trim();
+
+let c=document.getElementById("profileClass").value;
+
+app.profile={
+name:name||"Student",
+class:c
+};
+
+localStorage.setItem(
+"qwk_profile",
+JSON.stringify(app.profile)
+);
+
+alert("Profile saved!");
+
 }
-function toggleTheme(){document.body.classList.toggle("dark");const d=document.body.classList.contains("dark");localStorage.setItem("qwk_theme",d?"dark":"light");document.getElementById("themeButton").textContent=d?"☀️":"🌙"}
-function resetData(){if(confirm("Reset all Quiz with Krish data?")){localStorage.clear();location.reload()}}
-function closeModal(){document.getElementById("resultModal").classList.remove("show")}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function toggleTheme(){
+
+document.body.classList.toggle("dark");
+
+let dark=document.body.classList.contains("dark");
+
+localStorage.setItem("qwk_dark",dark?"1":"0");
+
+document.getElementById("themeButton").textContent=
+dark?"☀️":"🌙";
+
+}
+
+
+function loadTheme(){
+
+if(localStorage.getItem("qwk_dark")==="1"){
+
+document.body.classList.add("dark");
+
+document.getElementById("themeButton").textContent="☀️";
+
+}
+
+}
+
+
+/* =========================================================
+   OWNER QUESTION BANK
+========================================================= */
+
+const CUSTOM_KEY="qwk_custom_questions";
+
+
+function getCustomQuestions(){
+
+return JSON.parse(
+localStorage.getItem(CUSTOM_KEY)||"[]"
+);
+
+}
+
+
+function saveOwnerQuestion(){
+
+let c=document.getElementById("ownerClass").value;
+
+let s=document.getElementById("ownerSubject").value;
+
+let question=document.getElementById("ownerQuestion").value.trim();
+
+let options=[
+document.getElementById("ownerA").value.trim(),
+document.getElementById("ownerB").value.trim(),
+document.getElementById("ownerC").value.trim(),
+document.getElementById("ownerD").value.trim()
+];
+
+let correct=Number(
+document.getElementById("ownerCorrect").value
+);
+
+if(!question || options.some(x=>!x)){
+
+alert("Please fill the question and all four options.");
+
+return;
+
+}
+
+let bank=getCustomQuestions();
+
+let id=document.getElementById("ownerEditId").value;
+
+let item={
+id:id||Date.now().toString(),
+class:String(c),
+subject:s,
+text:question,
+options:options,
+correct:correct
+};
+
+if(id){
+
+let index=bank.findIndex(q=>q.id===id);
+
+if(index>=0) bank[index]=item;
+
+}else{
+
+bank.push(item);
+
+}
+
+localStorage.setItem(
+CUSTOM_KEY,
+JSON.stringify(bank)
+);
+
+clearOwnerForm();
+
+renderOwnerQuestions();
+
+updateOwnerDashboard();
+
+alert("Question saved!");
+
+}
+
+
+function clearOwnerForm(){
+
+document.getElementById("ownerEditId").value="";
+
+document.getElementById("ownerQuestion").value="";
+
+document.getElementById("ownerA").value="";
+
+document.getElementById("ownerB").value="";
+
+document.getElementById("ownerC").value="";
+
+document.getElementById("ownerD").value="";
+
+document.getElementById("ownerCorrect").value="0";
+
+}
+
+
+/* =========================================================
+   OWNER LOGIN
+========================================================= */
+
+/*
+IMPORTANT:
+Change this password before publishing the site.
+*/
+
+const OWNER_PASSWORD="krish123";
+
+
+function ownerLogin(){
+
+let password=
+document.getElementById("ownerPassword").value;
+
+if(password===OWNER_PASSWORD){
+
+localStorage.setItem("qwk_owner","1");
+
+document.getElementById("ownerLocked").style.display="none";
+
+document.getElementById("ownerUnlocked").style.display="block";
+
+updateOwnerDashboard();
+
+}else{
+
+document.getElementById("ownerLoginMessage").textContent=
+"Incorrect password.";
+
+}
+
+}
+
+
+function ownerLogout(){
+
+localStorage.removeItem("qwk_owner");
+
+document.getElementById("ownerLocked").style.display="block";
+
+document.getElementById("ownerUnlocked").style.display="none";
+
+}
+
+
+function updateOwnerDashboard(){
+
+if(localStorage.getItem("qwk_owner")!=="1")return;
+
+let custom=getCustomQuestions();
+
+let total=0;
+
+for(let c=1;c<=12;c++){
+
+SUBJECTS[c].forEach(s=>{
+
+total+=makeQuestions(c,s,"owner").length;
+
+});
+
+}
+
+document.getElementById("ownerTotalQuestions").textContent=
+total+custom.length;
+
+document.getElementById("ownerCustomQuestions").textContent=
+custom.length;
+
+renderOwnerQuestions();
+
+}
+
+
+/* =========================================================
+   OWNER FILTERS
+========================================================= */
+
+function renderOwnerQuestions(){
+
+let container=document.getElementById("ownerQuestionList");
+
+if(!container)return;
+
+let classFilter=
+document.getElementById("ownerFilterClass").value;
+
+let subjectFilter=
+document.getElementById("ownerFilterSubject").value;
+
+let bank=getCustomQuestions();
+
+let filtered=bank.filter(q=>{
+
+let classOK=
+!classFilter||q.class===classFilter;
+
+let subjectOK=
+!subjectFilter||q.subject===subjectFilter;
+
+return classOK&&subjectOK;
+
+});
+
+if(filtered.length===0){
+
+container.innerHTML=
+`<p class="muted">No custom questions found.</p>`;
+
+return;
+
+}
+
+container.innerHTML="";
+
+filtered.forEach(q=>{
+
+let div=document.createElement("div");
+
+div.className="card";
+
+div.style.marginTop="10px";
+
+div.innerHTML=`
+
+<strong>${q.text}</strong>
+
+<p style="margin-top:8px">
+A. ${q.options[0]}<br>
+B. ${q.options[1]}<br>
+C. ${q.options[2]}<br>
+D. ${q.options[3]}
+</p>
+
+<p class="muted" style="margin-top:8px">
+Class ${q.class} • ${q.subject} •
+Correct: ${String.fromCharCode(65+q.correct)}
+</p>
+
+<div class="actions">
+
+<button class="btn secondary"
+onclick="editOwnerQuestion('${q.id}')">
+Edit
+</button>
+
+<button class="btn"
+onclick="deleteOwnerQuestion('${q.id}')">
+Delete
+</button>
+
+</div>
+`;
+
+container.appendChild(div);
+
+});
+
+}
+
+
+function editOwnerQuestion(id){
+
+let bank=getCustomQuestions();
+
+let q=bank.find(x=>x.id===id);
+
+if(!q)return;
+
+document.getElementById("ownerEditId").value=q.id;
+
+document.getElementById("ownerClass").value=q.class;
+
+document.getElementById("ownerSubject").value=q.subject;
+
+document.getElementById("ownerQuestion").value=q.text;
+
+document.getElementById("ownerA").value=q.options[0];
+
+document.getElementById("ownerB").value=q.options[1];
+
+document.getElementById("ownerC").value=q.options[2];
+
+document.getElementById("ownerD").value=q.options[3];
+
+document.getElementById("ownerCorrect").value=q.correct;
+
+window.scrollTo({top:0,behavior:"smooth"});
+
+}
+
+
+function deleteOwnerQuestion(id){
+
+if(!confirm("Delete this question?"))return;
+
+let bank=getCustomQuestions().filter(q=>q.id!==id);
+
+localStorage.setItem(
+CUSTOM_KEY,
+JSON.stringify(bank)
+);
+
+renderOwnerQuestions();
+
+updateOwnerDashboard();
+
+}
+
+
+/* =========================================================
+   EXPORT
+========================================================= */
+
+function exportQuestionBank(){
+
+let data=getCustomQuestions();
+
+let blob=new Blob(
+[JSON.stringify(data,null,2)],
+{type:"application/json"}
+);
+
+let url=URL.createObjectURL(blob);
+
+let a=document.createElement("a");
+
+a.href=url;
+
+a.download="quiz-with-krish-question-bank.json";
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================================================
+   IMPORT
+========================================================= */
+
+function importQuestionBank(){
+
+let file=
+document.getElementById("questionImportFile").files[0];
+
+if(!file){
+
+alert("Choose a JSON file first.");
+
+return;
+
+}
+
+let reader=new FileReader();
+
+reader.onload=function(e){
+
+try{
+
+let data=JSON.parse(e.target.result);
+
+if(!Array.isArray(data)){
+
+throw new Error("Invalid format");
+
+}
+
+let existing=getCustomQuestions();
+
+data.forEach(q=>{
+
+if(!q.id)q.id=Date.now()+"-"+Math.random();
+
+existing.push(q);
+
+});
+
+localStorage.setItem(
+CUSTOM_KEY,
+JSON.stringify(existing)
+);
+
+renderOwnerQuestions();
+
+updateOwnerDashboard();
+
+alert("Question bank imported successfully!");
+
+}catch(err){
+
+alert("Invalid JSON question bank.");
+
+}
+
+};
+
+reader.readAsText(file);
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetData(){
+
+if(!confirm(
+"Reset local results, profile and custom questions?"
+))return;
+
+localStorage.removeItem("qwk_results");
+
+localStorage.removeItem("qwk_profile");
+
+localStorage.removeItem("qwk_class");
+
+localStorage.removeItem(CUSTOM_KEY);
+
+location.reload();
+
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+function init(){
+
+renderClasses();
+
+fillClassSelect("practiceClass");
+
+fillClassSelect("mockClass");
+
+fillClassSelect("profileClass");
+
+fillClassSelect("ownerClass");
+
+fillClassSelect("ownerFilterClass");
+
+document.getElementById("ownerFilterClass").insertAdjacentHTML(
+"afterbegin",
+'<option value="">All Classes</option>'
+);
+
+let ownerSubject=
+document.getElementById("ownerSubject");
+
+let filterSubject=
+document.getElementById("ownerFilterSubject");
+
+ownerSubject.innerHTML="";
+filterSubject.innerHTML='<option value="">All Subjects</option>';
+
+let allSubjects=[
+"MSC","COMP","PHY","BIO","CHEM",
+"ENG LANG","MATH","HISTORY","GEOGRAPHY"
+];
+
+allSubjects.forEach(s=>{
+
+let o=document.createElement("option");
+
+o.value=s;
+o.textContent=s;
+
+ownerSubject.appendChild(o);
+
+let f=document.createElement("option");
+
+f.value=s;
+f.textContent=s;
+
+filterSubject.appendChild(f);
+
+});
+
+renderPracticeSubjects();
+
+updateMockSubjects();
+
+document.getElementById("profileName").value=
+app.profile.name||"Student";
+
+document.getElementById("profileClass").value=
+app.profile.class||"7";
+
+if(localStorage.getItem("qwk_owner")==="1"){
+
+document.getElementById("ownerLocked").style.display="none";
+
+document.getElementById("ownerUnlocked").style.display="block";
+
+}
+
+loadTheme();
+
+updateStats();
+
+renderResults();
+
+}
+
 init();
+
 </script>
+
 </body>
 </html>
