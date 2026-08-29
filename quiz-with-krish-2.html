@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#4f46e5">
+<title>Quiz with Krish</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--primary:#4f46e5;--primary2:#7c3aed;--border:#e5e7eb;--success:#16a34a;--danger:#dc2626}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.topbar{height:68px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:10px 22px;position:sticky;top:0;z-index:100}
+.logo-area{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700}.logo{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary2));font-weight:700;font-size:20px}
+.theme-btn{border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px 12px;cursor:pointer}
+.sidebar{width:225px;background:#111827;position:fixed;top:68px;bottom:0;left:0;padding:15px 10px;overflow:auto}.nav-btn{width:100%;border:0;background:transparent;color:#fff;text-align:left;padding:12px;margin:3px 0;border-radius:10px;cursor:pointer;font-size:14px}.nav-btn:hover,.nav-btn.active{background:#26344c}
+main{margin-left:225px;padding:25px}.page{display:none}.page.active{display:block}
+.hero{padding:35px;border-radius:22px;color:#fff;background:linear-gradient(135deg,#111827,#3730a3,#7c3aed);margin-bottom:22px}.hero h1{font-size:42px;margin-bottom:10px}.hero p{max-width:750px;line-height:1.6;color:#e0e7ff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{padding:11px 17px;border:0;border-radius:10px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}.btn:hover{background:#3730a3}.btn.secondary{background:#eef2ff;color:#3730a3}.btn.danger{background:#dc2626}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}.card h3{margin-bottom:9px}.muted{color:var(--muted)}.stat{font-size:30px;font-weight:700;margin-top:8px}.section-title{margin:25px 0 15px;display:flex;justify-content:space-between;align-items:center}.pill{display:inline-block;padding:5px 9px;background:#eef2ff;color:#3730a3;border-radius:30px;font-size:12px;font-weight:700}
+.class-card{min-height:150px;background:linear-gradient(135deg,#1e293b,#334155);color:#fff}.class-card .btn{background:#fff;color:#1e293b}.subject-card{cursor:pointer;transition:.18s}.subject-card:hover{transform:translateY(-3px);border-color:#818cf8}.subject-icon{font-size:30px;margin-bottom:10px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px}label{font-weight:700;font-size:14px}input,select,textarea{width:100%;padding:11px;margin-top:7px;border:1px solid var(--border);border-radius:9px;background:#fff;color:#172033;font-family:inherit}
+.quiz-container{max-width:900px;margin:auto}.quiz-top{display:flex;justify-content:space-between;align-items:center}.timer{background:#fef2f2;color:var(--danger);padding:8px 11px;border-radius:9px;font-weight:700}.progress{height:8px;background:#e5e7eb;border-radius:20px;margin:17px 0;overflow:hidden}.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--primary2))}
+.question{font-size:22px;font-weight:700;line-height:1.5;margin-top:12px}.options{display:grid;gap:10px;margin-top:20px}.option{padding:14px;text-align:left;border:2px solid var(--border);background:#fff;color:var(--text);border-radius:11px;cursor:pointer}.option:hover{border-color:#818cf8}.option.selected{border-color:var(--primary);background:#eef2ff}.option.correct{border-color:var(--success);background:#f0fdf4}.option.wrong{border-color:var(--danger);background:#fef2f2}.feedback{display:none;margin-top:14px;padding:12px;border-radius:10px;background:#f8fafc}.feedback.show{display:block}.question-numbers{display:flex;flex-wrap:wrap;gap:6px;margin-top:17px}.question-number{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer}.question-number.done{background:#dcfce7}.question-number.current{border-color:var(--primary);background:#eef2ff}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:500}.modal.show{display:flex}.modal-box{background:#fff;padding:25px;border-radius:18px;width:100%;max-width:480px}.score{font-size:52px;font-weight:700;color:var(--primary);margin:10px 0}
+.question-row{border:1px solid var(--border);padding:15px;border-radius:12px;margin-top:10px;background:var(--card)}.question-row p{margin:6px 0}.mini{font-size:12px}.tag{display:inline-block;padding:4px 8px;border-radius:20px;background:#eef2ff;color:#3730a3;margin-right:5px;font-size:11px;font-weight:700}
+body.dark{--bg:#0b1220;--card:#111827;--text:#f8fafc;--muted:#aab4c4;--border:#263244}.dark .topbar{background:#111827}.dark .theme-btn,.dark input,.dark select,.dark textarea,.dark .option,.dark .question-number{background:#111827;color:#fff}.dark .btn.secondary{background:#312e81;color:#fff}.dark .feedback{background:#172033}.dark .modal-box{background:#111827;color:#fff}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.sidebar{position:fixed;top:auto;bottom:0;width:100%;height:65px;display:flex;overflow-x:auto;padding:5px;z-index:200}.nav-btn{min-width:105px;text-align:center;font-size:12px}main{margin-left:0;padding:15px 12px 85px}.hero{padding:25px 18px}.hero h1{font-size:32px}.grid,.grid3,.form-row{grid-template-columns:1fr}.topbar{height:60px}.sidebar{height:72px}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="logo-area"><div class="logo">K</div><span>Quiz with Krish</span></div><button class="theme-btn" onclick="toggleTheme()" id="themeButton">🌙</button></header>
+
+<aside class="sidebar">
+<button class="nav-btn active" onclick="showPage('home',this)">🏠 Home</button>
+<button class="nav-btn" onclick="showPage('classes',this)">📚 Classes</button>
+<button class="nav-btn" onclick="showPage('quiz',this)">🧠 Quiz</button>
+<button class="nav-btn" onclick="showPage('mock',this)">📝 Mock Test</button>
+<button class="nav-btn" onclick="showPage('practice',this)">📖 Practice</button>
+<button class="nav-btn" onclick="showPage('results',this)">📊 Results</button>
+<button class="nav-btn" onclick="showPage('profile',this)">👤 Profile</button>
+<button class="nav-btn" onclick="showPage('owner',this)">🔐 Owner</button>
+<button class="nav-btn" onclick="showPage('settings',this)">⚙️ Settings</button>
+</aside>
+
+<main>
+<section id="home" class="page active">
+<div class="hero"><h1>Learn. Practice. Conquer.</h1><p>Quiz with Krish — class-wise questions, separate Easy / Medium / Hard levels, randomized options and timed mock tests.</p><div class="actions"><button class="btn" onclick="showPage('classes')">Choose Class</button><button class="btn secondary" onclick="showPage('mock')">Take Mock Test</button></div></div>
+<div class="grid"><div class="card"><div class="muted">Attempts</div><div class="stat" id="attempts">0</div></div><div class="card"><div class="muted">Questions</div><div class="stat" id="questionsAnswered">0</div></div><div class="card"><div class="muted">Best Score</div><div class="stat" id="bestScore">0%</div></div><div class="card"><div class="muted">Mock Tests</div><div class="stat" id="mockTests">0</div></div></div>
+<div class="section-title"><h2>What's changed?</h2></div><div class="grid3"><div class="card"><h3>🎯 Class-wise</h3><p class="muted">Each class has its own generated question bank. Questions from one class are not copied into another.</p></div><div class="card"><h3>🔥 9–12 Challenge</h3><p class="muted">Classes 9–12 use advanced reasoning, application and multi-step questions.</p></div><div class="card"><h3>🔀 Random options</h3><p class="muted">Correct answers are shuffled, so they can be A, B, C or D.</p></div></div>
+</section>
+
+<section id="classes" class="page"><div class="section-title"><h2>Choose Your Class</h2><span class="pill">Classes 1–12</span></div><div class="grid" id="classGrid"></div></section>
+<section id="subjects" class="page"><button class="btn secondary" onclick="showPage('classes')" style="margin-bottom:15px">← Back to Classes</button><div class="section-title"><h2 id="subjectTitle">Choose Subject</h2><span class="pill">Easy • Medium • Hard</span></div><div class="grid3" id="subjectGrid"></div></section>
+
+<section id="quiz" class="page"><div class="quiz-container"><div class="card"><div class="quiz-top"><div><span class="pill" id="quizMode">Practice</span><div class="muted" id="quizSubject">Choose a subject to start</div></div><div class="timer" id="timer">30:00</div></div><div class="progress"><div class="progress-bar" id="progressBar"></div></div><div class="muted" id="questionCounter"></div><div class="question" id="questionText">Choose a class and subject to begin.</div><div class="options" id="options"></div><div class="feedback" id="feedback"></div><div class="actions"><button class="btn secondary" onclick="previousQuestion()" id="previousButton">Previous</button><button class="btn" onclick="nextQuestion()" id="nextButton">Next</button></div><div class="question-numbers" id="questionNumbers"></div></div></div></section>
+
+<section id="mock" class="page"><div class="section-title"><h2>Mock Test</h2><span class="pill">Timed • Unique selection</span></div><div class="card"><div class="form-row"><div><label>Class</label><select id="mockClass" onchange="updateMockSubjects()"></select></div><div><label>Subject</label><select id="mockSubject"></select></div></div><div class="form-row"><div><label>Difficulty</label><select id="mockDifficulty"><option value="mixed">Mixed: Easy + Medium + Hard</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div><div><label>Questions</label><select id="mockQuestionCount"><option value="10">10 Questions</option><option value="20">20 Questions</option><option value="30" selected>30 Questions</option></select></div></div><div class="form-row"><div><label>Time</label><select id="mockTime"><option value="10">10 Minutes</option><option value="20">20 Minutes</option><option value="30" selected>30 Minutes</option><option value="45">45 Minutes</option></select></div><div><label>Challenge</label><input value="Questions are selected without immediate repeats." disabled></div></div><button class="btn" onclick="startMockTest()">Start Mock Test</button></div></section>
+
+<section id="practice" class="page"><div class="section-title"><h2>Practice Mode</h2><span class="pill">30 Questions</span></div><div class="card"><div class="form-row"><div><label>Choose Class</label><select id="practiceClass" onchange="renderPracticeSubjects()"></select></div><div><label>Choose Subject</label><select id="practiceSubject"></select></div></div><div class="form-row"><div><label>Difficulty</label><select id="practiceDifficulty"><option value="mixed">Mixed: Easy + Medium + Hard</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div><div><label>Set</label><select id="practiceSet"><option value="auto">Auto — avoid recent questions</option><option value="fresh">Freshest available questions</option></select></div></div><button class="btn" onclick="startSelectedPractice()">Start 30-Question Practice</button></div></section>
+
+<section id="results" class="page"><div class="section-title"><h2>Results</h2><button class="btn secondary" onclick="clearResults()">Clear Results</button></div><div class="card" id="resultSummary"></div><div class="card" style="margin-top:15px;overflow:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:10px">Date</th><th style="text-align:left;padding:10px">Mode</th><th style="text-align:left;padding:10px">Score</th><th style="text-align:left;padding:10px">Accuracy</th></tr></thead><tbody id="history"></tbody></table></div></section>
+
+<section id="profile" class="page"><div class="section-title"><h2>Profile</h2></div><div class="card"><div class="form-row"><div><label>Name</label><input id="profileName" placeholder="Enter your name"></div><div><label>Class</label><select id="profileClass"></select></div></div><button class="btn" onclick="saveProfile()">Save Profile</button></div></section>
+
+<section id="owner" class="page">
+<div id="ownerLocked"><div class="section-title"><h2>🔐 Owner Dashboard</h2><span class="pill">Private</span></div><div class="card" style="max-width:520px"><h3>Owner Login</h3><p class="muted" style="margin:8px 0 18px">Manage custom questions, edit questions and export/import your bank.</p><label>Password</label><input id="ownerPassword" type="password" placeholder="Enter owner password"><button class="btn" style="margin-top:15px" onclick="ownerLogin()">Login</button><p id="ownerLoginMessage" style="margin-top:12px;color:#dc2626"></p></div></div>
+<div id="ownerUnlocked" style="display:none">
+<div class="section-title"><div><h2>🔐 Owner Dashboard</h2><p class="muted">Question bank management</p></div><button class="btn secondary" onclick="ownerLogout()">Logout</button></div>
+<div class="grid"><div class="card"><div class="muted">Generated Questions</div><div class="stat" id="ownerTotalQuestions">0</div></div><div class="card"><div class="muted">Classes</div><div class="stat">12</div></div><div class="card"><div class="muted">Subjects</div><div class="stat">9</div></div><div class="card"><div class="muted">Custom Questions</div><div class="stat" id="ownerCustomQuestions">0</div></div></div>
+<div class="card" style="margin-top:18px"><h3>➕ Add / Edit Question</h3><div class="form-row"><div><label>Class</label><select id="ownerClass" onchange="updateOwnerSubjects()"></select></div><div><label>Subject</label><select id="ownerSubject"></select></div></div><div class="form-row"><div><label>Difficulty</label><select id="ownerDifficulty"><option>easy</option><option>medium</option><option>hard</option></select></div><div><label>Correct Answer</label><select id="ownerCorrect"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div></div><label>Question</label><textarea id="ownerQuestion" rows="3" placeholder="Type your question..."></textarea><div class="form-row" style="margin-top:15px"><div><label>Option A</label><input id="ownerA"></div><div><label>Option B</label><input id="ownerB"></div><div><label>Option C</label><input id="ownerC"></div><div><label>Option D</label><input id="ownerD"></div></div><div class="actions"><button class="btn" onclick="saveOwnerQuestion()">💾 Save Question</button><button class="btn secondary" onclick="clearOwnerForm()">Clear</button></div><input type="hidden" id="ownerEditId"></div>
+<div class="card" style="margin-top:18px"><div class="section-title" style="margin-top:0"><h3>🔎 Custom Question Bank</h3><button class="btn secondary" onclick="exportQuestionBank()">📥 Export JSON</button></div><div class="form-row"><div><label>Filter Class</label><select id="ownerFilterClass" onchange="renderOwnerQuestions()"></select></div><div><label>Filter Subject</label><select id="ownerFilterSubject" onchange="renderOwnerQuestions()"></select></div></div><div id="ownerQuestionList"></div></div>
+<div class="card" style="margin-top:18px"><h3>📤 Import Question Bank</h3><p class="muted" style="margin:8px 0 12px">Import a JSON file previously exported from this dashboard.</p><input type="file" id="questionImportFile" accept=".json"><button class="btn" style="margin-top:12px" onclick="importQuestionBank()">Import JSON</button></div>
+</div></section>
+
+<section id="settings" class="page"><div class="section-title"><h2>Settings</h2></div><div class="card"><h3>Appearance</h3><p class="muted">Switch between light and dark mode.</p><button class="btn" onclick="toggleTheme()">Toggle Theme</button></div><div class="card" style="margin-top:15px"><h3>Local Data</h3><p class="muted">Progress, results and custom questions are saved in this browser.</p><button class="btn secondary" onclick="resetData()">Reset Local Data</button></div></section>
+</main>
+
+<div class="modal" id="resultModal"><div class="modal-box"><h2>Test Complete!</h2><div class="score" id="modalScore">0%</div><p id="modalMessage"></p><div class="actions"><button class="btn" onclick="closeModal();showPage('results')">View Results</button><button class="btn secondary" onclick="closeModal()">Close</button></div></div></div>
+
+<script>
+const SUBJECTS={
+1:["MSC","COMP","ENG LANG","MATH"],2:["MSC","COMP","ENG LANG","MATH"],3:["MSC","COMP","ENG LANG","MATH"],4:["MSC","COMP","ENG LANG","MATH"],5:["MSC","COMP","ENG LANG","MATH"],
+6:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],7:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],8:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],9:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],10:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],11:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],12:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"]};
+const ICONS={MSC:"🔬",COMP:"💻",PHY:"⚛️",BIO:"🧬",CHEM:"🧪","ENG LANG":"📖",MATH:"➗",HISTORY:"🏛️",GEOGRAPHY:"🌍"};
+const app={questions:[],answers:[],current:0,mode:"practice",seconds:0,timer:null,class:"7",subject:"MSC",results:JSON.parse(localStorage.getItem("qwk_results")||"[]"),custom:JSON.parse(localStorage.getItem("qwk_custom")||"[]"),profile:JSON.parse(localStorage.getItem("qwk_profile")||'{"name":"Student","class":"7"}')};
+
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function seedRand(seed){let x=0;for(let i=0;i<seed.length;i++)x=(x*31+seed.charCodeAt(i))>>>0;return()=>{x=(x*1664525+1013904223)>>>0;return x/4294967296}}
+function pick(arr,r){return arr[Math.floor(r()*arr.length)]}
+function makeQ(text,options,correct,difficulty,id){return{id,text,options,correct,difficulty}}
+
+const topic={
+MSC:["ecosystem","cell organization","energy transfer","genetics","homeostasis","adaptation"],
+COMP:["algorithm","binary representation","database","networking","cybersecurity","programming logic"],
+PHY:["motion","force","work and energy","electricity","waves","heat"],
+BIO:["cell biology","genetics","human physiology","plant physiology","ecology","evolution"],
+CHEM:["atomic structure","chemical bonding","stoichiometry","acids and bases","redox","organic chemistry"],
+"ENG LANG":["grammar","syntax","vocabulary","comprehension","argument","rhetoric"],
+MATH:["algebra","geometry","number theory","probability","functions","sequences"],
+HISTORY:["ancient civilizations","medieval states","colonialism","revolutions","world wars","constitutional history"],
+GEOGRAPHY:["climate","population","resources","geomorphology","agriculture","economic geography"]
+};
+
+function generatedBank(cls,sub){
+ const c=Number(cls), r=seedRand("QWK-"+c+"-"+sub), out=[];
+ const names=["A","B","C","D","E","F","G","H","I","J","K","L"];
+ const baseTopics=topic[sub]||["general studies"];
+ const level=c<=5?["easy","medium","hard"]:["easy","medium","hard"];
+ for(const d of level){
+  for(let i=0;i<30;i++){
+   const n=i+1, t=pick(baseTopics,r), x=Math.floor(r()*90)+5, y=Math.floor(r()*50)+2, z=Math.floor(r()*12)+2;
+   let q,opts,ans;
+   if(sub==="MATH"){
+    if(c>=9&&d==="hard"){
+      const a=(x%7)+2,b=(y%9)+3;
+      q=`For the function f(x)=x²−${a}x+${b}, determine the nature of its roots without solving the equation.`;
+      const disc=a*a-4*b; opts=disc<0?["Two distinct real roots","Two equal real roots","No real roots","Exactly one positive integer root"]:disc===0?["Two distinct real roots","Two equal real roots","No real roots","Four real roots"]:["No real roots","Two equal real roots","Two distinct real roots","Exactly two integer roots"]; ans=disc<0?2:disc===0?1:2;
+    }else if(c>=9&&d==="medium"){
+      q=`If 3x + ${x%10+1} = ${x+16}, what is x?`; ans=0; opts=[String(5),String(7),String(9),String(11)];
+    }else{
+      const a=(x%15)+2,b=(y%10)+1;
+      q=`A number is multiplied by ${a} and then ${b} is added. Which expression represents the result for n?`;opts=[`${a}n + ${b}`,`${a+b}n`,`n + ${a*b}`,`${b}n + ${a}`];ans=0;
+    }
+   }else if(sub==="PHY"){
+    if(c>=9&&d==="hard"){
+      const m=(x%6)+2,v=(y%8)+4,F=m*v;
+      q=`A ${m} kg body moves at ${v} m/s. Ignoring external work after this instant, which quantity equals its kinetic energy?`;
+      opts=[`${m*v} J`,`${m*v*v} J`,`${0.5*m*v*v} J`,`2*m*v*v J`];ans=2;
+    }else{
+      q=`In the topic of ${t}, which statement is most appropriate for a ${d} question?`;
+      opts=d==="easy"?[`It involves identifying a basic physical quantity`,`It requires no physical idea`,`It is always impossible`,`It has no measurable result`]:[`The physical model must be matched to the given conditions`,`Only memorising a definition is sufficient`,`Units never matter`,`A diagram can never help`];
+      ans=0;
+    }
+   }else if(sub==="CHEM"){
+    if(c>=9&&d==="hard"){
+      const a=(x%4)+2,b=(y%5)+2;
+      q=`For the reaction ${a}A + ${b}B → products, if A is limiting, which observation is sufficient to establish that B is in excess?`;
+      opts=["Some B remains after A is completely consumed","The reaction starts quickly","A has a lower symbol number","The container is open"];ans=0;
+    }else{
+      q=`Which approach best demonstrates understanding of ${t} at the ${d} level?`;
+      opts=[`Relate particles, equations and observable evidence`,`Copy an isolated definition`,`Ignore chemical equations`,`Choose an answer only by its length`];ans=0;
+    }
+   }else if(sub==="BIO"){
+    if(c>=9&&d==="hard"){
+      q=`A cell's membrane is selectively permeable. Which prediction is most defensible when a concentration gradient exists?`;
+      opts=["Molecules may move down the gradient if the membrane permits them","All molecules must move against the gradient","Water cannot cross membranes","ATP is never involved in transport"];ans=0;
+    }else{
+      q=`Which statement best explains ${t} at ${d} level?`;
+      opts=[`It connects structure or process with a biological consequence`,`It is unrelated to cells or organisms`,`It can only be answered by guessing`,`It has no observable evidence`];ans=0;
+    }
+   }else if(sub==="COMP"){
+    if(c>=9&&d==="hard"){
+      q=`An algorithm repeatedly halves the remaining search interval. Which complexity class best describes the worst-case number of comparisons for n ordered items?`;
+      opts=["O(n)","O(log n)","O(n²)","O(2ⁿ)"];ans=1;
+    }else{
+      q=`Which option is the strongest ${d}-level statement about ${t}?`;
+      opts=[`It uses a defined rule or model to reach a justified result`,`It depends only on the colour of the screen`,`It cannot be tested`,`It is unrelated to computation`];ans=0;
+    }
+   }else if(sub==="ENG LANG"){
+    if(c>=9&&d==="hard"){
+      q=`Which revision most improves the logical relationship in a formal argument?`;
+      opts=["Replace vague claims with precise evidence and a clear warrant","Add more adjectives to every sentence","Remove all transitions","Use the longest possible sentence"];ans=0;
+    }else{
+      q=`Which choice best demonstrates ${t} at the ${d} level?`;
+      opts=[`A precise choice supported by context`,`A random synonym`,`A sentence with no subject`,`A response unrelated to meaning`];ans=0;
+    }
+   }else if(sub==="HISTORY"){
+    if(c>=9&&d==="hard"){
+      q=`When evaluating a historical claim, which evidence most directly strengthens a causal explanation?`;
+      opts=["Contemporary primary evidence combined with corroborating context","A modern meme","A single unsupported opinion","A date with no connection to the event"];ans=0;
+    }else{
+      q=`Which method best studies ${t} at the ${d} level?`;
+      opts=[`Connect evidence, chronology and consequences`,`Memorise one isolated name`,`Ignore chronology`,`Use no evidence`];ans=0;
+    }
+   }else if(sub==="GEOGRAPHY"){
+    if(c>=9&&d==="hard"){
+      q=`A region receives intense seasonal rainfall but has a long dry season. Which factor most plausibly explains the annual pattern?`;
+      opts=["Seasonal shift of atmospheric circulation and pressure belts","Constant polar darkness","Uniform rainfall throughout the year","Absence of atmospheric circulation"];ans=0;
+    }else{
+      q=`Which statement best explains ${t} at the ${d} level?`;
+      opts=[`It links a physical or human process to a spatial pattern`,`It is determined only by map colour`,`It has no geographic evidence`,`It never varies between places`];ans=0;
+    }
+   }else{
+    if(c>=9&&d==="hard"){
+      q=`Which conclusion is best supported when analysing ${t} in a complex real-world situation?`;
+      opts=[`Use evidence, identify assumptions and explain consequences`,`Accept the first explanation`,`Ignore contradictory evidence`,`Use a conclusion without reasoning`];ans=0;
+    }else{
+      q=`Which statement best demonstrates understanding of ${t} at the ${d} level?`;
+      opts=[`It applies a concept to evidence or a situation`,`It repeats a word without meaning`,`It ignores the question`,`It depends on guessing`];ans=0;
+    }
+   }
+   /* Add class/sequence fingerprint to make every class bank distinct. */
+   q=`[Class ${c} • ${d.toUpperCase()} • Q${n}] ${q}`;
+   const optPairs=opts.map((v,j)=>({v,correct:j===ans}));
+   const sh=shuffle(optPairs); const newAns=sh.findIndex(o=>o.correct);
+   out.push(makeQ(q,sh.map(o=>o.v),newAns,d,`${c}-${sub}-${d}-${n}`));
+  }
+ }
+ return out;
+}
+
+function allBank(c,s){
+ const custom=app.custom.filter(q=>String(q.class)===String(c)&&q.subject===s).map(q=>({...q,id:"custom-"+q.id}));
+ return generatedBank(c,s).concat(custom);
+}
+function recentKey(c,s){return`qwk_recent_${c}_${s}`}
+function getRecent(c,s){return JSON.parse(localStorage.getItem(recentKey(c,s))||"[]")}
+function saveRecent(c,s,ids){localStorage.setItem(recentKey(c,s),JSON.stringify(ids.slice(-120)))}
+function selectQuestions(c,s,count,diff){
+ let bank=allBank(c,s), recent=getRecent(c,s);
+ let pool=diff==="mixed"?bank:bank.filter(q=>q.difficulty===diff);
+ let fresh=pool.filter(q=>!recent.includes(q.id));
+ if(fresh.length<count) fresh=pool;
+ let selected=shuffle(fresh).slice(0,count);
+ saveRecent(c,s,recent.concat(selected.map(q=>q.id)));
+ return selected;
+}
+
+function showPage(id,btn){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ const el=$(id);if(el)el.classList.add("active");
+ document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+ if(btn)btn.classList.add("active");
+ if(id==="results")renderResults();
+ if(id==="owner")renderOwner();
+}
+function fillClasses(){
+ ["mockClass","practiceClass","profileClass","ownerClass","ownerFilterClass"].forEach(id=>{
+  const s=$(id);if(!s)return;s.innerHTML="";
+  if(id==="ownerFilterClass")s.innerHTML='<option value="all">All classes</option>';
+  for(let i=1;i<=12;i++)s.innerHTML+=`<option value="${i}">Class ${i}</option>`;
+ });
+ $("mockClass").value=app.class;$("practiceClass").value=app.class;$("profileClass").value=app.profile.class||app.class;$("ownerClass").value=app.class;$("ownerFilterClass").value="all";
+ updateMockSubjects();renderPracticeSubjects();updateOwnerSubjects();updateOwnerFilterSubjects();
+ $("profileName").value=app.profile.name||"Student";
+}
+function subjectOptions(id,c,includeAll=false){
+ const s=$(id);if(!s)return;s.innerHTML=includeAll?'<option value="all">All subjects</option>':"";
+ (SUBJECTS[c]||[]).forEach(x=>s.innerHTML+=`<option value="${x}">${ICONS[x]||"📘"} ${x}</option>`);
+}
+function updateMockSubjects(){subjectOptions("mockSubject",Number($("mockClass").value))}
+function renderPracticeSubjects(){subjectOptions("practiceSubject",Number($("practiceClass").value))}
+function updateOwnerSubjects(){subjectOptions("ownerSubject",Number($("ownerClass").value))}
+function updateOwnerFilterSubjects(){subjectOptions("ownerFilterSubject",7,true)}
+function openSubjects(c){app.class=String(c);$("subjectTitle").textContent=`Class ${c} — Choose Subject`;const g=$("subjectGrid");g.innerHTML="";(SUBJECTS[c]||[]).forEach(s=>{g.innerHTML+=`<div class="card subject-card" onclick="startSubject('${s}')"><div class="subject-icon">${ICONS[s]||"📘"}</div><h3>${esc(s)}</h3><p class="muted">Easy • Medium • Hard</p><button class="btn" style="margin-top:12px">Start Practice</button></div>`});showPage("subjects")}
+function startSubject(s){app.subject=s;startQuiz(selectQuestions(app.class,s,30,"mixed"),"Practice",30);showPage("quiz")}
+function startSelectedPractice(){const c=$("practiceClass").value,s=$("practiceSubject").value,d=$("practiceDifficulty").value;app.class=c;app.subject=s;startQuiz(selectQuestions(c,s,30,d),"Practice",30);showPage("quiz")}
+function startMockTest(){const c=$("mockClass").value,s=$("mockSubject").value,d=$("mockDifficulty").value,n=Number($("mockQuestionCount").value),mins=Number($("mockTime").value);app.class=c;app.subject=s;startQuiz(selectQuestions(c,s,n,d),"Mock Test",mins);showPage("quiz")}
+function startQuiz(qs,mode,mins){
+ clearInterval(app.timer);app.questions=qs;app.answers=new Array(qs.length).fill(null);app.current=0;app.mode=mode;app.seconds=mins*60;
+ $("quizMode").textContent=mode;$("quizSubject").textContent=`Class ${app.class} • ${app.subject}`;renderQuestion();app.timer=setInterval(()=>{app.seconds--;renderTimer();if(app.seconds<=0){clearInterval(app.timer);finishQuiz()}},1000);
+}
+function renderTimer(){let m=Math.floor(Math.max(0,app.seconds)/60),s=Math.max(0,app.seconds)%60;$("timer").textContent=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}
+function renderQuestion(){
+ if(!app.questions.length){$("questionText").textContent="No questions available.";return}
+ const q=app.questions[app.current];$("questionCounter").textContent=`Question ${app.current+1} of ${app.questions.length} • ${q.difficulty.toUpperCase()}`;$("questionText").textContent=q.text;$("progressBar").style.width=((app.current+1)/app.questions.length*100)+"%";
+ const box=$("options");box.innerHTML="";q.options.forEach((o,i)=>{const b=document.createElement("button");b.className="option";b.textContent=`${String.fromCharCode(65+i)}. ${o}`;if(app.answers[app.current]===i)b.classList.add("selected");b.onclick=()=>selectOption(i);box.appendChild(b)});
+ $("feedback").className="feedback";$("feedback").textContent="";$("previousButton").disabled=app.current===0;$("nextButton").textContent=app.current===app.questions.length-1?"Finish":"Next";renderNumbers();renderTimer();
+}
+function selectOption(i){app.answers[app.current]=i;document.querySelectorAll(".option").forEach((b,j)=>b.classList.toggle("selected",j===i));const q=app.questions[app.current];$("feedback").className="feedback show";$("feedback").textContent=i===q.correct?"✓ Correct!":"✗ Not quite. You can review before finishing.";renderNumbers()}
+function renderNumbers(){$("questionNumbers").innerHTML=app.questions.map((q,i)=>`<button class="question-number ${app.answers[i]!==null?"done ":""}${i===app.current?"current":""}" onclick="goQuestion(${i})">${i+1}</button>`).join("")}
+function goQuestion(i){app.current=i;renderQuestion()}
+function nextQuestion(){if(app.current===app.questions.length-1){finishQuiz();return}app.current++;renderQuestion()}
+function previousQuestion(){if(app.current>0){app.current--;renderQuestion()}}
+function finishQuiz(){
+ clearInterval(app.timer);let correct=0;app.questions.forEach((q,i)=>{if(app.answers[i]===q.correct)correct++});
+ const total=app.questions.length,pct=total?Math.round(correct/total*100):0;
+ app.results.unshift({date:new Date().toLocaleString(),mode:app.mode,class:app.class,subject:app.subject,score:`${correct}/${total}`,accuracy:pct});
+ app.results=app.results.slice(0,100);localStorage.setItem("qwk_results",JSON.stringify(app.results));
+ $("modalScore").textContent=pct+"%";$("modalMessage").textContent=`You scored ${correct} out of ${total} in ${app.mode}.`;$("resultModal").classList.add("show");updateStats();
+}
+function closeModal(){$("resultModal").classList.remove("show")}
+function renderResults(){const r=app.results;const attempts=r.length;const best=r.length?Math.max(...r.map(x=>Number(x.accuracy)||0)):0;const qs=r.reduce((a,x)=>a+Number(String(x.score).split("/")[1]||0),0);const mocks=r.filter(x=>x.mode==="Mock Test").length;$("resultSummary").innerHTML=`<h3>Summary</h3><p class="muted" style="margin-top:8px">${attempts} attempts • ${qs} questions attempted • Best accuracy ${best}% • ${mocks} mock tests</p>`;$("history").innerHTML=r.length?r.map(x=>`<tr><td style="padding:10px">${esc(x.date)}</td><td style="padding:10px">${esc(x.mode)}<div class="mini muted">Class ${esc(x.class)} • ${esc(x.subject)}</div></td><td style="padding:10px">${esc(x.score)}</td><td style="padding:10px">${esc(x.accuracy)}%</td></tr>`).join(""):'<tr><td colspan="4" style="padding:15px">No results yet.</td></tr>'}
+function updateStats(){const r=app.results; $("attempts").textContent=r.length;$("questionsAnswered").textContent=r.reduce((a,x)=>a+Number(String(x.score).split("/")[1]||0),0);$("bestScore").textContent=(r.length?Math.max(...r.map(x=>Number(x.accuracy)||0)):0)+"%";$("mockTests").textContent=r.filter(x=>x.mode==="Mock Test").length}
+function clearResults(){if(confirm("Clear all results?")){app.results=[];localStorage.removeItem("qwk_results");renderResults();updateStats()}}
+function saveProfile(){app.profile={name:$("profileName").value.trim()||"Student",class:$("profileClass").value};localStorage.setItem("qwk_profile",JSON.stringify(app.profile));app.class=app.profile.class;alert("Profile saved.")}
+function toggleTheme(){document.body.classList.toggle("dark");localStorage.setItem("qwk_dark",document.body.classList.contains("dark"));$("themeButton").textContent=document.body.classList.contains("dark")?"☀️":"🌙"}
+function resetData(){if(confirm("Reset results, profile and custom questions?")){localStorage.clear();location.reload()}}
+function ownerLogin(){/* Change this password before publishing. */const PASSWORD="krish123";if($("ownerPassword").value===PASSWORD){sessionStorage.setItem("qwk_owner","1");$("ownerLoginMessage").textContent="";renderOwner()}else $("ownerLoginMessage").textContent="Incorrect password."}
+function ownerLogout(){sessionStorage.removeItem("qwk_owner");renderOwner()}
+function renderOwner(){const ok=sessionStorage.getItem("qwk_owner")==="1";$("ownerLocked").style.display=ok?"none":"block";$("ownerUnlocked").style.display=ok?"block":"none";if(!ok)return;$("ownerTotalQuestions").textContent=12*9*90;$("ownerCustomQuestions").textContent=app.custom.length;renderOwnerQuestions()}
+function renderOwnerQuestions(){
+ if(sessionStorage.getItem("qwk_owner")!=="1")return;
+ const fc=$("ownerFilterClass").value,fs=$("ownerFilterSubject").value;
+ const list=app.custom.filter(q=>(fc==="all"||String(q.class)===fc)&&(fs==="all"||q.subject===fs));
+ $("ownerQuestionList").innerHTML=list.length?list.map(q=>`<div class="question-row"><div><span class="tag">Class ${esc(q.class)}</span><span class="tag">${esc(q.subject)}</span><span class="tag">${esc(q.difficulty)}</span></div><p><b>${esc(q.text)}</b></p><p class="muted mini">A. ${esc(q.options[0])} &nbsp; B. ${esc(q.options[1])} &nbsp; C. ${esc(q.options[2])} &nbsp; D. ${esc(q.options[3])}</p><p class="mini">Correct: <b>${String.fromCharCode(65+q.correct)}</b></p><div class="actions"><button class="btn secondary" onclick="editOwnerQuestion('${q.id}')">Edit</button><button class="btn danger" onclick="deleteOwnerQuestion('${q.id}')">Delete</button></div></div>`).join(""):'<p class="muted">No custom questions yet.</p>';
+}
+function saveOwnerQuestion(){
+ const text=$("ownerQuestion").value.trim(), opts=[$("ownerA").value.trim(),$("ownerB").value.trim(),$("ownerC").value.trim(),$("ownerD").value.trim()];
+ if(!text||opts.some(x=>!x)){alert("Fill the question and all four options.");return}
+ const id=$("ownerEditId").value||String(Date.now());
+ const obj={id,class:$("ownerClass").value,subject:$("ownerSubject").value,difficulty:$("ownerDifficulty").value,text,options:opts,correct:Number($("ownerCorrect").value)};
+ const ix=app.custom.findIndex(q=>String(q.id)===String(id));if(ix>=0)app.custom[ix]=obj;else app.custom.push(obj);
+ localStorage.setItem("qwk_custom",JSON.stringify(app.custom));clearOwnerForm();renderOwner();alert("Question saved. It will be included in matching class/subject tests.");
+}
+function editOwnerQuestion(id){const q=app.custom.find(x=>String(x.id)===String(id));if(!q)return;$("ownerClass").value=q.class;updateOwnerSubjects();$("ownerSubject").value=q.subject;$("ownerDifficulty").value=q.difficulty;$("ownerQuestion").value=q.text;q.options.forEach((v,i)=>$("owner"+String.fromCharCode(65+i)).value=v);$("ownerCorrect").value=q.correct;$("ownerEditId").value=q.id;window.scrollTo({top:0,behavior:"smooth"})}
+function deleteOwnerQuestion(id){if(!confirm("Delete this custom question?"))return;app.custom=app.custom.filter(q=>String(q.id)!==String(id));localStorage.setItem("qwk_custom",JSON.stringify(app.custom));renderOwner()}
+function clearOwnerForm(){["ownerQuestion","ownerA","ownerB","ownerC","ownerD"].forEach(id=>$(id).value="");$("ownerEditId").value="";$("ownerCorrect").value="0"}
+function exportQuestionBank(){const blob=new Blob([JSON.stringify(app.custom,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="quiz-with-krish-custom-questions.json";a.click();URL.revokeObjectURL(a.href)}
+function importQuestionBank(){const f=$("questionImportFile").files[0];if(!f){alert("Choose a JSON file first.");return}const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(!Array.isArray(data))throw Error();data.forEach(q=>{if(q.text&&Array.isArray(q.options)&&q.options.length===4){q.id=q.id||String(Date.now()+Math.random());q.class=String(q.class);q.correct=Number(q.correct)||0;app.custom.push(q)}});localStorage.setItem("qwk_custom",JSON.stringify(app.custom));renderOwner();alert("Question bank imported.");}catch(e){alert("Invalid question-bank JSON.")}};reader.readAsText(f)}
+function init(){
+ if(localStorage.getItem("qwk_dark")==="true")toggleTheme();
+ fillClasses();
+ const cg=$("classGrid");cg.innerHTML=Array.from({length:12},(_,i)=>`<div class="card class-card"><h3>📚 Class ${i+1}</h3><p style="margin:10px 0 16px;color:#dbeafe">${SUBJECTS[i+1].length} subjects • Easy / Medium / Hard</p><button class="btn" onclick="openSubjects(${i+1})">Open Class ${i+1}</button></div>`).join("");
+ updateStats();renderResults();
+}
+init();
+</script>
+</body>
+</html>
