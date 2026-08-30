@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Quiz with Krish - class-wise quizzes, practice tests and mock tests for Classes 1 to 12.">
+<meta name="theme-color" content="#4f46e5">
+<title>Quiz with Krish | Class 1-12 Quizzes</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--primary:#4f46e5;--primary2:#7c3aed;--border:#e5e7eb;--success:#16a34a;--danger:#dc2626}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.topbar{height:68px;background:#fff;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:10px 22px;position:sticky;top:0;z-index:100}
+.logo-area{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700}.logo{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary2));font-weight:700;font-size:20px}
+.theme-btn{border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px 12px;cursor:pointer}
+.sidebar{width:225px;background:#111827;position:fixed;top:68px;bottom:0;left:0;padding:15px 10px;overflow:auto}.nav-btn{width:100%;border:0;background:transparent;color:#fff;text-align:left;padding:12px;margin:3px 0;border-radius:10px;cursor:pointer;font-size:14px}.nav-btn:hover,.nav-btn.active{background:#26344c}
+main{margin-left:225px;padding:25px}.page{display:none}.page.active{display:block}
+.hero{padding:35px;border-radius:22px;color:#fff;background:linear-gradient(135deg,#111827,#3730a3,#7c3aed);margin-bottom:22px}.hero h1{font-size:42px;margin-bottom:10px}.hero p{max-width:750px;line-height:1.6;color:#e0e7ff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{padding:11px 17px;border:0;border-radius:10px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}.btn:hover{background:#3730a3}.btn.secondary{background:#eef2ff;color:#3730a3}.btn.danger{background:#dc2626}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}.card h3{margin-bottom:9px}.muted{color:var(--muted)}.stat{font-size:30px;font-weight:700;margin-top:8px}.section-title{margin:25px 0 15px;display:flex;justify-content:space-between;align-items:center}.pill{display:inline-block;padding:5px 9px;background:#eef2ff;color:#3730a3;border-radius:30px;font-size:12px;font-weight:700}
+.class-card{min-height:150px;background:linear-gradient(135deg,#1e293b,#334155);color:#fff}.class-card .btn{background:#fff;color:#1e293b}.subject-card{cursor:pointer;transition:.18s}.subject-card:hover{transform:translateY(-3px);border-color:#818cf8}.subject-icon{font-size:30px;margin-bottom:10px}
+.form-row{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-bottom:15px}label{font-weight:700;font-size:14px}input,select,textarea{width:100%;padding:11px;margin-top:7px;border:1px solid var(--border);border-radius:9px;background:#fff;color:#172033;font-family:inherit}
+.quiz-container{max-width:900px;margin:auto}.quiz-top{display:flex;justify-content:space-between;align-items:center}.timer{background:#fef2f2;color:var(--danger);padding:8px 11px;border-radius:9px;font-weight:700}.progress{height:8px;background:#e5e7eb;border-radius:20px;margin:17px 0;overflow:hidden}.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--primary2))}
+.question{font-size:22px;font-weight:700;line-height:1.5;margin-top:12px}.options{display:grid;gap:10px;margin-top:20px}.option{padding:14px;text-align:left;border:2px solid var(--border);background:#fff;color:var(--text);border-radius:11px;cursor:pointer}.option:hover{border-color:#818cf8}.option.selected{border-color:var(--primary);background:#eef2ff}.feedback{display:none;margin-top:14px;padding:12px;border-radius:10px;background:#f8fafc}.feedback.show{display:block}
+.question-numbers{display:flex;flex-wrap:wrap;gap:6px;margin-top:17px}.question-number{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer}.question-number.done{background:#dcfce7}.question-number.current{border-color:var(--primary);background:#eef2ff}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:500}.modal.show{display:flex}.modal-box{background:#fff;padding:25px;border-radius:18px;width:100%;max-width:480px}.score{font-size:52px;font-weight:700;color:var(--primary);margin:10px 0}
+.question-row{border:1px solid var(--border);padding:15px;border-radius:12px;margin-top:10px;background:var(--card)}.mini{font-size:12px}.tag{display:inline-block;padding:4px 8px;border-radius:20px;background:#eef2ff;color:#3730a3;margin-right:5px;font-size:11px;font-weight:700}
+body.dark{--bg:#0b1220;--card:#111827;--text:#f8fafc;--muted:#aab4c4;--border:#263244}.dark .topbar{background:#111827}.dark .theme-btn,.dark input,.dark select,.dark textarea,.dark .option,.dark .question-number{background:#111827;color:#fff}.dark .btn.secondary{background:#312e81;color:#fff}.dark .feedback,.dark .modal-box{background:#172033}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.sidebar{position:fixed;top:auto;bottom:0;width:100%;height:65px;display:flex;overflow-x:auto;padding:5px;z-index:200}.nav-btn{min-width:105px;text-align:center;font-size:12px}main{margin-left:0;padding:15px 12px 85px}.hero{padding:25px 18px}.hero h1{font-size:32px}.grid,.grid3,.form-row{grid-template-columns:1fr}.topbar{height:60px}.sidebar{height:72px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+<div class="logo-area"><div class="logo">K</div><span>Quiz with Krish</span></div>
+<button class="theme-btn" onclick="toggleTheme()" id="themeButton">🌙</button>
+</header>
+
+<aside class="sidebar">
+<button class="nav-btn active" onclick="showPage('home',this)">🏠 Home</button>
+<button class="nav-btn" onclick="showPage('classes',this)">📚 Classes</button>
+<button class="nav-btn" onclick="showPage('quiz',this)">🧠 Quiz</button>
+<button class="nav-btn" onclick="showPage('mock',this)">📝 Mock Test</button>
+<button class="nav-btn" onclick="showPage('practice',this)">📖 Practice</button>
+<button class="nav-btn" onclick="showPage('results',this)">📊 Results</button>
+<button class="nav-btn" onclick="showPage('profile',this)">👤 Profile</button>
+<button class="nav-btn" onclick="showPage('owner',this)">🔐 Owner</button>
+<button class="nav-btn" onclick="showPage('settings',this)">⚙️ Settings</button>
+</aside>
+
+<main>
+<section id="home" class="page active">
+<div class="hero"><h1>Learn. Practice. Conquer.</h1><p>Quiz with Krish — class-wise questions with Easy, Medium and Hard levels. Questions and answer choices are randomized so the same question does not keep repeating.</p>
+<div class="actions"><button class="btn" onclick="showPage('classes')">Choose Class</button><button class="btn secondary" onclick="showPage('mock')">Take Mock Test</button></div></div>
+<div class="grid">
+<div class="card"><div class="muted">Attempts</div><div class="stat" id="attempts">0</div></div>
+<div class="card"><div class="muted">Questions</div><div class="stat" id="questionsAnswered">0</div></div>
+<div class="card"><div class="muted">Best Score</div><div class="stat" id="bestScore">0%</div></div>
+<div class="card"><div class="muted">Mock Tests</div><div class="stat" id="mockTests">0</div></div>
+</div>
+<div class="section-title"><h2>Features</h2></div>
+<div class="grid3">
+<div class="card"><h3>🎯 Class-wise</h3><p class="muted">Classes 1–5 have age-appropriate core subjects. Classes 6–12 have the wider subject set.</p></div>
+<div class="card"><h3>🔥 Levels</h3><p class="muted">Choose Easy, Medium, Hard or Mixed. Classes 9–12 have more advanced questions, especially at Hard level.</p></div>
+<div class="card"><h3>🔀 No immediate repeats</h3><p class="muted">The app remembers recently used question IDs in this browser and avoids them when enough fresh questions exist.</p></div>
+</div>
+</section>
+
+<section id="classes" class="page"><div class="section-title"><h2>Choose Your Class</h2><span class="pill">Classes 1–12</span></div><div class="grid" id="classGrid"></div></section>
+<section id="subjects" class="page"><button class="btn secondary" onclick="showPage('classes')" style="margin-bottom:15px">← Back to Classes</button><div class="section-title"><h2 id="subjectTitle">Choose Subject</h2><span class="pill">Easy • Medium • Hard</span></div><div class="grid3" id="subjectGrid"></div></section>
+
+<section id="quiz" class="page">
+<div class="quiz-container"><div class="card">
+<div class="quiz-top"><div><span class="pill" id="quizMode">Practice</span><div class="muted" id="quizSubject">Choose a subject to start</div></div><div class="timer" id="timer">30:00</div></div>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+<div class="muted" id="questionCounter"></div><div class="question" id="questionText">Choose a class and subject to begin.</div>
+<div class="options" id="options"></div><div class="feedback" id="feedback"></div>
+<div class="actions"><button class="btn secondary" onclick="previousQuestion()" id="previousButton">Previous</button><button class="btn" onclick="nextQuestion()" id="nextButton">Next</button></div>
+<div class="question-numbers" id="questionNumbers"></div>
+</div></div>
+</section>
+
+<section id="mock" class="page"><div class="section-title"><h2>Mock Test</h2><span class="pill">Timed • Unique selection</span></div>
+<div class="card"><div class="form-row">
+<div><label>Class</label><select id="mockClass" onchange="updateMockSubjects()"></select></div>
+<div><label>Subject</label><select id="mockSubject"></select></div>
+</div><div class="form-row">
+<div><label>Difficulty</label><select id="mockDifficulty"><option value="mixed">Mixed: Easy + Medium + Hard</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div>
+<div><label>Questions</label><select id="mockQuestionCount"><option value="10">10 Questions</option><option value="20">20 Questions</option><option value="30" selected>30 Questions</option><option value="50">50 Questions</option></select></div>
+</div><div class="form-row">
+<div><label>Time</label><select id="mockTime"><option value="10">10 Minutes</option><option value="20">20 Minutes</option><option value="30" selected>30 Minutes</option><option value="45">45 Minutes</option></select></div>
+<div><label>Selection</label><input value="Recent questions are avoided." disabled></div>
+</div>
+<button class="btn" onclick="startMockTest()">Start Mock Test</button></div></section>
+
+<section id="practice" class="page"><div class="section-title"><h2>Practice Mode</h2><span class="pill">Choose your level</span></div>
+<div class="card"><div class="form-row">
+<div><label>Choose Class</label><select id="practiceClass" onchange="renderPracticeSubjects()"></select></div>
+<div><label>Choose Subject</label><select id="practiceSubject"></select></div>
+</div><div class="form-row">
+<div><label>Difficulty</label><select id="practiceDifficulty"><option value="mixed">Mixed: Easy + Medium + Hard</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div>
+<div><label>Questions</label><select id="practiceCount"><option value="10">10 Questions</option><option value="20">20 Questions</option><option value="30" selected>30 Questions</option><option value="50">50 Questions</option></select></div>
+</div>
+<button class="btn" onclick="startSelectedPractice()">Start Practice</button></div></section>
+
+<section id="results" class="page"><div class="section-title"><h2>Results</h2><button class="btn secondary" onclick="clearResults()">Clear Results</button></div>
+<div class="card" id="resultSummary"></div><div class="card" style="margin-top:15px;overflow:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:10px">Date</th><th style="text-align:left;padding:10px">Mode</th><th style="text-align:left;padding:10px">Score</th><th style="text-align:left;padding:10px">Accuracy</th></tr></thead><tbody id="history"></tbody></table></div></section>
+
+<section id="profile" class="page"><div class="section-title"><h2>Profile</h2></div><div class="card"><div class="form-row"><div><label>Name</label><input id="profileName" placeholder="Enter your name"></div><div><label>Class</label><select id="profileClass"></select></div></div><button class="btn" onclick="saveProfile()">Save Profile</button></div></section>
+
+<section id="owner" class="page">
+<div id="ownerLocked"><div class="section-title"><h2>🔐 Owner Dashboard</h2><span class="pill">Private</span></div>
+<div class="card" style="max-width:520px"><h3>Owner Login</h3><p class="muted" style="margin:8px 0 18px">Add, edit, delete and export your custom questions.</p><label>Password</label><input id="ownerPassword" type="password" placeholder="Enter owner password"><button class="btn" style="margin-top:15px" onclick="ownerLogin()">Login</button><p id="ownerLoginMessage" style="margin-top:12px;color:#dc2626"></p></div></div>
+
+<div id="ownerUnlocked" style="display:none">
+<div class="section-title"><div><h2>🔐 Owner Dashboard</h2><p class="muted">Question bank management</p></div><button class="btn secondary" onclick="ownerLogout()">Logout</button></div>
+<div class="grid"><div class="card"><div class="muted">Generated Questions</div><div class="stat" id="ownerTotalQuestions">0</div></div><div class="card"><div class="muted">Classes</div><div class="stat">12</div></div><div class="card"><div class="muted">Subjects</div><div class="stat">4–9</div></div><div class="card"><div class="muted">Custom Questions</div><div class="stat" id="ownerCustomQuestions">0</div></div></div>
+
+<div class="card" style="margin-top:18px"><h3>➕ Add / Edit Question</h3>
+<div class="form-row"><div><label>Class</label><select id="ownerClass" onchange="updateOwnerSubjects()"></select></div><div><label>Subject</label><select id="ownerSubject"></select></div></div>
+<div class="form-row"><div><label>Difficulty</label><select id="ownerDifficulty"><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div><div><label>Correct Answer</label><select id="ownerCorrect"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div></div>
+<label>Question</label><textarea id="ownerQuestion" rows="3" placeholder="Type your question..."></textarea>
+<div class="form-row" style="margin-top:15px"><div><label>Option A</label><input id="ownerA"></div><div><label>Option B</label><input id="ownerB"></div></div>
+<div class="form-row"><div><label>Option C</label><input id="ownerC"></div><div><label>Option D</label><input id="ownerD"></div></div>
+<div class="actions"><button class="btn" onclick="saveOwnerQuestion()">💾 Save Question</button><button class="btn secondary" onclick="clearOwnerForm()">Clear</button></div><input type="hidden" id="ownerEditId"></div>
+
+<div class="card" style="margin-top:18px"><div class="section-title" style="margin-top:0"><h3>🔎 Custom Question Bank</h3><button class="btn secondary" onclick="exportQuestionBank()">📥 Export JSON</button></div>
+<div class="form-row"><div><label>Filter Class</label><select id="ownerFilterClass" onchange="updateOwnerFilterSubjects();renderOwnerQuestions()"></select></div><div><label>Filter Subject</label><select id="ownerFilterSubject" onchange="renderOwnerQuestions()"></select></div></div><div id="ownerQuestionList"></div></div>
+
+<div class="card" style="margin-top:18px"><h3>📤 Import Question Bank</h3><p class="muted" style="margin:8px 0 12px">Import a JSON file previously exported from this dashboard.</p><input type="file" id="questionImportFile" accept=".json"><button class="btn" style="margin-top:12px" onclick="importQuestionBank()">Import JSON</button></div>
+</div></section>
+
+<section id="settings" class="page"><div class="section-title"><h2>Settings</h2></div><div class="card"><h3>Appearance</h3><p class="muted">Switch between light and dark mode.</p><button class="btn" onclick="toggleTheme()">Toggle Theme</button></div>
+<div class="card" style="margin-top:15px"><h3>Local Data</h3><p class="muted">Progress, results, recent-question history and custom questions are saved in this browser.</p><button class="btn secondary" onclick="resetData()">Reset Local Data</button></div></section>
+</main>
+
+<div class="modal" id="resultModal"><div class="modal-box"><h2>Test Complete!</h2><div class="score" id="modalScore">0%</div><p id="modalMessage"></p><div class="actions"><button class="btn" onclick="closeModal();showPage('results')">View Results</button><button class="btn secondary" onclick="closeModal()">Close</button></div></div></div>
+
+<script>
+/*
+ IMPORTANT:
+ This is a client-side demo. The Owner password is visible in the HTML/JavaScript,
+ so it is NOT a secure server-side admin system. Change it before publishing.
+*/
+
+const SUBJECTS={
+1:["MSC","COMP","ENG LANG","MATH"],2:["MSC","COMP","ENG LANG","MATH"],3:["MSC","COMP","ENG LANG","MATH"],4:["MSC","COMP","ENG LANG","MATH"],5:["MSC","COMP","ENG LANG","MATH"],
+6:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],7:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],8:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],9:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],10:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],11:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"],12:["MSC","COMP","PHY","BIO","CHEM","ENG LANG","MATH","HISTORY","GEOGRAPHY"]};
+
+const ICONS={MSC:"🔬",COMP:"💻",PHY:"⚛️",BIO:"🧬",CHEM:"🧪","ENG LANG":"📖",MATH:"➗",HISTORY:"🏛️",GEOGRAPHY:"🌍"};
+
+const TOPICS={
+MSC:["cells","ecosystems","energy","genetics","adaptation","human body"],
+COMP:["algorithms","binary","databases","networks","cybersecurity","programming"],
+PHY:["motion","force","energy","electricity","waves","heat"],
+BIO:["cells","genetics","physiology","plants","ecology","evolution"],
+CHEM:["atoms","bonding","reactions","acids and bases","redox","organic chemistry"],
+"ENG LANG":["grammar","vocabulary","comprehension","syntax","argument","rhetoric"],
+MATH:["arithmetic","algebra","geometry","probability","functions","sequences"],
+HISTORY:["ancient civilizations","medieval states","colonialism","revolutions","world wars","constitutional history"],
+GEOGRAPHY:["climate","population","resources","landforms","agriculture","economic geography"]
+};
+
+const app={
+ questions:[],answers:[],current:0,mode:"Practice",seconds:0,timer:null,class:"7",subject:"MSC",
+ results:JSON.parse(localStorage.getItem("qwk_results")||"[]"),
+ custom:JSON.parse(localStorage.getItem("qwk_custom")||"[]"),
+ profile:JSON.parse(localStorage.getItem("qwk_profile")||'{"name":"Student","class":"7"}')
+};
+
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function seeded(seed){let h=2166136261>>>0;for(let i=0;i<seed.length;i++){h^=seed.charCodeAt(i);h=Math.imul(h,16777619)}return()=>{h+=0x6D2B79F5;let t=h;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+function pick(arr,r){return arr[Math.floor(r()*arr.length)]}
+function makeQ(id,text,options,correct,difficulty){return{id,text,options,correct,difficulty}}
+
+function generatedBank(cls,sub){
+ const c=Number(cls), r=seeded(`QWK-${c}-${sub}`), out=[];
+ const difficulties=["easy","medium","hard"];
+
+ /*
+  Each generated question has a UNIQUE ID containing class, subject,
+  difficulty and sequence number. Therefore the same question ID cannot
+  accidentally be used twice in one selected set.
+ */
+ difficulties.forEach(d=>{
+  for(let i=1;i<=30;i++){
+   const topic=pick(TOPICS[sub]||["general studies"],r);
+   let q,opts,ans=0;
+
+   if(sub==="MATH"){
+    if(d==="easy"){
+     const a=(i%9)+2,b=(c%7)+3;
+     q=`Class ${c}: If ${a} + x = ${a+b}, what is x?`;
+     opts=[String(b),String(b+1),String(b-1),String(a+b)];
+     ans=0;
+    }else if(d==="medium"){
+     const a=(i%8)+3,b=(c%9)+2;
+     q=`Class ${c}: Solve ${a}x + ${b} = ${a*(b+2)+b}. What is x?`;
+     const x=b+2;
+     opts=[String(x),String(x+1),String(x-1),String(x+2)];
+     ans=0;
+    }else if(c>=9){
+     const a=(i%7)+2,b=(i%5)+2;
+     q=`Class ${c}: For f(x)=x²−${a}x+${b}, what determines the nature of its roots?`;
+     const disc=a*a-4*b;
+     opts=disc<0?["Discriminant is negative","Discriminant is zero","Discriminant is positive","Leading coefficient is zero"]:
+          disc===0?["Discriminant is zero","Discriminant is negative","Discriminant is positive","Constant term is zero"]:
+          ["Discriminant is positive","Discriminant is zero","Discriminant is negative","Leading coefficient is zero"];
+     ans=0;
+    }else{
+     const a=(i%12)+2,b=(c%10)+2;
+     q=`Class ${c}: A number n is multiplied by ${a} and then ${b} is added. Which expression represents the result?`;
+     opts=[`${a}n + ${b}`,`${a+b}n`,`n + ${a*b}`,`${b}n + ${a}`];
+     ans=0;
+    }
+   }else if(sub==="COMP"){
+    if(d==="hard"&&c>=9){
+     q=`Class ${c}: An algorithm repeatedly halves a sorted search interval. Which worst-case complexity is correct?`;
+     opts=["O(n)","O(log n)","O(n²)","O(2ⁿ)"];ans=1;
+    }else{
+     q=`Class ${c}: Which option best describes ${topic} at the ${d} level?`;
+     opts=d==="easy"
+      ?["It uses a basic computing concept correctly","It is unrelated to computers","It cannot be tested","It is always random"]
+      :d==="medium"
+      ?["It applies a rule or algorithm to a situation","It ignores the input","It has no logical steps","It cannot be checked"]
+      :["It compares assumptions, efficiency and consequences","It depends only on screen colour","It has no measurable outcome","It avoids all evidence"];
+     ans=0;
+    }
+   }else if(sub==="PHY"){
+    if(d==="hard"&&c>=9){
+     const m=(i%6)+2,v=(i%8)+4;
+     q=`Class ${c}: A ${m} kg object moves at ${v} m/s. What is its kinetic energy?`;
+     opts=[`${m*v} J`,`${m*v*v} J`,`${0.5*m*v*v} J`,`${2*m*v*v} J`];ans=2;
+    }else{
+     q=`Class ${c}: Which statement best applies to ${topic} at the ${d} level?`;
+     opts=d==="easy"
+      ?["Identify the physical quantity and its unit","Ignore units","Use no observation","Choose randomly"]
+      :d==="medium"
+      ?["Match the physical model to the given conditions","Ignore the given values","Units never matter","A diagram can never help"]
+      :["Use the model, assumptions, units and evidence together","Memorise one sentence only","Ignore limiting conditions","Use an unrelated formula"];
+     ans=0;
+    }
+   }else if(sub==="CHEM"){
+    if(d==="hard"&&c>=9){
+     const a=(i%4)+2,b=(i%5)+2;
+     q=`Class ${c}: In ${a}A + ${b}B → products, if A is limiting, what observation supports that B is in excess?`;
+     opts=["Some B remains after A is consumed","The reaction starts quickly","A has a smaller symbol","The container is open"];ans=0;
+    }else{
+     q=`Class ${c}: Which choice best demonstrates ${topic} at the ${d} level?`;
+     opts=d==="easy"
+      ?["Identify the basic chemical idea correctly","Ignore the particles","Use no evidence","Choose by option length"]
+      :["Connect particles, equations and observations","Copy an isolated definition","Ignore equations","Use no evidence"];
+     ans=0;
+    }
+   }else if(sub==="BIO"){
+    if(d==="hard"&&c>=9){
+     q=`Class ${c}: A selectively permeable membrane has a concentration gradient. What can occur if the membrane permits the substance through?`;
+     opts=["Movement down the gradient can occur","All substances move against the gradient","Water can never cross","Transport never uses energy"];ans=0;
+    }else{
+     q=`Class ${c}: Which statement best explains ${topic} at the ${d} level?`;
+     opts=d==="easy"
+      ?["Identify the biological structure or process","Ignore the organism","Use no evidence","Guess from the wording"]
+      :["Connect structure or process with its biological consequence","Ignore the biological system","Use no evidence","Choose by option length"];
+     ans=0;
+    }
+   }else if(sub==="ENG LANG"){
+    if(d==="hard"&&c>=9){
+     q=`Class ${c}: Which revision most improves a formal argument?`;
+     opts=["Replace vague claims with precise evidence and a clear warrant","Add adjectives to every sentence","Remove all transitions","Make every sentence longer"];ans=0;
+    }else{
+     q=`Class ${c}: Which choice best demonstrates ${topic} at the ${d} level?`;
+     opts=d==="easy"
+      ?["Choose a precise answer supported by context","Use a random synonym","Ignore meaning","Use no sentence structure"]
+      :["Use context and evidence to justify the language choice","Choose the longest option","Ignore context","Use unrelated vocabulary"];
+     ans=0;
+    }
+   }else if(sub==="HISTORY"){
+    if(d==="hard"&&c>=9){
+     q=`Class ${c}: Which evidence most strongly supports a historical causal explanation?`;
+     opts=["Contemporary primary evidence supported by corroborating context","A modern meme","One unsupported opinion","A date with no connection to the event"];ans=0;
+    }else{
+     q=`Class ${c}: Which method best studies ${topic} at the ${d} level?`;
+     opts=d==="easy"
+      ?["Identify the key event, people or idea","Ignore chronology","Use no evidence","Guess the date"]
+      :["Connect evidence, chronology and consequences","Ignore chronology","Use no evidence","Choose by wording"];
+     ans=0;
+    }
+   }else if(sub==="GEOGRAPHY"){
+    if(d==="hard"&&c>=9){
+     q=`Class ${c}: A region has intense seasonal rainfall and a long dry season. Which factor can explain this annual pattern?`;
+     opts=["Seasonal shifts in atmospheric circulation and pressure belts","Constant polar darkness","Uniform rainfall all year","No atmospheric circulation"];ans=0;
+    }else{
+     q=`Class ${c}: Which statement best explains ${topic} at the ${d} level?`;
+     opts=d==="easy"
+      ?["Identify the geographic process or pattern","Ignore location","Use no map or evidence","Guess from colour"]
+      :["Link a physical or human process to a spatial pattern","Ignore location","Use no evidence","Choose by option length"];
+     ans=0;
+    }
+   }else if(sub==="MSC"){
+    if(d==="hard"&&c>=9){
+     q=`Class ${c}: Which conclusion is strongest when evaluating ${topic} using scientific evidence?`;
+     opts=["Use evidence, identify assumptions and explain consequences","Accept the first explanation","Ignore contradictory evidence","Give a conclusion without reasoning"];ans=0;
+    }else{
+     q=`Class ${c}: Which statement best demonstrates understanding of ${topic} at the ${d} level?`;
+     opts=d==="easy"
+      ?["Identify the main scientific idea correctly","Ignore the observation","Use no evidence","Guess"]
+      :["Apply the scientific idea to evidence or a situation","Ignore evidence","Use an unrelated fact","Guess from wording"];
+     ans=0;
+    }
+   }else{
+    q=`Class ${c}: Which statement best explains ${topic} at the ${d} level?`;
+    opts=["Apply the concept to a situation","Ignore the question","Use no evidence","Guess"];
+    ans=0;
+   }
+
+   /* Give every generated question a unique fingerprint. */
+   const id=`gen-${c}-${sub}-${d}-${i}`;
+   const pair=shuffle(opts.map((v,j)=>({v,correct:j===ans})));
+   const correct=pair.findIndex(x=>x.correct);
+   out.push(makeQ(id,q,pair.map(x=>x.v),correct,d));
+  }
+ });
+ return out;
+}
+
+function allBank(c,s){
+ const generated=generatedBank(c,s);
+ const custom=app.custom.filter(q=>String(q.class)===String(c)&&q.subject===s).map(q=>({...q,id:"custom-"+q.id}));
+ return generated.concat(custom);
+}
+
+function recentKey(c,s,d){return`qwk_recent_${c}_${s}_${d}`}
+function getRecent(c,s,d){return JSON.parse(localStorage.getItem(recentKey(c,s,d))||"[]")}
+
+function selectQuestions(c,s,count,diff){
+ let bank=allBank(c,s);
+ let pool=diff==="mixed"?bank:bank.filter(q=>q.difficulty===diff);
+ if(!pool.length)return[];
+
+ /*
+  Selection is made by UNIQUE IDs. First use questions not in recent history.
+  If there aren't enough fresh questions, it takes the least-recently-used
+  questions instead of immediately repeating the same first question.
+ */
+ let recent=new Set(getRecent(c,s,diff));
+ let fresh=pool.filter(q=>!recent.has(q.id));
+ let ordered=shuffle(fresh);
+
+ if(ordered.length<count){
+   const remaining=pool.filter(q=>!fresh.some(x=>x.id===q.id));
+   ordered=ordered.concat(remaining);
+ }
+ const selected=[];
+ const used=new Set();
+ for(const q of ordered){
+   if(!used.has(q.id)&&selected.length<count){selected.push(q);used.add(q.id)}
+ }
+ if(selected.length<count){
+   for(const q of shuffle(pool)){
+    if(!used.has(q.id)&&selected.length<count){selected.push(q);used.add(q.id)}
+   }
+ }
+ const newRecent=[...getRecent(c,s,diff),...selected.map(q=>q.id)];
+ localStorage.setItem(recentKey(c,s,diff),JSON.stringify(newRecent.slice(-Math.max(60,pool.length))));
+ return selected;
+}
+
+function showPage(id,btn){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ const el=$(id);if(el)el.classList.add("active");
+ document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+ if(btn)btn.classList.add("active");
+ if(id==="results")renderResults();
+ if(id==="owner")renderOwner();
+ window.scrollTo(0,0);
+}
+
+function fillClasses(){
+ ["mockClass","practiceClass","profileClass","ownerClass","ownerFilterClass"].forEach(id=>{
+  const s=$(id);if(!s)return;
+  s.innerHTML="";
+  if(id==="ownerFilterClass")s.innerHTML='<option value="all">All classes</option>';
+  for(let i=1;i<=12;i++)s.innerHTML+=`<option value="${i}">Class ${i}</option>`;
+ });
+ $("mockClass").value=app.class;
+ $("practiceClass").value=app.class;
+ $("profileClass").value=app.profile.class||app.class;
+ $("ownerClass").value=app.class;
+ $("ownerFilterClass").value="all";
+ updateMockSubjects();renderPracticeSubjects();updateOwnerSubjects();updateOwnerFilterSubjects();
+ $("profileName").value=app.profile.name||"Student";
+}
+
+function subjectOptions(id,c,includeAll=false){
+ const s=$(id);if(!s)return;
+ s.innerHTML=includeAll?'<option value="all">All subjects</option>':"";
+ (SUBJECTS[c]||[]).forEach(x=>s.innerHTML+=`<option value="${x}">${ICONS[x]||"📘"} ${x}</option>`);
+}
+function updateMockSubjects(){subjectOptions("mockSubject",Number($("mockClass").value))}
+function renderPracticeSubjects(){subjectOptions("practiceSubject",Number($("practiceClass").value))}
+function updateOwnerSubjects(){subjectOptions("ownerSubject",Number($("ownerClass").value))}
+function updateOwnerFilterSubjects(){
+ const c=$("ownerFilterClass").value;
+ if(c==="all")$("ownerFilterSubject").innerHTML='<option value="all">All subjects</option>';
+ else subjectOptions("ownerFilterSubject",Number(c),true);
+}
+function openSubjects(c){
+ app.class=String(c);
+ $("subjectTitle").textContent=`Class ${c} — Choose Subject`;
+ const g=$("subjectGrid");g.innerHTML="";
+ (SUBJECTS[c]||[]).forEach(s=>{
+  g.innerHTML+=`<div class="card subject-card" onclick="startSubject('${s}')"><div class="subject-icon">${ICONS[s]||"📘"}</div><h3>${esc(s)}</h3><p class="muted">Easy • Medium • Hard</p><button class="btn" style="margin-top:12px">Start Practice</button></div>`;
+ });
+ showPage("subjects");
+}
+function startSubject(s){
+ app.subject=s;
+ const qs=selectQuestions(app.class,s,30,"mixed");
+ startQuiz(qs,"Practice",30);
+ showPage("quiz");
+}
+function startSelectedPractice(){
+ const c=$("practiceClass").value,s=$("practiceSubject").value,d=$("practiceDifficulty").value,n=Number($("practiceCount").value);
+ app.class=c;app.subject=s;
+ startQuiz(selectQuestions(c,s,n,d),"Practice",Math.max(10,Math.ceil(n*1)));
+ showPage("quiz");
+}
+function startMockTest(){
+ const c=$("mockClass").value,s=$("mockSubject").value,d=$("mockDifficulty").value,n=Number($("mockQuestionCount").value),mins=Number($("mockTime").value);
+ app.class=c;app.subject=s;
+ startQuiz(selectQuestions(c,s,n,d),"Mock Test",mins);
+ showPage("quiz");
+}
+function startQuiz(qs,mode,mins){
+ clearInterval(app.timer);
+ app.questions=qs;app.answers=new Array(qs.length).fill(null);app.current=0;app.mode=mode;app.seconds=mins*60;
+ $("quizMode").textContent=mode;$("quizSubject").textContent=`Class ${app.class} • ${app.subject}`;
+ if(!qs.length){$("questionText").textContent="No questions available for this selection.";$("options").innerHTML="";return}
+ renderQuestion();
+ app.timer=setInterval(()=>{app.seconds--;renderTimer();if(app.seconds<=0){clearInterval(app.timer);finishQuiz()}},1000);
+}
+function renderTimer(){let m=Math.floor(Math.max(0,app.seconds)/60),s=Math.max(0,app.seconds)%60;$("timer").textContent=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}
+function renderQuestion(){
+ if(!app.questions.length)return;
+ const q=app.questions[app.current];
+ $("questionCounter").textContent=`Question ${app.current+1} of ${app.questions.length} • ${q.difficulty.toUpperCase()}`;
+ $("questionText").textContent=q.text;
+ $("progressBar").style.width=((app.current+1)/app.questions.length*100)+"%";
+ const box=$("options");box.innerHTML="";
+ q.options.forEach((o,i)=>{
+  const b=document.createElement("button");b.className="option";b.textContent=`${String.fromCharCode(65+i)}. ${o}`;
+  if(app.answers[app.current]===i)b.classList.add("selected");
+  b.onclick=()=>selectOption(i);box.appendChild(b);
+ });
+ $("feedback").className="feedback";$("feedback").textContent="";
+ $("previousButton").disabled=app.current===0;
+ $("nextButton").textContent=app.current===app.questions.length-1?"Finish":"Next";
+ renderNumbers();renderTimer();
+}
+function selectOption(i){
+ app.answers[app.current]=i;
+ document.querySelectorAll(".option").forEach((b,j)=>b.classList.toggle("selected",j===i));
+ const q=app.questions[app.current];
+ $("feedback").className="feedback show";
+ $("feedback").textContent=i===q.correct?"✓ Correct!":"✗ Not quite. Review before finishing.";
+ renderNumbers();
+}
+function renderNumbers(){
+ $("questionNumbers").innerHTML=app.questions.map((q,i)=>`<button class="question-number ${app.answers[i]!==null?"done ":""}${i===app.current?"current":""}" onclick="goQuestion(${i})">${i+1}</button>`).join("");
+}
+function goQuestion(i){app.current=i;renderQuestion()}
+function nextQuestion(){if(app.current===app.questions.length-1){finishQuiz();return}app.current++;renderQuestion()}
+function previousQuestion(){if(app.current>0){app.current--;renderQuestion()}}
+function finishQuiz(){
+ if(!app.questions.length)return;
+ clearInterval(app.timer);
+ let correct=0;app.questions.forEach((q,i)=>{if(app.answers[i]===q.correct)correct++});
+ const total=app.questions.length,pct=Math.round(correct/total*100);
+ app.results.unshift({date:new Date().toLocaleString(),mode:app.mode,class:app.class,subject:app.subject,score:`${correct}/${total}`,accuracy:pct});
+ app.results=app.results.slice(0,100);
+ localStorage.setItem("qwk_results",JSON.stringify(app.results));
+ $("modalScore").textContent=pct+"%";
+ $("modalMessage").textContent=`You scored ${correct} out of ${total} in ${app.mode}.`;
+ $("resultModal").classList.add("show");
+ updateStats();
+}
+function closeModal(){$("resultModal").classList.remove("show")}
+function renderResults(){
+ const r=app.results,attempts=r.length,best=r.length?Math.max(...r.map(x=>Number(x.accuracy)||0)):0;
+ const qs=r.reduce((a,x)=>a+Number(String(x.score).split("/")[1]||0),0);
+ const mocks=r.filter(x=>x.mode==="Mock Test").length;
+ $("resultSummary").innerHTML=`<h3>Summary</h3><p class="muted" style="margin-top:8px">${attempts} attempts • ${qs} questions attempted • Best accuracy ${best}% • ${mocks} mock tests</p>`;
+ $("history").innerHTML=r.length?r.map(x=>`<tr><td style="padding:10px">${esc(x.date)}</td><td style="padding:10px">${esc(x.mode)}<div class="mini muted">Class ${esc(x.class)} • ${esc(x.subject)}</div></td><td style="padding:10px">${esc(x.score)}</td><td style="padding:10px">${esc(x.accuracy)}%</td></tr>`).join(""):'<tr><td colspan="4" style="padding:15px">No results yet.</td></tr>';
+}
+function updateStats(){
+ const r=app.results;
+ $("attempts").textContent=r.length;
+ $("questionsAnswered").textContent=r.reduce((a,x)=>a+Number(String(x.score).split("/")[1]||0),0);
+ $("bestScore").textContent=(r.length?Math.max(...r.map(x=>Number(x.accuracy)||0)):0)+"%";
+ $("mockTests").textContent=r.filter(x=>x.mode==="Mock Test").length;
+}
+function clearResults(){if(confirm("Clear all results?")){app.results=[];localStorage.removeItem("qwk_results");renderResults();updateStats()}}
+function saveProfile(){
+ app.profile={name:$("profileName").value.trim()||"Student",class:$("profileClass").value};
+ localStorage.setItem("qwk_profile",JSON.stringify(app.profile));app.class=app.profile.class;alert("Profile saved.");
+}
+function toggleTheme(){
+ document.body.classList.toggle("dark");
+ localStorage.setItem("qwk_dark",document.body.classList.contains("dark"));
+ $("themeButton").textContent=document.body.classList.contains("dark")?"☀️":"🌙";
+}
+function resetData(){
+ if(confirm("Reset results, profile, recent-question history and custom questions?")){
+  localStorage.clear();location.reload();
+ }
+}
+
+/* OWNER DASHBOARD */
+function ownerLogin(){
+ const PASSWORD="krish123"; // CHANGE THIS
+ if($("ownerPassword").value===PASSWORD){
+  sessionStorage.setItem("qwk_owner","1");$("ownerLoginMessage").textContent="";renderOwner();
+ }else $("ownerLoginMessage").textContent="Incorrect password.";
+}
+function ownerLogout(){sessionStorage.removeItem("qwk_owner");renderOwner()}
+function renderOwner(){
+ const ok=sessionStorage.getItem("qwk_owner")==="1";
+ $("ownerLocked").style.display=ok?"none":"block";
+ $("ownerUnlocked").style.display=ok?"block":"none";
+ if(!ok)return;
+ let total=0;for(let c=1;c<=12;c++)for(const s of SUBJECTS[c])total+=generatedBank(c,s).length;
+ $("ownerTotalQuestions").textContent=total;
+ $("ownerCustomQuestions").textContent=app.custom.length;
+ updateOwnerFilterSubjects();renderOwnerQuestions();
+}
+function renderOwnerQuestions(){
+ if(sessionStorage.getItem("qwk_owner")!=="1")return;
+ const fc=$("ownerFilterClass").value,fs=$("ownerFilterSubject").value;
+ const list=app.custom.filter(q=>(fc==="all"||String(q.class)===fc)&&(fs==="all"||q.subject===fs));
+ $("ownerQuestionList").innerHTML=list.length?list.map(q=>`
+ <div class="question-row">
+ <div><span class="tag">Class ${esc(q.class)}</span><span class="tag">${esc(q.subject)}</span><span class="tag">${esc(q.difficulty)}</span></div>
+ <p style="margin-top:8px"><b>${esc(q.text)}</b></p>
+ <p class="muted mini">A. ${esc(q.options[0])} &nbsp; B. ${esc(q.options[1])} &nbsp; C. ${esc(q.options[2])} &nbsp; D. ${esc(q.options[3])}</p>
+ <p class="mini">Correct: <b>${String.fromCharCode(65+q.correct)}</b></p>
+ <div class="actions"><button class="btn secondary" onclick="editOwnerQuestion('${esc(q.id)}')">Edit</button><button class="btn danger" onclick="deleteOwnerQuestion('${esc(q.id)}')">Delete</button></div>
+ </div>`).join(""):'<p class="muted">No custom questions yet.</p>';
+}
+function saveOwnerQuestion(){
+ const text=$("ownerQuestion").value.trim();
+ const opts=[$("ownerA").value.trim(),$("ownerB").value.trim(),$("ownerC").value.trim(),$("ownerD").value.trim()];
+ if(!text||opts.some(x=>!x)){alert("Fill the question and all four options.");return}
+ const id=$("ownerEditId").value||String(Date.now()+Math.random());
+ const obj={id,class:$("ownerClass").value,subject:$("ownerSubject").value,difficulty:$("ownerDifficulty").value,text,options:opts,correct:Number($("ownerCorrect").value)};
+ const ix=app.custom.findIndex(q=>String(q.id)===String(id));
+ if(ix>=0)app.custom[ix]=obj;else app.custom.push(obj);
+ localStorage.setItem("qwk_custom",JSON.stringify(app.custom));
+ clearOwnerForm();renderOwner();alert("Question saved.");
+}
+function editOwnerQuestion(id){
+ const q=app.custom.find(x=>String(x.id)===String(id));if(!q)return;
+ $("ownerClass").value=q.class;updateOwnerSubjects();$("ownerSubject").value=q.subject;$("ownerDifficulty").value=q.difficulty;
+ $("ownerQuestion").value=q.text;q.options.forEach((v,i)=>$("owner"+String.fromCharCode(65+i)).value=v);
+ $("ownerCorrect").value=q.correct;$("ownerEditId").value=q.id;
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function deleteOwnerQuestion(id){
+ if(!confirm("Delete this custom question?"))return;
+ app.custom=app.custom.filter(q=>String(q.id)!==String(id));
+ localStorage.setItem("qwk_custom",JSON.stringify(app.custom));renderOwner();
+}
+function clearOwnerForm(){
+ ["ownerQuestion","ownerA","ownerB","ownerC","ownerD"].forEach(id=>$(id).value="");
+ $("ownerEditId").value="";$("ownerCorrect").value="0";
+}
+function exportQuestionBank(){
+ const blob=new Blob([JSON.stringify(app.custom,null,2)],{type:"application/json"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="quiz-with-krish-custom-questions.json";
+ document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),500);
+}
+function importQuestionBank(){
+ const f=$("questionImportFile").files[0];if(!f){alert("Choose a JSON file first.");return}
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const data=JSON.parse(reader.result);if(!Array.isArray(data))throw Error();
+   let added=0;
+   data.forEach(q=>{
+    if(q.text&&Array.isArray(q.options)&&q.options.length===4&&SUBJECTS[Number(q.class)]?.includes(q.subject)){
+     q.id=q.id||String(Date.now()+Math.random());q.class=String(q.class);
+     q.correct=Math.min(3,Math.max(0,Number(q.correct)||0));
+     q.difficulty=["easy","medium","hard"].includes(q.difficulty)?q.difficulty:"medium";
+     app.custom.push(q);added++;
+    }
+   });
+   localStorage.setItem("qwk_custom",JSON.stringify(app.custom));renderOwner();alert(`${added} question(s) imported.`);
+  }catch(e){alert("Invalid question-bank JSON.")}
+ };
+ reader.readAsText(f);
+}
+
+function init(){
+ if(localStorage.getItem("qwk_dark")==="true"){
+  document.body.classList.add("dark");$("themeButton").textContent="☀️";
+ }
+ fillClasses();
+ const cg=$("classGrid");
+ cg.innerHTML=Array.from({length:12},(_,i)=>`
+ <div class="card class-card"><h3>📚 Class ${i+1}</h3>
+ <p style="margin:10px 0 16px;color:#dbeafe">${SUBJECTS[i+1].length} subjects • Easy / Medium / Hard</p>
+ <button class="btn" onclick="openSubjects(${i+1})">Open Class ${i+1}</button></div>`).join("");
+ updateStats();renderResults();
+}
+init();
+</script>
+</body>
+</html>
