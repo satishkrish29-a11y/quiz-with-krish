@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<meta name="description" content="Quiz with Krish - class-wise practice, quizzes and mock tests for Classes 1 to 12.">
+<title>Quiz with Krish | Learn • Practice • Win</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;--primary:#4f46e5;--primary2:#7c3aed;--line:#e2e8f0;--green:#16a34a;--red:#dc2626;--shadow:0 12px 35px rgba(15,23,42,.08)}
+body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.header{height:70px;background:rgba(255,255,255,.95);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:100}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:20px}.brandIcon{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;display:grid;place-items:center;font-size:21px;box-shadow:0 8px 20px #4f46e544}
+.headerBtns{display:flex;gap:8px}.iconBtn{border:1px solid var(--line);background:#fff;border-radius:11px;padding:9px 12px}
+.sidebar{position:fixed;left:0;top:70px;bottom:0;width:230px;background:#0f172a;padding:16px 11px;z-index:90}
+.nav{width:100%;border:0;background:transparent;color:#cbd5e1;text-align:left;padding:12px 14px;border-radius:11px;margin:3px 0;font-weight:650}.nav:hover,.nav.active{background:#1e293b;color:#fff}
+main{margin-left:230px;padding:25px;max-width:1500px}.page{display:none}.page.active{display:block}
+.hero{border-radius:25px;padding:40px;color:#fff;background:linear-gradient(135deg,#0f172a,#312e81 55%,#7c3aed);box-shadow:var(--shadow);overflow:hidden;position:relative}
+.hero:after{content:"";position:absolute;width:250px;height:250px;border-radius:50%;right:-80px;top:-90px;background:#fff1;filter:blur(3px)}
+.hero h1{font-size:42px;line-height:1.1;margin-bottom:10px}.hero p{color:#ddd6fe;max-width:720px;line-height:1.65}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.btn{border:0;border-radius:11px;padding:11px 17px;background:var(--primary);color:#fff;font-weight:750}.btn:hover{filter:brightness(.93)}.btn.light{background:#fff;color:#312e81}.btn.soft{background:#eef2ff;color:#3730a3}.btn.red{background:#dc2626}
+.sectionHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:26px 0 15px}.sectionHead h2{font-size:25px}.pill{display:inline-block;background:#eef2ff;color:#4338ca;border-radius:99px;padding:6px 10px;font-size:12px;font-weight:800}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:19px;box-shadow:0 4px 18px #0f172a08}.muted{color:var(--muted)}.stat{font-size:30px;font-weight:850;margin-top:7px}
+.classGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.classCard{color:#fff;border:0;min-height:155px;background:linear-gradient(135deg,#1e293b,#334155);position:relative;overflow:hidden}.classCard:nth-child(3n){background:linear-gradient(135deg,#312e81,#4f46e5)}.classCard:nth-child(4n){background:linear-gradient(135deg,#581c87,#7e22ce)}.classCard h3{font-size:21px}.classCard p{margin:10px 0;color:#dbeafe;font-size:13px}.classCard .btn{background:#fff;color:#172033}
+.levelGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.level{padding:22px;border-radius:17px;border:2px solid var(--line);background:#fff}.level h3{margin-bottom:7px}.level.easy{border-color:#86efac}.level.medium{border-color:#fde68a}.level.hard{border-color:#fecaca}
+.subjectGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.subject{transition:.15s}.subject:hover{transform:translateY(-3px);border-color:#818cf8}.subjectIcon{font-size:30px;margin-bottom:8px}
+.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.formGroup{margin-bottom:15px}label{font-size:13px;font-weight:800;display:block}select,input{width:100%;margin-top:7px;padding:11px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--text);outline:none}select:focus,input:focus{border-color:#818cf8}
+.quizWrap{max-width:920px;margin:auto}.quizTop{display:flex;justify-content:space-between;gap:10px;align-items:center}.timer{background:#fef2f2;color:#b91c1c;padding:9px 12px;border-radius:10px;font-weight:850}.bar{height:8px;background:#e2e8f0;border-radius:99px;margin:18px 0;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--primary2))}
+.question{font-size:23px;font-weight:800;line-height:1.5;margin-top:12px}.options{display:grid;gap:10px;margin-top:20px}.option{border:2px solid var(--line);background:#fff;color:var(--text);padding:14px;border-radius:12px;text-align:left}.option:hover{border-color:#818cf8}.option.selected{border-color:var(--primary);background:#eef2ff}.option.correct{border-color:var(--green);background:#f0fdf4}.option.wrong{border-color:var(--red);background:#fef2f2}.feedback{margin-top:14px;padding:12px;border-radius:10px;background:#f8fafc;display:none}.feedback.show{display:block}
+.numbers{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}.num{width:35px;height:35px;border:1px solid var(--line);background:#fff;border-radius:8px}.num.done{background:#dcfce7}.num.current{border-color:var(--primary);background:#eef2ff}
+.tableWrap{overflow:auto}.resultsTable{width:100%;border-collapse:collapse}.resultsTable th,.resultsTable td{text-align:left;padding:11px;border-bottom:1px solid var(--line)}
+.modal{display:none;position:fixed;inset:0;background:#02061799;z-index:500;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.modalBox{background:#fff;color:#0f172a;border-radius:20px;padding:25px;max-width:480px;width:100%}.score{font-size:54px;font-weight:900;color:var(--primary);margin:10px 0}
+.questionRow{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:10px}.tag{display:inline-block;background:#eef2ff;color:#4338ca;border-radius:99px;padding:4px 8px;font-size:11px;font-weight:800;margin-right:4px}
+body.dark{--bg:#080d18;--card:#111827;--text:#f8fafc;--muted:#a8b3c5;--line:#263244}.dark .header,.dark .iconBtn,.dark select,.dark input,.dark .option,.dark .num,.dark .level,.dark .modalBox{background:#111827;color:#fff}.dark .feedback{background:#172033}.dark .btn.soft{background:#312e81;color:#fff}
+@media(max-width:1050px){.classGrid{grid-template-columns:repeat(3,1fr)}.grid4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.sidebar{top:auto;bottom:0;width:100%;height:70px;display:flex;overflow-x:auto;padding:5px;background:#0f172a}.nav{min-width:96px;text-align:center;font-size:11px;padding:10px 5px}.header{height:62px}.sidebar{height:68px}main{margin-left:0;padding:14px 12px 88px}.hero{padding:28px 19px}.hero h1{font-size:31px}.grid4,.grid3,.classGrid,.subjectGrid,.levelGrid,.formGrid{grid-template-columns:1fr}.question{font-size:20px}}
+</style>
+</head>
+<body>
+<header class="header"><div class="brand"><div class="brandIcon">K</div><span>Quiz with Krish</span></div><div class="headerBtns"><button class="iconBtn" onclick="toggleDark()" id="themeBtn">🌙</button></div></header>
+<aside class="sidebar">
+<button class="nav active" onclick="page('home',this)">🏠 Home</button><button class="nav" onclick="page('classes',this)">📚 Classes</button><button class="nav" onclick="quickQuiz(this)">🧠 Quiz</button><button class="nav" onclick="page('mock',this)">📝 Mock</button><button class="nav" onclick="page('practice',this)">📖 Practice</button><button class="nav" onclick="page('results',this)">📊 Results</button><button class="nav" onclick="page('owner',this)">🔐 Owner</button><button class="nav" onclick="page('settings',this)">⚙️</button>
+</aside>
+<main>
+<section id="home" class="page active">
+<div class="hero"><h1>Learn • Practice • Win</h1><p>Class-wise quizzes for Classes 1–12 with Easy, Medium and Hard levels. Questions and answer choices are randomized so every attempt feels fresh.</p><div class="actions"><button class="btn light" onclick="page('classes')">Choose Class</button><button class="btn soft" onclick="page('mock')">Start Mock Test</button></div></div>
+<div class="sectionHead"><h2>Your Progress</h2></div><div class="grid4"><div class="card"><div class="muted">Attempts</div><div class="stat" id="stAttempts">0</div></div><div class="card"><div class="muted">Questions</div><div class="stat" id="stQuestions">0</div></div><div class="card"><div class="muted">Best Score</div><div class="stat" id="stBest">0%</div></div><div class="card"><div class="muted">Mock Tests</div><div class="stat" id="stMocks">0</div></div></div>
+<div class="sectionHead"><h2>How it works</h2></div><div class="grid3"><div class="card"><h3>1. Choose Class</h3><p class="muted">Select the exact class you want to practise.</p></div><div class="card"><h3>2. Choose Level</h3><p class="muted">Pick Easy, Medium or Hard questions.</p></div><div class="card"><h3>3. Take Quiz</h3><p class="muted">Answer randomized questions and see your result.</p></div></div>
+</section>
+
+<section id="classes" class="page"><div class="sectionHead"><h2>Choose Your Class</h2><span class="pill">1–12</span></div><div class="classGrid" id="classGrid"></div></section>
+
+<section id="setup" class="page"><button class="btn soft" onclick="page('classes')" style="margin-bottom:15px">← Classes</button><div class="sectionHead"><h2 id="setupTitle">Quiz Setup</h2></div><div class="card"><div class="levelGrid"><div class="level easy"><h3>🟢 Easy</h3><p class="muted">Basic concepts and direct questions.</p><button class="btn" style="margin-top:12px" onclick="chooseLevel('easy')">Choose Easy</button></div><div class="level medium"><h3>🟡 Medium</h3><p class="muted">Application and reasoning questions.</p><button class="btn" style="margin-top:12px" onclick="chooseLevel('medium')">Choose Medium</button></div><div class="level hard"><h3>🔴 Hard</h3><p class="muted">Challenging reasoning and multi-step questions.</p><button class="btn" style="margin-top:12px" onclick="chooseLevel('hard')">Choose Hard</button></div></div></div><div class="sectionHead"><h2>Or choose a subject</h2></div><div class="subjectGrid" id="subjectGrid"></div></section>
+
+<section id="quiz" class="page"><div class="quizWrap"><div class="card"><div class="quizTop"><div><span class="pill" id="quizMode">Practice</span><div class="muted" id="quizInfo">Choose a quiz first</div></div><div class="timer" id="timer">30:00</div></div><div class="bar"><i id="bar"></i></div><div class="muted" id="counter"></div><div class="question" id="qText">Choose a class, subject and level to begin.</div><div class="options" id="opts"></div><div class="feedback" id="feedback"></div><div class="actions"><button class="btn soft" onclick="prevQ()" id="prev">Previous</button><button class="btn" onclick="nextQ()" id="next">Next</button></div><div class="numbers" id="numbers"></div></div></div></section>
+
+<section id="mock" class="page"><div class="sectionHead"><h2>Mock Test</h2><span class="pill">Timed</span></div><div class="card"><div class="formGrid"><div class="formGroup"><label>Class</label><select id="mockClass"></select></div><div class="formGroup"><label>Subject</label><select id="mockSubject"></select></div><div class="formGroup"><label>Difficulty</label><select id="mockDiff"><option value="mixed">Mixed</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div><div class="formGroup"><label>Questions</label><select id="mockCount"><option>10</option><option>20</option><option selected>30</option><option>50</option></select></div></div><button class="btn" onclick="startMock()">Start Mock Test</button></div></section>
+
+<section id="practice" class="page"><div class="sectionHead"><h2>Practice Mode</h2><span class="pill">Fresh Questions</span></div><div class="card"><div class="formGrid"><div class="formGroup"><label>Class</label><select id="pracClass"></select></div><div class="formGroup"><label>Subject</label><select id="pracSubject"></select></div><div class="formGroup"><label>Difficulty</label><select id="pracDiff"><option value="mixed">Mixed</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div><div class="formGroup"><label>Questions</label><select id="pracCount"><option>10</option><option>20</option><option selected>30</option></select></div></div><button class="btn" onclick="startPractice()">Start Practice</button></div></section>
+
+<section id="results" class="page"><div class="sectionHead"><h2>Results</h2><button class="btn soft" onclick="clearResults()">Clear</button></div><div class="card" id="summary"></div><div class="card tableWrap" style="margin-top:15px"><table class="resultsTable"><thead><tr><th>Date</th><th>Mode</th><th>Class / Subject</th><th>Score</th><th>Accuracy</th></tr></thead><tbody id="history"></tbody></table></div></section>
+
+<section id="owner" class="page"><div id="ownerLock" class="card" style="max-width:520px"><div class="sectionHead"><h2>🔐 Owner Dashboard</h2></div><p class="muted">Add your own questions to the matching class, subject and difficulty.</p><div class="formGroup" style="margin-top:15px"><label>Owner Password</label><input id="ownerPass" type="password"></div><button class="btn" onclick="loginOwner()">Login</button><p id="ownerMsg" style="margin-top:10px;color:#dc2626"></p></div>
+<div id="ownerPanel" style="display:none"><div class="sectionHead"><h2>Owner Dashboard</h2><button class="btn soft" onclick="logoutOwner()">Logout</button></div><div class="card"><div class="formGrid"><div class="formGroup"><label>Class</label><select id="ownClass"></select></div><div class="formGroup"><label>Subject</label><select id="ownSubject"></select></div><div class="formGroup"><label>Difficulty</label><select id="ownDiff"><option>easy</option><option>medium</option><option>hard</option></select></div><div class="formGroup"><label>Correct option</label><select id="ownCorrect"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div></div><div class="formGroup"><label>Question</label><input id="ownQ"></div><div class="formGrid"><div class="formGroup"><label>A</label><input id="ownA"></div><div class="formGroup"><label>B</label><input id="ownB"></div><div class="formGroup"><label>C</label><input id="ownC"></div><div class="formGroup"><label>D</label><input id="ownD"></div></div><button class="btn" onclick="addOwnerQ()">Save Question</button></div><div class="card" style="margin-top:15px"><h3>Your Custom Questions</h3><div id="ownList"></div></div></div></section>
+
+<section id="settings" class="page"><div class="sectionHead"><h2>Settings</h2></div><div class="card"><h3>Appearance</h3><p class="muted" style="margin:7px 0 12px">Change the theme of Quiz with Krish.</p><button class="btn" onclick="toggleDark()">Toggle Dark Mode</button></div><div class="card" style="margin-top:15px"><h3>Reset Local Data</h3><p class="muted" style="margin:7px 0 12px">This clears results and custom questions on this browser.</p><button class="btn red" onclick="resetAll()">Reset Data</button></div></section>
+</main>
+
+<div class="modal" id="modal"><div class="modalBox"><h2>Test Complete!</h2><div class="score" id="finalScore">0%</div><p id="finalMsg"></p><div class="actions"><button class="btn" onclick="closeModal();page('results')">View Results</button><button class="btn soft" onclick="closeModal()">Close</button></div></div></div>
+
+<script>
+const SUBJECTS={1:["English","Maths","Science","Computer"],2:["English","Maths","Science","Computer"],3:["English","Maths","Science","Computer"],4:["English","Maths","Science","Computer"],5:["English","Maths","Science","Computer"],6:["English Language","Maths","Physics","Biology","Chemistry","History","Geography","Computer","Moral Science"],7:["English Language","Maths","Physics","Biology","Chemistry","History","Geography","Computer","Moral Science"],8:["English Language","Maths","Physics","Biology","Chemistry","History","Geography","Computer","Moral Science"],9:["English Language","Maths","Physics","Biology","Chemistry","History","Geography","Computer","Moral Science"],10:["English Language","Maths","Physics","Biology","Chemistry","History","Geography","Computer","Moral Science"],11:["English Language","Maths","Physics","Biology","Chemistry","History","Geography","Computer","Moral Science"],12:["English Language","Maths","Physics","Biology","Chemistry","History","Geography","Computer","Moral Science"]};
+const ICON={English:"📖","English Language":"📖",Maths:"➗",Science:"🔬",Physics:"⚛️",Biology:"🧬",Chemistry:"🧪",History:"🏛️",Geography:"🌍",Computer:"💻","Moral Science":"❤️"};
+const TOPICS={Maths:["numbers","algebra","geometry","fractions","ratio","probability"],"English Language":["grammar","vocabulary","sentence structure","comprehension","writing"],English:["grammar","vocabulary","reading","writing"],Science:["matter","plants","animals","energy","living things"],Physics:["motion","force","energy","heat","electricity"],Biology:["cells","human body","plants","ecology","genetics"],Chemistry:["atoms","elements","mixtures","reactions","acids"],History:["civilizations","kingdoms","colonialism","independence","world history"],Geography:["maps","climate","resources","population","landforms"],Computer:["algorithms","hardware","software","networks","programming"],"Moral Science":["values","responsibility","kindness","honesty","respect"]};
+const state={cls:"7",sub:"Maths",diff:"medium",qs:[],ans:[],i:0,mode:"Practice",seconds:0,timer:null,results:JSON.parse(localStorage.getItem("qwk_results")||"[]"),custom:JSON.parse(localStorage.getItem("qwk_custom")||"[]")};
+
+function $(x){return document.getElementById(x)}
+function esc(x){return String(x).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function page(id,btn){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));if(btn)btn.classList.add("active");if(id==="results")renderResults();if(id==="owner")renderOwner()}
+function fillSelect(id,arr){$(id).innerHTML=arr.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("")}
+function classOptions(){return Array.from({length:12},(_,i)=>String(i+1))}
+function fillForms(){["mockClass","pracClass","ownClass"].forEach(id=>fillSelect(id,classOptions().map(x=>"Class "+x)));["mockClass","pracClass","ownClass"].forEach(id=>$(id).value="Class "+state.cls);updateFormSubjects()}
+function selectedClass(id){return $(id).value.replace("Class ","")}
+function updateFormSubjects(){fillSelect("mockSubject",SUBJECTS[Number(selectedClass("mockClass"))]);fillSelect("pracSubject",SUBJECTS[Number(selectedClass("pracClass"))]);fillSelect("ownSubject",SUBJECTS[Number(selectedClass("ownClass"))])}
+$("mockClass").addEventListener("change",updateFormSubjects);$("pracClass").addEventListener("change",updateFormSubjects);$("ownClass").addEventListener("change",updateFormSubjects);
+
+function buildQuestion(cls,sub,diff,n){
+ const topics=TOPICS[sub]||["general concepts"],topic=topics[(n+Number(cls))%topics.length],level=diff;
+ let q,opts,correct;
+ if(sub==="Maths"){
+  const a=(n*3+Number(cls))%12+2,b=(n+Number(cls))%9+1;
+  if(level==="easy"){q=`What is ${a} + ${b}?`;opts=[String(a+b),String(a+b+1),String(a+b-1),String(a*b)];correct=0}
+  else if(level==="medium"){q=`If ${a}x = ${a*b}, what is x?`;opts=[String(b),String(a),String(a+b),String(a*b)];correct=0}
+  else{q=`A rectangle has length ${a} cm and width ${b} cm. What is its area?`;opts=[`${a*b} cm²`,`${2*(a+b)} cm²`,`${a+b} cm²`,`${a*b+2} cm²`];correct=0}
+ }else if(sub==="Physics"){
+  if(level==="easy"){q=`Which quantity is measured in metres?`;opts=["Length","Mass","Time","Temperature"];correct=0}
+  else if(level==="medium"){q=`A body travels 60 m in 10 s. What is its average speed?`;opts=["6 m/s","10 m/s","50 m/s","600 m/s"];correct=0}
+  else{q=`A 2 kg object moves at 4 m/s. What is its kinetic energy?`;opts=["16 J","8 J","4 J","32 J"];correct=1}
+ }else if(sub==="Chemistry"){
+  q=level==="easy"?`Which of these is a mixture?`:level==="medium"?`Which method is commonly used to separate an insoluble solid from a liquid?`:`Which statement best describes conservation of mass in a chemical reaction?`;
+  if(level==="easy"){opts=["Air","Oxygen","Gold","Iron"];correct=0}else if(level==="medium"){opts=["Filtration","Distillation only","Magnetism only","Chromatography only"];correct=0}else{opts=["Total mass of reactants equals total mass of products in a closed system","Products always weigh more","Atoms disappear during reactions","Mass depends only on colour"];correct=0}
+ }else if(sub==="Biology"){
+  q=level==="easy"?`Which structure controls many activities of a cell?`:level==="medium"?`What is the main role of red blood cells?`:`Which process allows green plants to make food using light?`;
+  if(level==="easy"){opts=["Nucleus","Cell wall","Vacuole","Cytoplasm"];correct=0}else if(level==="medium"){opts=["Carry oxygen","Digest food","Produce sound","Store bones"];correct=0}else{opts=["Photosynthesis","Respiration only","Filtration","Evaporation"];correct=0}
+ }else if(sub==="Computer"){
+  q=level==="easy"?`Which device is mainly used to enter text into a computer?`:level==="medium"?`What is an algorithm?`:`Which structure is commonly used to repeat a set of instructions while a condition remains true?`;
+  if(level==="easy"){opts=["Keyboard","Monitor","Speaker","Projector"];correct=0}else if(level==="medium"){opts=["A step-by-step procedure for solving a problem","A computer screen","A type of cable","A storage colour"];correct=0}else{opts=["A while loop","A random image","A file name","A monitor"];correct=0}
+ }else if(sub==="History"){
+  q=level==="easy"?`What does chronology mean in history?`:level==="medium"?`Why are primary sources useful to historians?`:`Which approach gives the strongest historical explanation?`;
+  if(level==="easy"){opts=["Ordering events by time","Ignoring dates","Changing evidence","Guessing events"];correct=0}else if(level==="medium"){opts=["They provide evidence from the period being studied","They are always fictional","They contain no information","They replace all other evidence"];correct=0}else{opts=["Compare evidence, context, chronology and consequences","Use one unsupported opinion","Ignore contradictory evidence","Choose the longest explanation"];correct=0}
+ }else if(sub==="Geography"){
+  q=level==="easy"?`Which tool is used to show places and features on Earth?`:level==="medium"?`What is climate?`:`Why can coastal areas have different climates from inland areas?`;
+  if(level==="easy"){opts=["Map","Calculator","Microscope","Keyboard"];correct=0}else if(level==="medium"){opts=["The long-term pattern of weather in a place","One afternoon's temperature","A single storm","A map symbol"];correct=0}else{opts=["The sea influences temperature and moisture","The coast has no atmosphere","Inland areas have no weather","Latitude never matters"];correct=0}
+ }else if(sub==="English"||sub==="English Language"){
+  q=level==="easy"?`Choose the noun: “The teacher opened the book.”`:level==="medium"?`Which sentence uses the correct subject–verb agreement?`:`Which revision makes a formal argument clearer?`;
+  if(level==="easy"){opts=["teacher","opened","the","quickly"];correct=0}else if(level==="medium"){opts=["The students are ready.","The students is ready.","The students am ready.","The students be ready."];correct=0}else{opts=["Support the claim with precise evidence and clear reasoning","Add unrelated adjectives","Remove all evidence","Make every sentence longer"];correct=0}
+ }else{
+  q=`Which choice best demonstrates ${topic} at the ${level} level?`;opts=["Apply the idea to the stated situation","Ignore the situation","Guess without reasoning","Use an unrelated fact"];correct=0
+ }
+ const pairs=opts.map((v,i)=>({v,c:i===correct})),s=shuffle(pairs);return{text:`Class ${cls} • ${level.toUpperCase()} • Q${n}: ${q}`,options:s.map(x=>x.v),correct:s.findIndex(x=>x.c),difficulty:level,id:`${cls}|${sub}|${level}|${n}`};
+}
+function bank(cls,sub){return [30,60,90].flatMap((_,k)=>[]).concat(["easy","medium","hard"].flatMap(d=>Array.from({length:30},(_,i)=>buildQuestion(cls,sub,d,i+1)))).concat(state.custom.filter(q=>String(q.cls)===String(cls)&&q.sub===sub))}
+function recentKey(cls,sub){return`qwk_recent_${cls}_${encodeURIComponent(sub)}`}
+function getRecent(cls,sub){try{return JSON.parse(localStorage.getItem(recentKey(cls,sub))||"[]")}catch{return[]}}
+function pickQuestions(cls,sub,diff,count){
+ cls=String(cls);sub=String(sub||"Maths");diff=diff||"medium";
+ let b=bank(cls,sub);
+ if(!b.length)b=Array.from({length:90},(_,i)=>buildQuestion(cls,sub,i<30?"easy":i<60?"medium":"hard",(i%30)+1));
+ if(diff!=="mixed")b=b.filter(q=>q.difficulty===diff);
+ let recent=getRecent(cls,sub),fresh=b.filter(q=>!recent.includes(q.id));
+ if(fresh.length<count){localStorage.removeItem(recentKey(cls,sub));recent=[];fresh=b}
+ const chosen=shuffle(fresh).slice(0,count);
+ localStorage.setItem(recentKey(cls,sub),JSON.stringify(recent.concat(chosen.map(q=>q.id)).slice(-150)));
+ return chosen;
+}
+function quickQuiz(btn){
+ state.cls=state.cls||"7";
+ state.sub=state.sub||"Maths";
+ state.diff=state.diff||"medium";
+ const qs=pickQuestions(state.cls,state.sub,state.diff,10);
+ startQuiz(qs,"Practice",10);
+ page("quiz",btn);
+}
+function openClass(c){state.cls=String(c);$("setupTitle").textContent=`Class ${c} — Choose Your Quiz`;renderSubjects(c);page("setup")}
+function renderSubjects(c){$("subjectGrid").innerHTML=SUBJECTS[c].map(s=>`<div class="card subject"><div class="subjectIcon">${ICON[s]||"📘"}</div><h3>${esc(s)}</h3><p class="muted">Choose Easy / Medium / Hard</p><div class="actions"><button class="btn" onclick="startSubject('${esc(s)}')">Choose Subject</button></div></div>`).join("")}
+function chooseLevel(d){state.diff=d;renderSubjects(state.cls);alert(`Level selected: ${d.toUpperCase()}. Now choose a subject.`)}
+function startSubject(s){
+ state.sub=s;
+ if(!["easy","medium","hard"].includes(state.diff)) state.diff="medium";
+ const qs=pickQuestions(String(state.cls),s,state.diff,30);
+ startQuiz(qs,"Practice",30);
+ page("quiz");
+}
+function startPractice(){const c=selectedClass("pracClass"),s=$("pracSubject").value,d=$("pracDiff").value,n=Number($("pracCount").value);state.cls=c;state.sub=s;startQuiz(pickQuestions(c,s,d,n),"Practice",30);page("quiz")}
+function startMock(){const c=selectedClass("mockClass"),s=$("mockSubject").value,d=$("mockDiff").value,n=Number($("mockCount").value);state.cls=c;state.sub=s;startQuiz(pickQuestions(c,s,d,n),"Mock Test",Math.max(10,Math.ceil(n*1.0)));page("quiz")}
+function startQuiz(qs,mode,mins){
+ clearInterval(state.timer);
+ if(!Array.isArray(qs)||qs.length===0){
+   const safeClass=String(state.cls||"7"),safeSub=state.sub||"Maths",safeDiff=state.diff||"medium";
+   qs=Array.from({length:30},(_,i)=>buildQuestion(safeClass,safeSub,safeDiff,i+1));
+ }
+ state.qs=qs;state.ans=new Array(qs.length).fill(null);state.i=0;state.mode=mode;state.seconds=mins*60;
+ $("quizMode").textContent=mode;$("quizInfo").textContent=`Class ${state.cls} • ${state.sub} • ${state.qs[0].difficulty.toUpperCase()}`;
+ renderQ();
+ state.timer=setInterval(()=>{state.seconds--;renderTimer();if(state.seconds<=0)finishQuiz()},1000)
+}
+function renderTimer(){const m=Math.floor(Math.max(0,state.seconds)/60),s=Math.max(0,state.seconds)%60;$("timer").textContent=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}
+function renderQ(){if(!state.qs.length){$("qText").textContent="No questions available.";return}const q=state.qs[state.i];$("counter").textContent=`Question ${state.i+1} of ${state.qs.length} • ${q.difficulty.toUpperCase()}`;$("quizInfo").textContent=`Class ${state.cls} • ${state.sub} • ${q.difficulty.toUpperCase()}`;$("qText").textContent=q.text;$("bar").style.width=((state.i+1)/state.qs.length*100)+"%";$("opts").innerHTML="";q.options.forEach((o,i)=>{const b=document.createElement("button");b.className="option";b.textContent=`${String.fromCharCode(65+i)}. ${o}`;if(state.ans[state.i]===i)b.classList.add("selected");b.onclick=()=>answer(i);$("opts").appendChild(b)});$("feedback").className="feedback";$("feedback").textContent="";$("prev").disabled=state.i===0;$("next").textContent=state.i===state.qs.length-1?"Finish":"Next";$("numbers").innerHTML=state.qs.map((_,i)=>`<button class="num ${state.ans[i]!==null?"done ":""}${i===state.i?"current":""}" onclick="goQ(${i})">${i+1}</button>`).join("");renderTimer()}
+function answer(i){state.ans[state.i]=i;document.querySelectorAll(".option").forEach((b,j)=>b.classList.toggle("selected",j===i));$("feedback").className="feedback show";$("feedback").textContent=i===state.qs[state.i].correct?"✓ Correct — you can move to the next question.":"✗ Answer selected — you can review it before finishing.";renderQKeep()}
+function renderQKeep(){document.querySelectorAll(".option").forEach((b,j)=>b.classList.toggle("selected",j===state.ans[state.i]));$("numbers").innerHTML=state.qs.map((_,i)=>`<button class="num ${state.ans[i]!==null?"done ":""}${i===state.i?"current":""}" onclick="goQ(${i})">${i+1}</button>`).join("")}
+function goQ(i){state.i=i;renderQ()}
+function nextQ(){if(state.i===state.qs.length-1)finishQuiz();else{state.i++;renderQ()}}
+function prevQ(){if(state.i>0){state.i--;renderQ()}}
+function finishQuiz(){if(!state.qs.length)return;clearInterval(state.timer);let correct=0;state.qs.forEach((q,i)=>{if(state.ans[i]===q.correct)correct++});const total=state.qs.length,pct=Math.round(correct/total*100);state.results.unshift({date:new Date().toLocaleString(),mode:state.mode,cls:state.cls,sub:state.sub,score:`${correct}/${total}`,accuracy:pct});state.results=state.results.slice(0,100);localStorage.setItem("qwk_results",JSON.stringify(state.results));$("finalScore").textContent=pct+"%";$("finalMsg").textContent=`You scored ${correct} out of ${total} in ${state.mode}.`;$("modal").classList.add("show");stats()}
+function closeModal(){$("modal").classList.remove("show")}
+function stats(){const r=state.results;const best=r.length?Math.max(...r.map(x=>x.accuracy)):0;$("stAttempts").textContent=r.length;$("stQuestions").textContent=r.reduce((a,x)=>a+Number(x.score.split("/")[1]||0),0);$("stBest").textContent=best+"%";$("stMocks").textContent=r.filter(x=>x.mode==="Mock Test").length}
+function renderResults(){const r=state.results,best=r.length?Math.max(...r.map(x=>x.accuracy)):0;$("summary").innerHTML=`<h3>Performance Summary</h3><p class="muted" style="margin-top:7px">${r.length} attempts • Best accuracy ${best}%</p>`;$("history").innerHTML=r.length?r.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.mode)}</td><td>Class ${esc(x.cls)} • ${esc(x.sub)}</td><td>${esc(x.score)}</td><td>${esc(x.accuracy)}%</td></tr>`).join(""):`<tr><td colspan="5">No results yet.</td></tr>`}
+function clearResults(){if(confirm("Clear all results?")){state.results=[];localStorage.removeItem("qwk_results");stats();renderResults()}}
+function toggleDark(){document.body.classList.toggle("dark");localStorage.setItem("qwk_dark",document.body.classList.contains("dark"));$("themeBtn").textContent=document.body.classList.contains("dark")?"☀️":"🌙"}
+function loginOwner(){if($("ownerPass").value==="krish123"){sessionStorage.setItem("qwk_owner","1");renderOwner()}else $("ownerMsg").textContent="Incorrect password."}
+function logoutOwner(){sessionStorage.removeItem("qwk_owner");renderOwner()}
+function renderOwner(){const ok=sessionStorage.getItem("qwk_owner")==="1";$("ownerLock").style.display=ok?"none":"block";$("ownerPanel").style.display=ok?"block":"none";if(!ok)return;$("ownList").innerHTML=state.custom.length?state.custom.map(q=>`<div class="questionRow"><span class="tag">Class ${esc(q.cls)}</span><span class="tag">${esc(q.sub)}</span><span class="tag">${esc(q.difficulty)}</span><p style="margin-top:8px"><b>${esc(q.text)}</b></p><p class="muted">A. ${esc(q.options[0])} • B. ${esc(q.options[1])} • C. ${esc(q.options[2])} • D. ${esc(q.options[3])}</p><button class="btn red" style="margin-top:8px" onclick="deleteOwner('${q.id}')">Delete</button></div>`).join(""):"<p class='muted' style='margin-top:10px'>No custom questions yet.</p>"}
+function addOwnerQ(){const text=$("ownQ").value.trim(),opts=[$("ownA").value.trim(),$("ownB").value.trim(),$("ownC").value.trim(),$("ownD").value.trim()];if(!text||opts.some(x=>!x)){alert("Fill question and all four options.");return}const q={id:String(Date.now()),cls:selectedClass("ownClass"),sub:$("ownSubject").value,difficulty:$("ownDiff").value,text,options:opts,correct:Number($("ownCorrect").value)};state.custom.push(q);localStorage.setItem("qwk_custom",JSON.stringify(state.custom));["ownQ","ownA","ownB","ownC","ownD"].forEach(id=>$(id).value="");renderOwner();alert("Question saved!")}
+function deleteOwner(id){state.custom=state.custom.filter(q=>q.id!==id);localStorage.setItem("qwk_custom",JSON.stringify(state.custom));renderOwner()}
+function resetAll(){if(confirm("Reset results and custom questions?")){localStorage.removeItem("qwk_results");localStorage.removeItem("qwk_custom");location.reload()}}
+
+function speakText(text){
+  if(!("speechSynthesis" in window)){
+    alert("Voice reading is not supported on this browser.");
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang="en-IN";
+  u.rate=0.9;
+  u.pitch=1;
+  window.speechSynthesis.speak(u);
+}
+function speakCurrentQuestion(){
+  if(!app.questions.length)return;
+  const q=app.questions[app.current];
+  const opts=q.options.map((o,i)=>`${String.fromCharCode(65+i)}. ${o}`).join(". ");
+  speakText(`Question ${app.current+1}. ${q.text}. Options: ${opts}`);
+}
+function init(){if(localStorage.getItem("qwk_dark")==="true")toggleDark();$("classGrid").innerHTML=Array.from({length:12},(_,i)=>`<div class="card classCard"><h3>📚 Class ${i+1}</h3><p>${SUBJECTS[i+1].length} subjects • Easy / Medium / Hard</p><button class="btn" onclick="openClass(${i+1})">Open Class ${i+1}</button></div>`).join("");fillForms();stats();renderResults()}
+init();
+</script>
+</body>
+</html>
