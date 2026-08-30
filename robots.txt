@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://satishkrish29-a11y.github.io/quiz-with-krish/sitemap.xml
